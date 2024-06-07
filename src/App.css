@@ -78,56 +78,6 @@ form.d-flex .btn-outline-primary {
   margin-bottom: 2rem;
 }
 
-.stock-chart {
-  margin-top: 2rem;
-}
-
 .stock-data {
   margin-top: 1rem;
 }
-
-/* src/App.css */
-body {
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.dark-mode {
-  background-color: #181a1b;
-  color: #e0e0e0;
-}
-
-.light-mode {
-  background-color: #ffffff;
-  color: #000000;
-}
-
-.dark-mode .navbar,
-.dark-mode .sidebar-heading,
-.dark-mode .list-group-item {
-  background-color: #1f2123;
-  color: #e0e0e0;
-}
-
-.dark-mode .form-control,
-.dark-mode .btn-outline-primary,
-.dark-mode .btn-outline-secondary {
-  background-color: #3a3b3c;
-  color: #e0e0e0;
-  border-color: #3a3b3c;
-}
-
-.light-mode .navbar,
-.light-mode .sidebar-heading,
-.light-mode .list-group-item {
-  background-color: #ffffff;
-  color: #000000;
-}
-
-.light-mode .form-control,
-.light-mode .btn-outline-primary,
-.light-mode .btn-outline-secondary {
-  background-color: #ffffff;
-  color: #000000;
-  border-color: #ced4da;
-}
-

@@ -1,13 +1,11 @@
 // src/layout/Sidebar.js
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Sidebar.css';
+import './Layout.css';
 
-function Sidebar({ isSidebarOpen, toggleSidebar }) {
+function Sidebar() {
   return (
-    <div
-      className={`border-end bg-dark ${isSidebarOpen ? '' : 'collapsed'}`}
-      id='sidebar-wrapper'>
+    <div className='border-end bg-dark' id='sidebar-wrapper'>
       <div className='sidebar-heading text-white'>Portfolio Manager</div>
       <div className='list-group list-group-flush'>
         <Link
@@ -26,12 +24,6 @@ function Sidebar({ isSidebarOpen, toggleSidebar }) {
           Percentage Difference Calculator
         </Link>
       </div>
-      <button
-        className='btn btn-secondary'
-        id='sidebarToggle'
-        onClick={toggleSidebar}>
-        {isSidebarOpen ? 'Collapsed View' : 'Expanded View'}
-      </button>
     </div>
   );
 }

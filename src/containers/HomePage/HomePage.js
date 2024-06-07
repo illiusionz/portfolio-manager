@@ -2,42 +2,28 @@
 import React from 'react';
 import CompoundInterestCalculator from '../../components/CompoundInterestCalculator/CompoundInterestCalculator';
 import PercentageDifferenceCalculator from '../../components/PercentageDifferenceCalculator/PercentageDifferenceCalculator';
-import LightweightChart from '../../components/LightweightChart';
-import ButtonBar from '../../components/ButtonBar';
 import './HomePage.css';
 
-function HomePage({
-  stockData,
-  error,
-  onRangeChange,
-  currentRange,
-  toggleDarkMode,
-  isDarkMode,
-}) {
+function HomePage({ stockData, error }) {
   return (
     <div className='container-fluid'>
       <div className='hero-section'>
         <h1>Welcome to Portfolio Manager</h1>
         {error && <div className='alert alert-danger'>{error}</div>}
-        {stockData.length > 0 ? (
-          <div className='stock-chart'>
-            <LightweightChart
-              data={stockData.map(({ date, close }) => ({
-                time: new Date(date).getTime() / 1000,
-                value: close,
-              }))}
-            />
+        {stockData ? (
+          <div className='stock-data'>
+            <h2>{stockData.symbol}</h2>
+            <p>Date: {stockData.date}</p>
+            <p>Open: ${stockData.open.toFixed(2)}</p>
+            <p>Close: ${stockData.close.toFixed(2)}</p>
+            <p>High: ${stockData.high.toFixed(2)}</p>
+            <p>Low: ${stockData.low.toFixed(2)}</p>
+            <p>Volume: {stockData.volume.toLocaleString()}</p>
           </div>
         ) : (
           <p>Search for a stock symbol to see the price data.</p>
         )}
       </div>
-      <ButtonBar
-        onRangeChange={onRangeChange}
-        currentRange={currentRange}
-        toggleDarkMode={toggleDarkMode}
-        isDarkMode={isDarkMode}
-      />
       <div className='row'>
         <div className='col-md-6'>
           <div className='card'>
