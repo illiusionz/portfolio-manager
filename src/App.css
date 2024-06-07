@@ -71,3 +71,13 @@ form.d-flex .form-control {
 form.d-flex .btn-outline-primary {
   margin-left: 10px;
 }
+
+/* Hero section styles */
+.hero-section {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.stock-data {
+  margin-top: 1rem;
+}

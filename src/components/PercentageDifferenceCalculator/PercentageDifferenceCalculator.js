@@ -1,5 +1,6 @@
-// src/components/PercentageDifferenceCalculator.js
+// src/components/PercentageDifferenceCalculator/PercentageDifferenceCalculator.js
 import React, { useState } from 'react';
+import './PercentageDifferenceCalculator.css';
 
 function PercentageDifferenceCalculator() {
   const [price1, setPrice1] = useState(0);

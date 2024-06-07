@@ -1,5 +1,6 @@
-// src/components/CompoundInterestCalculator.js
+// src/components/CompoundInterestCalculator/CompoundInterestCalculator.js
 import React, { useState } from 'react';
+import './CompoundInterestCalculator.css';
 
 function CompoundInterestCalculator() {
   const [initialCapital, setInitialCapital] = useState(200000);
