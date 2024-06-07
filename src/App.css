@@ -1,8 +1,8 @@
-/* src/App.css */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background-color: #f8f9fa;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 #wrapper {
@@ -24,7 +24,9 @@ body {
 }
 
 .navbar {
-  padding: 0.75rem 1.25rem;
+  padding: 0.5rem 1rem;
+  position: relative;
+  z-index: 2;
 }
 
 .card {
@@ -80,15 +82,36 @@ form.d-flex .btn-outline-primary {
 
 .stock-chart {
   margin-top: 2rem;
+  height: 500px;
+  width: 100%;
+}
+
+/* Additional custom styles */
+.container-fluid {
+  padding: 10px;
+}
+
+.date-picker-container {
+  position: relative;
+  z-index: 1;
+}
+
+.date-picker {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+}
+
+.button-bar {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+  gap: 10px;
 }
 
 .stock-data {
   margin-top: 1rem;
-}
-
-/* src/App.css */
-body {
-  transition: background-color 0.3s, color 0.3s;
 }
 
 .dark-mode {
@@ -131,3 +154,12 @@ body {
   border-color: #ced4da;
 }
 
+/* Ensure the date pickers and autocomplete dropdowns are properly visible */
+.react-datepicker {
+  z-index: 1000;
+}
+
+.react-autosuggest__suggestions-container {
+  max-height: 500px;
+  overflow-y: auto;
+}

@@ -1,0 +1,10 @@
+/* src/layout/Layout.css */
+.react-select__menu {
+  z-index: 1000; /* Ensure the dropdown is above other elements */
+  max-height: 500px; /* Set the maximum height of the dropdown */
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds max height */
+}
+
+.react-select-container {
+  position: relative; /* Ensure relative positioning */
+}

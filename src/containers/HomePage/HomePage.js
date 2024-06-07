@@ -1,4 +1,3 @@
-// src/containers/HomePage/HomePage.js
 import React from 'react';
 import CompoundInterestCalculator from '../../components/CompoundInterestCalculator/CompoundInterestCalculator';
 import PercentageDifferenceCalculator from '../../components/PercentageDifferenceCalculator/PercentageDifferenceCalculator';
@@ -17,7 +16,6 @@ function HomePage({
   return (
     <div className='container-fluid'>
       <div className='hero-section'>
-        <h1>Welcome to Portfolio Manager</h1>
         {error && <div className='alert alert-danger'>{error}</div>}
         {stockData.length > 0 ? (
           <div className='stock-chart'>

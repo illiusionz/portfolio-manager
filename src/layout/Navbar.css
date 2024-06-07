@@ -1,0 +1,21 @@
+/* src/layout/Navbar.css */
+.navbar-toggler {
+  border: none;
+}
+
+.navbar-toggler:focus {
+  outline: none;
+}
+
+.date-picker-container {
+  display: flex;
+  align-items: center;
+}
+
+.date-picker-container label {
+  margin-right: 0.5rem;
+}
+
+.date-picker-container .form-control {
+  margin-right: 0.5rem;
+}

@@ -5,15 +5,16 @@
   border-top: 1px solid #ced4da;
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   background-color: inherit;
 }
 
-.button-group {
-  display: flex;
-  gap: 10px;
-}
-
-.button-bar .btn {
+.dropdown-toggle {
   border-radius: 5px;
   padding: 5px 10px;
+}
+
+.dropdown-menu {
+  max-height: 500px;
+  overflow-y: auto;
 }

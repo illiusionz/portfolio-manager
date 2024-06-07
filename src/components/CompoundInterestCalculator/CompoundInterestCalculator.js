@@ -1,6 +1,4 @@
-// src/components/CompoundInterestCalculator/CompoundInterestCalculator.js
 import React, { useState } from 'react';
-import './CompoundInterestCalculator.css';
 
 function CompoundInterestCalculator() {
   const [initialCapital, setInitialCapital] = useState(200000);
@@ -30,7 +28,7 @@ function CompoundInterestCalculator() {
     <div>
       <div className='input-group mb-3'>
         <label htmlFor='initialCapital' className='input-group-text'>
-          Initial Capital:{' '}
+          Initial Capital:
         </label>
         <input
           type='number'
@@ -40,7 +38,7 @@ function CompoundInterestCalculator() {
           onChange={(e) => setInitialCapital(e.target.value)}
         />
         <label htmlFor='weeklyRate' className='input-group-text'>
-          Weekly Rate (%):{' '}
+          Weekly Rate (%):
         </label>
         <input
           type='number'

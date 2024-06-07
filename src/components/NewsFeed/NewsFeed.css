@@ -1,0 +1,21 @@
+/* src/components/NewsFeed/NewsFeed.css */
+.news-feed {
+  margin-top: 2rem;
+}
+
+.news-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.news-card img {
+  width: 100%;
+  height: auto;
+}
+
+.news-card .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
