@@ -1,38 +1,73 @@
-.App {
-  text-align: center;
+/* src/App.css */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #f8f9fa;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+#wrapper {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#sidebar-wrapper {
+  width: 250px;
+  background-color: #343a40;
+  transition: margin 0.25s ease-in-out;
+}
+
+#page-content-wrapper {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.navbar {
+  padding: 0.75rem 1.25rem;
+}
+
+.card {
+  margin-bottom: 1.5rem;
+}
+
+.card-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e3e6f0;
+}
+
+/* Sidebar toggled state */
+#wrapper.toggled #sidebar-wrapper {
+  margin-left: -250px;
+}
+
+.sidebar-heading {
+  padding: 0.875rem 1.25rem;
+  font-size: 1.2rem;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.list-group-item {
+  border: none;
+  color: white;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.list-group-item:hover, .list-group-item:focus {
+  background-color: #495057;
+  color: white;
+}
+
+/* Custom styles for search bar */
+form.d-flex {
+  flex-grow: 1;
+  align-items: center;
+}
+
+form.d-flex .form-control {
+  width: auto;
+  flex-grow: 1;
+}
+
+form.d-flex .btn-outline-primary {
+  margin-left: 10px;
 }
