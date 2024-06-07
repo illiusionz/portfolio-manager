@@ -1,0 +1,37 @@
+/* src/layout/Sidebar.css */
+#sidebar-wrapper {
+  width: 250px;
+  background-color: #343a40;
+  transition: width 0.25s ease-in-out;
+}
+
+#sidebar-wrapper.collapsed {
+  width: 80px;
+}
+
+.sidebar-heading {
+  padding: 0.875rem 1.25rem;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.list-group-item {
+  border: none;
+  color: white;
+}
+
+.list-group-item:hover, .list-group-item:focus {
+  background-color: #495057;
+  color: white;
+}
+
+#sidebarToggle {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+}
+
+.navbar-text {
+  font-weight: bold;
+  margin-right: 1rem;
+}
