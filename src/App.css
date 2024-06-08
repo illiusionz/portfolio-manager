@@ -16,6 +16,8 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
+
+
 #wrapper {
   display: flex;
   width: 100%;
@@ -134,3 +136,29 @@ form.d-flex .btn-outline-primary {
 .hero-section .stock-data {
   height:550px;
 }
+
+
+.form-inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+}
+
+.form-label {
+  margin-right: 5px;
+}
+
+.form-control {
+  flex: 1;
+}
+
+.btn {
+  flex-shrink: 0;
+}
+

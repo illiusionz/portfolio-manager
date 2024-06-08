@@ -1,6 +1,7 @@
 // src/components/PercentageDifferenceCalculator/PercentageDifferenceCalculator.js
 import React, { useState } from 'react';
 import './PercentageDifferenceCalculator.css';
+import { formatNumberWithCommas } from '../../utils/format';
 
 const PercentageDifferenceCalculator = () => {
   const [currentPrice, setCurrentPrice] = useState('');
@@ -20,7 +21,7 @@ const PercentageDifferenceCalculator = () => {
   return (
     <div className='card'>
       <div className='card-header'>
-        <h5 className='card-title mb-0'>Percentage Difference Calculator</h5>
+        <h5 className='card-title mb-0'>Stock Price % Change</h5>
       </div>
       <div className='card-body'>
         <form className='form-inline' onSubmit={calculatePercentageChange}>
@@ -32,7 +33,7 @@ const PercentageDifferenceCalculator = () => {
               type='number'
               id='currentPrice'
               className='form-control mx-2'
-              value={currentPrice}
+              value={formatNumberWithCommas(currentPrice)}
               onChange={(e) => setCurrentPrice(e.target.value)}
             />
           </div>
@@ -44,7 +45,7 @@ const PercentageDifferenceCalculator = () => {
               type='number'
               id='targetPrice'
               className='form-control mx-2'
-              value={targetPrice}
+              value={formatNumberWithCommas(targetPrice)}
               onChange={(e) => setTargetPrice(e.target.value)}
             />
           </div>

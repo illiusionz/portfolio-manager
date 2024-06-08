@@ -1,31 +1,27 @@
 // src/layout/Sidebar.js
 import React from 'react';
-import { Link } from 'react-router-dom';
-import './Layout.css';
+import { NavLink } from 'react-router-dom';
+import './Sidebar.css';
 
-function Sidebar() {
+const Sidebar = ({ isOpen }) => {
   return (
-    <div className='border-end bg-dark' id='sidebar-wrapper'>
-      <div className='sidebar-heading text-white'>Portfolio Manager</div>
-      <div className='list-group list-group-flush'>
-        <Link
-          className='list-group-item list-group-item-action bg-dark text-white'
-          to='/'>
-          Home
-        </Link>
-        <Link
-          className='list-group-item list-group-item-action bg-dark text-white'
-          to='/compound-interest-calculator'>
-          Compound Interest Calculator
-        </Link>
-        <Link
-          className='list-group-item list-group-item-action bg-dark text-white'
-          to='/percentage-difference'>
-          Percentage Difference Calculator
-        </Link>
-      </div>
-    </div>
+    <nav className={`sidebar ${isOpen ? 'toggled' : ''}`}>
+      <div className='sidebar-heading'>Portfolio Manager</div>
+      <ul className='list-group'>
+        <li className='list-group-item'>
+          <NavLink to='/' exact activeClassName='active'>
+            Home
+          </NavLink>
+        </li>
+        <li className='list-group-item'>
+          <NavLink to='/asset-management' activeClassName='active'>
+            Asset Management
+          </NavLink>
+        </li>
+        {/* Add more links as needed */}
+      </ul>
+    </nav>
   );
-}
+};
 
 export default Sidebar;

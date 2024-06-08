@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './containers/HomePage/HomePage';
+import AssetManagement from './containers/AssetManagement/AssetManagement';
+
 import CompoundInterestCalculator from './components/CompoundInterestCalculator/CompoundInterestCalculator';
 import PercentageDifferenceCalculator from './components/PercentageDifferenceCalculator/PercentageDifferenceCalculator';
 import Sidebar from './layout/Sidebar';
@@ -15,14 +17,6 @@ function App() {
   const [symbol, setSymbol] = useState(
     localStorage.getItem('lastStock') || 'TSLA'
   );
-
-  useEffect(() => {
-    const fetchInitialStockData = async () => {
-      console.log(`Fetching initial stock data for symbol: ${symbol}`);
-      await fetchStockData(symbol, '2023-01-01', '2023-12-31'); // Adjust dates as needed
-    };
-    fetchInitialStockData();
-  }, [symbol]);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -42,14 +36,9 @@ function App() {
         );
       }
       const data = await response.json();
+      console.log('Stock data fetched successfully:', data);
       if (data.results && data.results.length > 0) {
-        setStockData({
-          ticker: query,
-          queryCount: data.queryCount,
-          resultsCount: data.resultsCount,
-          adjusted: data.adjusted,
-          results: data.results,
-        });
+        setStockData(data.results);
         setError(null);
         setSymbol(query);
         localStorage.setItem('lastStock', query);
@@ -65,8 +54,12 @@ function App() {
   };
 
   const handleSymbolSearch = (query) => {
-    fetchStockData(query, '2023-01-01', '2023-12-31'); // Adjust dates as needed
+    fetchStockData(query, '2023-01-01', '2023-12-31');
   };
+
+  useEffect(() => {
+    fetchStockData(symbol, '2023-01-01', '2023-12-31');
+  }, []);
 
   return (
     <Router>
@@ -97,6 +90,7 @@ function App() {
                 path='/percentage-difference'
                 element={<PercentageDifferenceCalculator />}
               />
+              <Route path='/asset-management' component={AssetManagement} />
             </Routes>
           </div>
         </div>
