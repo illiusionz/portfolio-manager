@@ -1,7 +1,5 @@
-// src/layout/Navbar.js
 import React, { useState } from 'react';
 import Autosuggest from 'react-autosuggest';
-import axios from 'axios';
 import './Navbar.css';
 
 const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
@@ -9,17 +7,20 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
   const [suggestions, setSuggestions] = useState([]);
 
   const onSuggestionsFetchRequested = async ({ value }) => {
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+
+    if (inputLength === 0) {
+      setSuggestions([]);
+      return;
+    }
+
     try {
-      const response = await axios.get(
-        `https://api.polygon.io/v3/reference/tickers`,
-        {
-          params: {
-            search: value,
-            apiKey: '6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq',
-          },
-        }
+      const response = await fetch(
+        `https://api.polygon.io/v3/reference/tickers?search=${inputValue}&active=true&sort=ticker&order=asc&limit=10&apiKey=6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq`
       );
-      setSuggestions(response.data.results || []);
+      const data = await response.json();
+      setSuggestions(data.results || []);
     } catch (error) {
       console.error('Error fetching suggestions:', error);
       setSuggestions([]);
@@ -30,18 +31,21 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
     setSuggestions([]);
   };
 
-  const onSuggestionSelected = (event, { suggestion }) => {
-    setQuery(suggestion.ticker);
-    handleSymbolSearch(suggestion.ticker);
-  };
+  const getSuggestionValue = (suggestion) =>
+    `${suggestion.ticker} - ${suggestion.name}`;
+
+  const renderSuggestion = (suggestion) => (
+    <div>
+      {suggestion.ticker} - {suggestion.name}
+    </div>
+  );
 
   const onChange = (event, { newValue }) => {
     setQuery(newValue);
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    handleSymbolSearch(query);
+  const onSuggestionSelected = (event, { suggestion }) => {
+    handleSymbolSearch(suggestion.ticker);
   };
 
   const inputProps = {
@@ -55,19 +59,17 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
       <button className='btn btn-primary' onClick={toggleSidebar}>
         Toggle Menu
       </button>
-      <form className='form-inline my-2 my-lg-0' onSubmit={onSubmit}>
+      <form
+        className='form-inline my-2 my-lg-0'
+        onSubmit={(e) => e.preventDefault()}>
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
           onSuggestionsClearRequested={onSuggestionsClearRequested}
-          getSuggestionValue={(suggestion) => suggestion.ticker}
-          renderSuggestion={(suggestion) => (
-            <div>
-              {suggestion.name} ({suggestion.ticker})
-            </div>
-          )}
-          inputProps={inputProps}
+          getSuggestionValue={getSuggestionValue}
+          renderSuggestion={renderSuggestion}
           onSuggestionSelected={onSuggestionSelected}
+          inputProps={inputProps}
         />
         <button className='btn btn-outline-success my-2 my-sm-0' type='submit'>
           Search

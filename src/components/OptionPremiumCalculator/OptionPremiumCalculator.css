@@ -1,0 +1,15 @@
+/* src/components/OptionPremiumCalculator/OptionPremiumCalculator.css */
+.option-premium-calculator {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+.option-premium-calculator .form-group {
+  margin-bottom: 15px;
+}
+
+.option-premium-calculator .results {
+  margin-top: 20px;
+}

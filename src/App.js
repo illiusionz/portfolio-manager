@@ -1,5 +1,4 @@
-// src/App.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './containers/HomePage/HomePage';
 import CompoundInterestCalculator from './components/CompoundInterestCalculator/CompoundInterestCalculator';
@@ -13,13 +12,24 @@ function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [stockData, setStockData] = useState(null);
   const [error, setError] = useState(null);
-  const [symbol, setSymbol] = useState('AAPL');
+  const [symbol, setSymbol] = useState(
+    localStorage.getItem('lastStock') || 'TSLA'
+  );
+
+  useEffect(() => {
+    const fetchInitialStockData = async () => {
+      console.log(`Fetching initial stock data for symbol: ${symbol}`);
+      await fetchStockData(symbol, '2023-01-01', '2023-12-31'); // Adjust dates as needed
+    };
+    fetchInitialStockData();
+  }, [symbol]);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
   const fetchStockData = async (query, startDate, endDate) => {
+    console.log(`Fetching stock data for: ${query}`);
     const apiKey = '6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq';
     const url = `https://api.polygon.io/v2/aggs/ticker/${query}/range/1/day/${startDate}/${endDate}?apiKey=${apiKey}`;
 
@@ -33,7 +43,13 @@ function App() {
       }
       const data = await response.json();
       if (data.results && data.results.length > 0) {
-        setStockData(data.results);
+        setStockData({
+          ticker: query,
+          queryCount: data.queryCount,
+          resultsCount: data.resultsCount,
+          adjusted: data.adjusted,
+          results: data.results,
+        });
         setError(null);
         setSymbol(query);
         localStorage.setItem('lastStock', query);
