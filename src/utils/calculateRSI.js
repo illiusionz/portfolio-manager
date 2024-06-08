@@ -1,5 +1,9 @@
 // utils/calculateRSI.js
 export const calculateRSI = (data, period = 14, source = 'close') => {
+  if (data.length < period) {
+    return [];
+  }
+
   const rsiData = [];
   let gains = 0;
   let losses = 0;

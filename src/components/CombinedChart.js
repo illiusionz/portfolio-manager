@@ -21,7 +21,7 @@ const CombinedChart = ({ stockData, showRSI, showMACD, rsiSettings }) => {
 
     const chart = createChart(chartContainerRef.current, {
       width: chartContainerRef.current.clientWidth,
-      height: 300,
+      height: 400,
       layout: {
         backgroundColor: '#1c1c1c',
         textColor: '#d1d4dc',
@@ -61,15 +61,21 @@ const CombinedChart = ({ stockData, showRSI, showMACD, rsiSettings }) => {
       }))
     );
 
+    let rsiChart, rsiSeries;
     if (showRSI) {
       const rsiData = calculateRSI(
         stockData,
         rsiSettings.period,
         rsiSettings.source
       );
-      const rsiChart = createChart(rsiContainerRef.current, {
+      if (rsiData.length === 0) {
+        console.error('RSI data is empty');
+        return;
+      }
+
+      rsiChart = createChart(rsiContainerRef.current, {
         width: rsiContainerRef.current.clientWidth,
-        height: 200,
+        height: 150,
         layout: {
           backgroundColor: '#1c1c1c',
           textColor: '#d1d4dc',
@@ -93,7 +99,7 @@ const CombinedChart = ({ stockData, showRSI, showMACD, rsiSettings }) => {
 
       rsiChartRef.current = rsiChart;
 
-      const rsiSeries = rsiChart.addLineSeries({
+      rsiSeries = rsiChart.addLineSeries({
         color: '#f68484',
         lineWidth: 1,
         priceLineVisible: false,
@@ -102,11 +108,12 @@ const CombinedChart = ({ stockData, showRSI, showMACD, rsiSettings }) => {
       rsiSeries.setData(rsiData);
     }
 
+    let macdChart, macdSeries;
     if (showMACD) {
       const macdData = calculateMACD(stockData);
-      const macdChart = createChart(macdContainerRef.current, {
+      macdChart = createChart(macdContainerRef.current, {
         width: macdContainerRef.current.clientWidth,
-        height: 200,
+        height: 150,
         layout: {
           backgroundColor: '#1c1c1c',
           textColor: '#d1d4dc',
@@ -130,7 +137,7 @@ const CombinedChart = ({ stockData, showRSI, showMACD, rsiSettings }) => {
 
       macdChartRef.current = macdChart;
 
-      const macdSeries = macdChart.addHistogramSeries({
+      macdSeries = macdChart.addHistogramSeries({
         color: '#4e5b6e',
         lineWidth: 1,
         priceLineVisible: false,
@@ -152,18 +159,9 @@ const CombinedChart = ({ stockData, showRSI, showMACD, rsiSettings }) => {
     };
 
     const unsubscribers = [
-      syncTimeScale(
-        chart,
-        [rsiChartRef.current, macdChartRef.current].filter(Boolean)
-      ),
-      syncTimeScale(
-        rsiChartRef.current,
-        [chart, macdChartRef.current].filter(Boolean)
-      ),
-      syncTimeScale(
-        macdChartRef.current,
-        [chart, rsiChartRef.current].filter(Boolean)
-      ),
+      syncTimeScale(chart, [rsiChart, macdChart].filter(Boolean)),
+      syncTimeScale(rsiChart, [chart, macdChart].filter(Boolean)),
+      syncTimeScale(macdChart, [chart, rsiChart].filter(Boolean)),
     ];
 
     return () => {
