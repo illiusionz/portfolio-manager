@@ -2,6 +2,7 @@
 import React from 'react';
 import CompoundInterestCalculator from '../../components/CompoundInterestCalculator/CompoundInterestCalculator';
 import PercentageDifferenceCalculator from '../../components/PercentageDifferenceCalculator/PercentageDifferenceCalculator';
+import StockChart from '../../components/StockChart';
 import './HomePage.css';
 
 function HomePage({ stockData, error }) {
@@ -12,13 +13,7 @@ function HomePage({ stockData, error }) {
         {error && <div className='alert alert-danger'>{error}</div>}
         {stockData ? (
           <div className='stock-data'>
-            <h2>{stockData.symbol}</h2>
-            <p>Date: {stockData.date}</p>
-            <p>Open: ${stockData.open.toFixed(2)}</p>
-            <p>Close: ${stockData.close.toFixed(2)}</p>
-            <p>High: ${stockData.high.toFixed(2)}</p>
-            <p>Low: ${stockData.low.toFixed(2)}</p>
-            <p>Volume: {stockData.volume.toLocaleString()}</p>
+            <StockChart stockData={stockData} />
           </div>
         ) : (
           <p>Search for a stock symbol to see the price data.</p>

@@ -6,6 +6,7 @@ import CompoundInterestCalculator from './components/CompoundInterestCalculator/
 import PercentageDifferenceCalculator from './components/PercentageDifferenceCalculator/PercentageDifferenceCalculator';
 import Sidebar from './layout/Sidebar';
 import Navbar from './layout/Navbar';
+import config from './config';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -18,10 +19,9 @@ function App() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const fetchStockData = async (query) => {
-    const apiKey = '6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq';
-    const date = '2023-06-01'; // Use a fixed historical date within the allowed timeframe
-    const url = `https://api.polygon.io/v2/aggs/ticker/${query}/range/1/day/${date}/${date}?apiKey=${apiKey}`;
+  const fetchStockData = async (query, startDate, endDate) => {
+    const apiKey = config.polygonApiKey;
+    const url = `https://api.polygon.io/v2/aggs/ticker/${query}/range/1/day/${startDate}/${endDate}?apiKey=${apiKey}`;
 
     try {
       const response = await fetch(url);
@@ -33,17 +33,8 @@ function App() {
       }
       const data = await response.json();
       if (data.results && data.results.length > 0) {
-        const result = data.results[0];
-        setStockData({
-          symbol: query,
-          date: date,
-          open: result.o,
-          close: result.c,
-          high: result.h,
-          low: result.l,
-          volume: result.v,
-        });
-        setError(null); // Clear any previous error
+        setStockData(data.results);
+        setError(null);
       } else {
         setStockData(null);
         setError('No data found for the specified symbol.');
