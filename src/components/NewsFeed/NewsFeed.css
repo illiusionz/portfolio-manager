@@ -1,0 +1,34 @@
+/* src/components/NewsFeed/NewsFeed.css */
+
+.news-feed {
+  margin-top:20px;
+}
+.news-feed .card {
+  height: 100%;
+  position: relative;
+}
+
+.news-feed .card-title {
+ font-size: 18px;
+}
+
+
+.news-feed .card-img-top {
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.news-feed .card-footer {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: #fff;
+}
+
+.news-feed .publisher-logo {
+  max-height: 20px;
+  margin: auto;
+}
