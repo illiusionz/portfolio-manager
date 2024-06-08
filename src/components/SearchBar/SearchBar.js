@@ -1,34 +1,33 @@
-import React from 'react';
-import './SearchBar.css';
+import React, { useState } from 'react';
 
-const SearchBar = ({
-  query,
-  suggestions,
-  onSearchChange,
-  onSuggestionClick,
-}) => {
+const SearchBar = ({ onSearch }) => {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    onSearch(inputValue.toUpperCase());
+  };
+
   return (
-    <div className='search-bar mb-3'>
+    <form
+      className='d-flex ms-auto search-container'
+      onSubmit={handleFormSubmit}>
       <input
-        type='text'
-        value={query}
-        onChange={(e) => onSearchChange(e.target.value)}
-        placeholder='Search for stocks...'
         className='form-control'
+        type='search'
+        placeholder='Search for stocks...'
+        aria-label='Search'
+        value={inputValue}
+        onChange={handleInputChange}
       />
-      {suggestions.length > 0 && (
-        <ul className='list-group mt-2'>
-          {suggestions.map((suggestion) => (
-            <li
-              key={suggestion.ticker}
-              className='list-group-item'
-              onClick={() => onSuggestionClick(suggestion)}>
-              {suggestion.name} ({suggestion.ticker})
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+      <button className='btn btn-outline-success' type='submit'>
+        Search
+      </button>
+    </form>
   );
 };
 

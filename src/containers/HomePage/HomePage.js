@@ -1,42 +1,42 @@
-import React from 'react';
-import './HomePage.css';
+// src/containers/HomePage/HomePage.js
+import React, { useState } from 'react';
+import Chart from '../../components/Chart/Chart';
 import CompoundInterestCalculator from '../../components/CompoundInterestCalculator/CompoundInterestCalculator';
 import PercentageDifferenceCalculator from '../../components/PercentageDifferenceCalculator/PercentageDifferenceCalculator';
+import './HomePage.css';
 
-const HomePage = ({
-  error,
-  onRangeChange,
-  currentRange,
-  toggleDarkMode,
-  isDarkMode,
-}) => {
+const HomePage = ({ stockData = [], error, isDarkMode, toggleDarkMode }) => {
+  const [timeRange, setTimeRange] = useState('1D');
+
+  const handleTimeRangeChange = (range) => {
+    setTimeRange(range);
+    // Fetch data based on the new range and update the state
+  };
+
   return (
     <div className='homepage container mt-4'>
-      {error && <div className='alert alert-danger'>{error}</div>}
-      <div className='controls mt-4'>
-        <button
-          className='btn btn-primary me-2'
-          onClick={() => onRangeChange('1d')}>
-          1D
-        </button>
-        <button
-          className='btn btn-primary me-2'
-          onClick={() => onRangeChange('1w')}>
-          1W
-        </button>
-        <button
-          className='btn btn-primary me-2'
-          onClick={() => onRangeChange('1m')}>
-          1M
-        </button>
-        <button
-          className='btn btn-primary me-2'
-          onClick={() => onRangeChange('1y')}>
-          1Y
-        </button>
-        <button className='btn btn-secondary' onClick={() => toggleDarkMode()}>
-          {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-        </button>
+      <div className='hero-section container mt-4'>
+        <div id='chart' className='mt-4'>
+          {error && <div className='alert alert-danger'>{error}</div>}
+          <Chart data={stockData} isDarkMode={isDarkMode} />
+        </div>
+        <div className='d-flex justify-content-center mt-3'>
+          {['1D', '5D', '1M', '3M', '6M', 'YTD', '1Y', '5Y', 'All'].map(
+            (range) => (
+              <button
+                key={range}
+                className={`btn btn-outline-primary ${
+                  timeRange === range ? 'active' : ''
+                }`}
+                onClick={() => handleTimeRangeChange(range)}>
+                {range}
+              </button>
+            )
+          )}
+          <button className='btn btn-dark ms-2' onClick={toggleDarkMode}>
+            {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+          </button>
+        </div>
       </div>
       <div className='row mt-4'>
         <div className='col-md-6'>
