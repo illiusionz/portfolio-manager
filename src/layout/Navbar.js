@@ -1,108 +1,150 @@
-import React, { useState, useEffect, useRef } from 'react';
-import 'react-datepicker/dist/react-datepicker.css';
-import { fetchStockSuggestions } from '../services/polygonService';
-import './Navbar.css';
+// src/layout/Navbar.js
+import React, { useState, useEffect } from 'react';
+import DatePicker from 'react-datepicker';
+import Select from 'react-select';
+import './Layout.css';
 
-const Navbar = ({ fetchStockData }) => {
-  const [query, setQuery] = useState('');
+function Navbar({
+  fetchStockData,
+  onRangeChange,
+  currentRange,
+  isDarkMode,
+  toggleDarkMode,
+}) {
+  const [searchQuery, setSearchQuery] = useState('TSLA');
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [suggestions, setSuggestions] = useState([]);
-  const [lastSuggestions, setLastSuggestions] = useState([]);
-  const searchRef = useRef(null);
+  const [selectedOption, setSelectedOption] = useState({
+    value: 'TSLA',
+    label: 'TSLA - Tesla, Inc.',
+  });
 
   useEffect(() => {
-    if (query.length > 1) {
-      fetchStockSuggestions(query).then((results) => {
-        setSuggestions(results);
-        setLastSuggestions(results);
+    const savedState = JSON.parse(localStorage.getItem('stockAppState'));
+    if (savedState) {
+      setSearchQuery(savedState.query);
+      setStartDate(new Date(savedState.startDate));
+      setEndDate(new Date(savedState.endDate));
+      setSelectedOption({
+        value: savedState.query,
+        label: `${savedState.query}`,
       });
+    }
+  }, []);
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (selectedOption && startDate && endDate) {
+      fetchStockData(selectedOption.value, startDate, endDate);
+    }
+  };
+
+  const fetchSuggestions = async (query) => {
+    const apiKey = '6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq';
+    const url = `https://api.polygon.io/v3/reference/tickers?search=${query}&active=true&sort=ticker&order=asc&limit=10&apiKey=${apiKey}`;
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+      }
+      const data = await response.json();
+      setSuggestions(
+        data.results.map((item) => ({
+          value: item.ticker,
+          label: `${item.ticker} - ${item.name}`,
+        }))
+      );
+    } catch (error) {
+      console.error('Error fetching suggestions:', error);
+      setSuggestions([]);
+    }
+  };
+
+  useEffect(() => {
+    if (searchQuery.length > 1) {
+      fetchSuggestions(searchQuery);
     } else {
       setSuggestions([]);
     }
-  }, [query]);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setSuggestions([]);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [searchRef]);
-
-  const handleSearch = (event) => {
-    event.preventDefault();
-    fetchStockData(query);
-    setSuggestions([]);
-  };
-
-  const handleSuggestionClick = (suggestion) => {
-    setQuery(suggestion.ticker);
-    fetchStockData(suggestion.ticker);
-    setSuggestions([]);
-  };
-
-  const handleFocus = () => {
-    if (lastSuggestions.length > 0) {
-      setSuggestions(lastSuggestions);
-    }
-  };
+  }, [searchQuery]);
 
   return (
-    <nav className='navbar navbar-expand-lg navbar-light bg-light'>
+    <nav className='navbar navbar-expand-lg navbar-light bg-light border-bottom'>
       <div className='container-fluid'>
-        <a className='navbar-brand' href='/'>
-          Stock Portfolio Manager
-        </a>
-        <button
-          className='navbar-toggler'
-          type='button'
-          data-bs-toggle='collapse'
-          data-bs-target='#navbarNav'
-          aria-controls='navbarNav'
-          aria-expanded='false'
-          aria-label='Toggle navigation'>
-          <span className='navbar-toggler-icon'></span>
-        </button>
-        <div className='collapse navbar-collapse' id='navbarNav'>
-          <form
-            className='d-flex ms-auto search-container'
-            onSubmit={handleSearch}
-            ref={searchRef}>
-            <div className='search-wrapper'>
-              <input
-                className='form-control'
-                type='search'
-                placeholder='Search for stocks...'
-                aria-label='Search'
-                value={query}
-                onChange={(e) => setQuery(e.target.value.toUpperCase())}
-                onFocus={handleFocus}
-              />
-              {suggestions.length > 0 && (
-                <ul className='list-group'>
-                  {suggestions.map((suggestion) => (
-                    <li
-                      key={suggestion.ticker}
-                      className='list-group-item list-group-item-action'
-                      onClick={() => handleSuggestionClick(suggestion)}>
-                      {suggestion.name} ({suggestion.ticker})
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-            <button className='btn btn-outline-success' type='submit'>
-              Search
-            </button>
-          </form>
+        <span className='navbar-text'>Search Stock</span>
+        <form className='d-flex ms-3' onSubmit={handleSearchSubmit}>
+          <Select
+            value={selectedOption}
+            onChange={setSelectedOption}
+            onInputChange={setSearchQuery}
+            options={suggestions}
+            className='form-control me-2'
+            placeholder='Search'
+            isClearable
+          />
+          <DatePicker
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            selectsStart
+            startDate={startDate}
+            endDate={endDate}
+            className='form-control me-2'
+            placeholderText='Start Date'
+          />
+          <DatePicker
+            selected={endDate}
+            onChange={(date) => setEndDate(date)}
+            selectsEnd
+            startDate={startDate}
+            endDate={endDate}
+            minDate={startDate}
+            className='form-control me-2'
+            placeholderText='End Date'
+          />
+          <button className='btn btn-outline-primary' type='submit'>
+            Search
+          </button>
+        </form>
+        <div className='d-flex ms-auto'>
+          <button
+            className={`btn btn-outline-secondary me-2 ${
+              currentRange === 'day' ? 'active' : ''
+            }`}
+            onClick={() => onRangeChange('day')}>
+            Day
+          </button>
+          <button
+            className={`btn btn-outline-secondary me-2 ${
+              currentRange === 'week' ? 'active' : ''
+            }`}
+            onClick={() => onRangeChange('week')}>
+            Week
+          </button>
+          <button
+            className={`btn btn-outline-secondary me-2 ${
+              currentRange === 'month' ? 'active' : ''
+            }`}
+            onClick={() => onRangeChange('month')}>
+            Month
+          </button>
+          <button
+            className={`btn btn-outline-secondary me-2 ${
+              currentRange === 'year' ? 'active' : ''
+            }`}
+            onClick={() => onRangeChange('year')}>
+            Year
+          </button>
+          <button
+            className='btn btn-outline-secondary'
+            onClick={toggleDarkMode}>
+            {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+          </button>
         </div>
       </div>
     </nav>
   );
-};
+}
 
 export default Navbar;

@@ -1,44 +1,44 @@
 // src/containers/HomePage/HomePage.js
-import React, { useState } from 'react';
-import Chart from '../../components/Chart/Chart';
+import React from 'react';
 import CompoundInterestCalculator from '../../components/CompoundInterestCalculator/CompoundInterestCalculator';
 import PercentageDifferenceCalculator from '../../components/PercentageDifferenceCalculator/PercentageDifferenceCalculator';
+import LightweightChart from '../../components/LightweightChart';
+import ButtonBar from '../../components/ButtonBar';
 import './HomePage.css';
 
-const HomePage = ({ stockData = [], error, isDarkMode, toggleDarkMode }) => {
-  const [timeRange, setTimeRange] = useState('1D');
-
-  const handleTimeRangeChange = (range) => {
-    setTimeRange(range);
-    // Fetch data based on the new range and update the state
-  };
-
+function HomePage({
+  stockData,
+  error,
+  onRangeChange,
+  currentRange,
+  toggleDarkMode,
+  isDarkMode,
+}) {
   return (
-    <div className='homepage container mt-4'>
-      <div className='hero-section container mt-4'>
-        <div id='chart' className='mt-4'>
-          {error && <div className='alert alert-danger'>{error}</div>}
-          <Chart data={stockData} isDarkMode={isDarkMode} />
-        </div>
-        <div className='d-flex justify-content-center mt-3'>
-          {['1D', '5D', '1M', '3M', '6M', 'YTD', '1Y', '5Y', 'All'].map(
-            (range) => (
-              <button
-                key={range}
-                className={`btn btn-outline-primary ${
-                  timeRange === range ? 'active' : ''
-                }`}
-                onClick={() => handleTimeRangeChange(range)}>
-                {range}
-              </button>
-            )
-          )}
-          <button className='btn btn-dark ms-2' onClick={toggleDarkMode}>
-            {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-          </button>
-        </div>
+    <div className='container-fluid'>
+      <div className='hero-section'>
+        <h1>Welcome to Portfolio Manager</h1>
+        {error && <div className='alert alert-danger'>{error}</div>}
+        {stockData.length > 0 ? (
+          <div className='stock-chart'>
+            <LightweightChart
+              data={stockData.map(({ date, close }) => ({
+                time: new Date(date).getTime() / 1000,
+                value: close,
+              }))}
+            />
+          </div>
+        ) : (
+          <p>Search for a stock symbol to see the price data.</p>
+        )}
       </div>
-      <div className='row mt-4'>
+      <ButtonBar
+        onRangeChange={onRangeChange}
+        currentRange={currentRange}
+        toggleDarkMode={toggleDarkMode}
+        isDarkMode={isDarkMode}
+      />
+      <div className='row'>
         <div className='col-md-6'>
           <div className='card'>
             <div className='card-header'>
@@ -64,6 +64,6 @@ const HomePage = ({ stockData = [], error, isDarkMode, toggleDarkMode }) => {
       </div>
     </div>
   );
-};
+}
 
 export default HomePage;
