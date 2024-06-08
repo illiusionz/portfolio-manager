@@ -1,8 +1,10 @@
 // src/components/CombinedChart.js
 import React, { useEffect, useRef } from 'react';
 import { createChart, CrosshairMode } from 'lightweight-charts';
+import { calculateRSI } from '../utils/calculateRSI';
+import { calculateMACD } from '../utils/calculateMACD';
 
-const CombinedChart = ({ stockData }) => {
+const CombinedChart = ({ stockData, showRSI, showMACD, rsiSettings }) => {
   const chartContainerRef = useRef();
   const rsiContainerRef = useRef();
   const macdContainerRef = useRef();
@@ -17,7 +19,6 @@ const CombinedChart = ({ stockData }) => {
       return;
     }
 
-    // Create main chart
     const chart = createChart(chartContainerRef.current, {
       width: chartContainerRef.current.clientWidth,
       height: 300,
@@ -60,87 +61,84 @@ const CombinedChart = ({ stockData }) => {
       }))
     );
 
-    // Create RSI chart
-    const rsiChart = createChart(rsiContainerRef.current, {
-      width: rsiContainerRef.current.clientWidth,
-      height: 200,
-      layout: {
-        backgroundColor: '#1c1c1c',
-        textColor: '#d1d4dc',
-      },
-      grid: {
-        vertLines: {
-          color: '#2c2c2c',
+    if (showRSI) {
+      const rsiData = calculateRSI(
+        stockData,
+        rsiSettings.period,
+        rsiSettings.source
+      );
+      const rsiChart = createChart(rsiContainerRef.current, {
+        width: rsiContainerRef.current.clientWidth,
+        height: 200,
+        layout: {
+          backgroundColor: '#1c1c1c',
+          textColor: '#d1d4dc',
         },
-        horzLines: {
-          color: '#2c2c2c',
+        grid: {
+          vertLines: {
+            color: '#2c2c2c',
+          },
+          horzLines: {
+            color: '#2c2c2c',
+          },
         },
-      },
-      rightPriceScale: {
-        borderColor: '#555ffd',
-      },
-      timeScale: {
-        borderColor: '#555ffd',
-        visible: false,
-      },
-    });
-
-    rsiChartRef.current = rsiChart;
-
-    const rsiSeries = rsiChart.addLineSeries({
-      color: '#f68484',
-      lineWidth: 1,
-      priceLineVisible: false,
-    });
-
-    const rsiData = stockData.map((data, index) => ({
-      time: data.t / 1000,
-      value: Math.sin(index / 10) * 10 + 50,
-    }));
-
-    rsiSeries.setData(rsiData);
-
-    // Create MACD chart
-    const macdChart = createChart(macdContainerRef.current, {
-      width: macdContainerRef.current.clientWidth,
-      height: 200,
-      layout: {
-        backgroundColor: '#1c1c1c',
-        textColor: '#d1d4dc',
-      },
-      grid: {
-        vertLines: {
-          color: '#2c2c2c',
+        rightPriceScale: {
+          borderColor: '#555ffd',
         },
-        horzLines: {
-          color: '#2c2c2c',
+        timeScale: {
+          borderColor: '#555ffd',
+          visible: false,
         },
-      },
-      rightPriceScale: {
-        borderColor: '#555ffd',
-      },
-      timeScale: {
-        borderColor: '#555ffd',
-        visible: false,
-      },
-    });
+      });
 
-    macdChartRef.current = macdChart;
+      rsiChartRef.current = rsiChart;
 
-    const macdSeries = macdChart.addHistogramSeries({
-      color: '#4e5b6e',
-      lineWidth: 1,
-      priceLineVisible: false,
-    });
+      const rsiSeries = rsiChart.addLineSeries({
+        color: '#f68484',
+        lineWidth: 1,
+        priceLineVisible: false,
+      });
 
-    const macdData = stockData.map((data, index) => ({
-      time: data.t / 1000,
-      value: Math.sin(index / 10) * 10,
-    }));
+      rsiSeries.setData(rsiData);
+    }
 
-    macdSeries.setData(macdData);
+    if (showMACD) {
+      const macdData = calculateMACD(stockData);
+      const macdChart = createChart(macdContainerRef.current, {
+        width: macdContainerRef.current.clientWidth,
+        height: 200,
+        layout: {
+          backgroundColor: '#1c1c1c',
+          textColor: '#d1d4dc',
+        },
+        grid: {
+          vertLines: {
+            color: '#2c2c2c',
+          },
+          horzLines: {
+            color: '#2c2c2c',
+          },
+        },
+        rightPriceScale: {
+          borderColor: '#555ffd',
+        },
+        timeScale: {
+          borderColor: '#555ffd',
+          visible: false,
+        },
+      });
 
-    // Sync time scales
+      macdChartRef.current = macdChart;
+
+      const macdSeries = macdChart.addHistogramSeries({
+        color: '#4e5b6e',
+        lineWidth: 1,
+        priceLineVisible: false,
+      });
+
+      macdSeries.setData(macdData);
+    }
+
     const syncTimeScale = (source, targets) => {
       const updateHandler = (logicalRange) => {
         targets.forEach((target) => {
@@ -154,19 +152,27 @@ const CombinedChart = ({ stockData }) => {
     };
 
     const unsubscribers = [
-      syncTimeScale(chart, [rsiChart, macdChart]),
-      syncTimeScale(rsiChart, [chart, macdChart]),
-      syncTimeScale(macdChart, [chart, rsiChart]),
+      syncTimeScale(
+        chart,
+        [rsiChartRef.current, macdChartRef.current].filter(Boolean)
+      ),
+      syncTimeScale(
+        rsiChartRef.current,
+        [chart, macdChartRef.current].filter(Boolean)
+      ),
+      syncTimeScale(
+        macdChartRef.current,
+        [chart, rsiChartRef.current].filter(Boolean)
+      ),
     ];
 
-    // Cleanup
     return () => {
       unsubscribers.forEach((unsub) => unsub());
       chart.remove();
-      rsiChart.remove();
-      macdChart.remove();
+      rsiChartRef.current?.remove();
+      macdChartRef.current?.remove();
     };
-  }, [stockData]);
+  }, [stockData, showRSI, showMACD, rsiSettings]);
 
   return (
     <div>
@@ -174,14 +180,18 @@ const CombinedChart = ({ stockData }) => {
         ref={chartContainerRef}
         style={{ position: 'relative', width: '100%' }}
       />
-      <div
-        ref={rsiContainerRef}
-        style={{ position: 'relative', width: '100%' }}
-      />
-      <div
-        ref={macdContainerRef}
-        style={{ position: 'relative', width: '100%' }}
-      />
+      {showRSI && (
+        <div
+          ref={rsiContainerRef}
+          style={{ position: 'relative', width: '100%' }}
+        />
+      )}
+      {showMACD && (
+        <div
+          ref={macdContainerRef}
+          style={{ position: 'relative', width: '100%' }}
+        />
+      )}
     </div>
   );
 };
