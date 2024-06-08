@@ -152,6 +152,7 @@ form.d-flex .btn-outline-primary {
 
 .form-label {
   margin-right: 5px;
+  margin-bottom: 0;
 }
 
 .form-control {

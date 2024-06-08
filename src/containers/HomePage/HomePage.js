@@ -13,7 +13,7 @@ function HomePage({ stockData, error, symbol }) {
       <div className='hero-section'>
         {error && <div className='alert alert-danger'>{error}</div>}
         <div className='stock-data'>
-          {/*  <TradingViewWidget symbol={symbol} /> */}
+          <TradingViewWidget symbol={symbol} />
         </div>
       </div>
 
@@ -24,7 +24,7 @@ function HomePage({ stockData, error, symbol }) {
         <div className='col-md-6'>
           <PercentageDifferenceCalculator />
         </div>
-        <div className='col-md-4'>
+        <div className='col-md-3'>
           <OptionPremiumCalculator />
         </div>
       </div>

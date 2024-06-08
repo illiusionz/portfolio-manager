@@ -37,8 +37,10 @@ const CompoundInterestCalculator = () => {
       </div>
       <div className='card-body'>
         <div className='form-inline'>
-          <div className='form-group'>
-            <label htmlFor='initialCapital'>Initial Capital:</label>
+          <div className='form-group  mx-2'>
+            <label className='form-label' htmlFor='initialCapital'>
+              Initial Capital:
+            </label>
             <input
               type='text'
               id='initialCapital'
@@ -51,8 +53,10 @@ const CompoundInterestCalculator = () => {
               }
             />
           </div>
-          <div className='form-group'>
-            <label htmlFor='weeklyRate'>Weekly Rate (%):</label>
+          <div className='form-group  mx-2'>
+            <label className='form-label' htmlFor='weeklyRate'>
+              Weekly Rate (%):
+            </label>
             <input
               type='text'
               id='weeklyRate'
@@ -61,10 +65,11 @@ const CompoundInterestCalculator = () => {
               onChange={(e) => setWeeklyRate(e.target.value)}
             />
           </div>
-
-          <button className='btn btn-primary' onClick={handleCalculate}>
-            Calculate
-          </button>
+          <div className='form-group  mx-2'>
+            <button className='btn btn-primary' onClick={handleCalculate}>
+              Calculate
+            </button>
+          </div>
         </div>
         {results.length > 0 && (
           <div>

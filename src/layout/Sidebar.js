@@ -1,24 +1,32 @@
-// src/layout/Sidebar.js
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Sidebar.css';
 
-const Sidebar = ({ isOpen }) => {
+const Sidebar = () => {
   return (
-    <nav className={`sidebar ${isOpen ? 'toggled' : ''}`}>
-      <div className='sidebar-heading'>Portfolio Manager</div>
-      <ul className='list-group'>
-        <li className='list-group-item'>
-          <NavLink to='/' exact activeClassName='active'>
-            Home
-          </NavLink>
+    <nav className='sidebar'>
+      <ul>
+        <li>
+          <Link to='/'>Home</Link>
         </li>
-        <li className='list-group-item'>
-          <NavLink to='/asset-management' activeClassName='active'>
-            Asset Management
-          </NavLink>
+        <li>
+          <Link to='/asset-management-calculator'>
+            Asset Management Calculator
+          </Link>
         </li>
-        {/* Add more links as needed */}
+        <li>
+          <Link to='/compound-interest-calculator'>
+            Compound Interest Calculator
+          </Link>
+        </li>
+        <li>
+          <Link to='/percentage-difference-calculator'>
+            Percentage Difference Calculator
+          </Link>
+        </li>
+        <li>
+          <Link to='/option-premium-calculator'>Option Premium Calculator</Link>
+        </li>
       </ul>
     </nav>
   );

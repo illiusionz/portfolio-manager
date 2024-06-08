@@ -1,0 +1,22 @@
+.card {
+  margin: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.sector {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.results {
+  margin-top: 20px;
+}
+
+.result {
+  margin-bottom: 10px;
+}

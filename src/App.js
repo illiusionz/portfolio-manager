@@ -90,7 +90,6 @@ function App() {
                 path='/percentage-difference'
                 element={<PercentageDifferenceCalculator />}
               />
-              <Route path='/asset-management' component={AssetManagement} />
             </Routes>
           </div>
         </div>

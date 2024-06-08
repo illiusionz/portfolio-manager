@@ -49,9 +49,11 @@ const PercentageDifferenceCalculator = () => {
               onChange={(e) => setTargetPrice(e.target.value)}
             />
           </div>
-          <button type='submit' className='btn btn-primary mx-2'>
-            Calculate
-          </button>
+          <div className='form-group'>
+            <button type='submit' className='btn btn-primary mx-2'>
+              Calculate
+            </button>
+          </div>
         </form>
         {percentageChange !== null && (
           <div className='mt-3'>

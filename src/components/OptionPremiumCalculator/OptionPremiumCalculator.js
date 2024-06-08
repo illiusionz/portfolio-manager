@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { formatNumberWithCommas } from '../../utils/format';
+import './OptionPremiumCalculator.css';
 
 const OptionPremiumCalculator = () => {
   const [stockName, setStockName] = useState('');
@@ -27,83 +28,100 @@ const OptionPremiumCalculator = () => {
   };
 
   return (
-    <div className='card'>
-      <div className='card-header'>
-        <h5 className='card-title mb-0'>Option Premium Calculator</h5>
-      </div>
-      <div className='card-body'>
-        <div className='form-group'>
-          <label htmlFor='stockName'>Stock Name:</label>
-          <input
-            type='text'
-            id='stockName'
-            className='form-control'
-            value={stockName}
-            onChange={(e) => setStockName(e.target.value)}
-          />
+    <div className='option-premium-calculator'>
+      <div className='card'>
+        <div className='card-header'>
+          <h5 className='card-title mb-0'>Option Premium Calculator</h5>
         </div>
-        <div className='form-group'>
-          <label htmlFor='stockStrikePrice'>Stock Strike Price:</label>
-          <input
-            type='text'
-            id='stockStrikePrice'
-            className='form-control'
-            value={formatNumberWithCommas(stockStrikePrice)}
-            onChange={(e) =>
-              setStockStrikePrice(e.target.value.replace(/,/g, ''))
-            }
-          />
-        </div>
-        <div className='form-group'>
-          <label htmlFor='numberOfContracts'>Number of Contracts:</label>
-          <input
-            type='text'
-            id='numberOfContracts'
-            className='form-control'
-            value={formatNumberWithCommas(numberOfContracts)}
-            onChange={(e) =>
-              setNumberOfContracts(e.target.value.replace(/,/g, ''))
-            }
-          />
-        </div>
-        <div className='form-group'>
-          <label htmlFor='premiumAmount'>Premium Amount:</label>
-          <input
-            type='text'
-            id='premiumAmount'
-            className='form-control'
-            value={formatNumberWithCommas(premiumAmount)}
-            onChange={(e) => setPremiumAmount(e.target.value.replace(/,/g, ''))}
-          />
-        </div>
-        <div className='form-group'>
-          <label htmlFor='amountOfWeeks'>Amount of Weeks:</label>
-          <input
-            type='text'
-            id='amountOfWeeks'
-            className='form-control'
-            value={formatNumberWithCommas(amountOfWeeks)}
-            onChange={(e) => setAmountOfWeeks(e.target.value.replace(/,/g, ''))}
-          />
-        </div>
-        <button className='btn btn-primary' onClick={calculatePremium}>
-          Calculate
-        </button>
-        {totalPremium !== null && (
-          <div>
-            <h5>
-              Total Premium Collected: $
-              {formatNumberWithCommas(totalPremium.toFixed(2))}
-            </h5>
-            <h5>
-              Total Capital Used: $
-              {formatNumberWithCommas(totalCapital.toFixed(2))}
-            </h5>
-            <h5>
-              % Return: {formatNumberWithCommas(percentageReturn.toFixed(2))}%
-            </h5>
+        <div className='card-body'>
+          <div className='form-group'>
+            <label className='form-label' htmlFor='stockName'>
+              Stock Name:
+            </label>
+            <input
+              type='text'
+              id='stockName'
+              className='form-control'
+              value={stockName}
+              onChange={(e) => setStockName(e.target.value)}
+            />
           </div>
-        )}
+          <div className='form-group'>
+            <label className='form-label' htmlFor='stockStrikePrice'>
+              Stock Strike Price:
+            </label>
+            <input
+              type='text'
+              id='stockStrikePrice'
+              className='form-control'
+              value={formatNumberWithCommas(stockStrikePrice)}
+              onChange={(e) =>
+                setStockStrikePrice(e.target.value.replace(/,/g, ''))
+              }
+            />
+          </div>
+          <div className='form-group'>
+            <label className='form-label' htmlFor='numberOfContracts'>
+              Number of Contracts:
+            </label>
+            <input
+              type='text'
+              id='numberOfContracts'
+              className='form-control'
+              value={formatNumberWithCommas(numberOfContracts)}
+              onChange={(e) =>
+                setNumberOfContracts(e.target.value.replace(/,/g, ''))
+              }
+            />
+          </div>
+          <div className='form-group'>
+            <label className='form-label' htmlFor='premiumAmount'>
+              Premium Amount:
+            </label>
+            <input
+              type='text'
+              id='premiumAmount'
+              className='form-control'
+              value={formatNumberWithCommas(premiumAmount)}
+              onChange={(e) =>
+                setPremiumAmount(e.target.value.replace(/,/g, ''))
+              }
+            />
+          </div>
+          <div className='form-group'>
+            <label className='form-label' htmlFor='amountOfWeeks'>
+              Amount of Weeks:
+            </label>
+            <input
+              type='text'
+              id='amountOfWeeks'
+              className='form-control'
+              value={formatNumberWithCommas(amountOfWeeks)}
+              onChange={(e) =>
+                setAmountOfWeeks(e.target.value.replace(/,/g, ''))
+              }
+            />
+          </div>
+          <button className='btn btn-primary' onClick={calculatePremium}>
+            Calculate
+          </button>
+          {totalPremium !== null && (
+            <div>
+              <h5>
+                Total Premium Collected: $
+                {formatNumberWithCommas(totalPremium.toFixed(2))}
+              </h5>
+              <h5>
+                Total Capital Used: $
+                {formatNumberWithCommas(totalCapital.toFixed(2))}
+              </h5>
+              <h5>
+                Average Return:{' '}
+                {formatNumberWithCommas(percentageReturn.toFixed(2))}%
+              </h5>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
