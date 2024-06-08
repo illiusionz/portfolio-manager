@@ -1,21 +1,13 @@
 // src/containers/HomePage/HomePage.js
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import CompoundInterestCalculator from '../../components/CompoundInterestCalculator/CompoundInterestCalculator';
 import PercentageDifferenceCalculator from '../../components/PercentageDifferenceCalculator/PercentageDifferenceCalculator';
-import StockChart from '../../components/StockChart';
-import RSIChart from '../../components/RSIChart';
-import MACDChart from '../../components/MACDChart';
+import CombinedChart from '../../components/CombinedChart';
 import './HomePage.css';
 
 function HomePage({ stockData, error }) {
   const [showRSI, setShowRSI] = useState(true);
   const [showMACD, setShowMACD] = useState(true);
-
-  const stockChartRef = useRef();
-  const rsiChartRef = useRef();
-  const macdChartRef = useRef();
-
-  const syncRefs = [stockChartRef, rsiChartRef, macdChartRef];
 
   return (
     <div className='container-fluid'>
@@ -24,19 +16,7 @@ function HomePage({ stockData, error }) {
         {error && <div className='alert alert-danger'>{error}</div>}
         {stockData ? (
           <div className='stock-data'>
-            <div ref={stockChartRef}>
-              <StockChart stockData={stockData} syncRefs={syncRefs} />
-            </div>
-            {showRSI && (
-              <div ref={rsiChartRef}>
-                <RSIChart stockData={stockData} syncRefs={syncRefs} />
-              </div>
-            )}
-            {showMACD && (
-              <div ref={macdChartRef}>
-                <MACDChart stockData={stockData} syncRefs={syncRefs} />
-              </div>
-            )}
+            <CombinedChart stockData={stockData} />
           </div>
         ) : (
           <p>Search for a stock symbol to see the price data.</p>

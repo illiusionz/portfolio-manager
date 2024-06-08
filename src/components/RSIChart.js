@@ -1,11 +1,11 @@
 // src/components/RSIChart.js
 import React, { useEffect, useRef } from 'react';
 import { createChart } from 'lightweight-charts';
-import useSyncScroll from '../hooks/useSyncScroll';
+import useSyncCharts from '../hooks/useSyncCharts';
 
-const RSIChart = ({ stockData, syncRefs }) => {
+const RSIChart = ({ stockData, chartInstances }) => {
   const chartContainerRef = useRef();
-  useSyncScroll(syncRefs);
+  const chartRef = useRef();
 
   useEffect(() => {
     if (!stockData || stockData.length === 0) {
@@ -36,6 +36,9 @@ const RSIChart = ({ stockData, syncRefs }) => {
       },
     });
 
+    chartRef.current = chart;
+    chartInstances.current.push(chart);
+
     const rsiSeries = chart.addLineSeries({
       color: '#f68484',
       lineWidth: 1,
@@ -65,13 +68,19 @@ const RSIChart = ({ stockData, syncRefs }) => {
     return () => {
       resizeObserver.disconnect();
       chart.remove();
+      const index = chartInstances.current.indexOf(chart);
+      if (index > -1) {
+        chartInstances.current.splice(index, 1);
+      }
     };
   }, [stockData]);
+
+  useSyncCharts(chartInstances.current);
 
   return (
     <div
       ref={chartContainerRef}
-      style={{ position: 'relative', width: '100%', overflow: 'auto' }}
+      style={{ position: 'relative', width: '100%' }}
     />
   );
 };

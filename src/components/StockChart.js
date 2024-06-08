@@ -1,11 +1,11 @@
 // src/components/StockChart.js
 import React, { useEffect, useRef } from 'react';
 import { createChart, CrosshairMode } from 'lightweight-charts';
-import useSyncScroll from '../hooks/useSyncScroll';
+import useSyncCharts from '../hooks/useSyncCharts';
 
-const StockChart = ({ stockData, syncRefs }) => {
+const StockChart = ({ stockData, chartInstances }) => {
   const chartContainerRef = useRef();
-  useSyncScroll(syncRefs);
+  const chartRef = useRef();
 
   useEffect(() => {
     if (!stockData || stockData.length === 0) {
@@ -41,6 +41,9 @@ const StockChart = ({ stockData, syncRefs }) => {
       },
     });
 
+    chartRef.current = chart;
+    chartInstances.current.push(chart);
+
     const lineSeries = chart.addLineSeries({
       color: '#4e5b6e',
       lineWidth: 2,
@@ -69,13 +72,19 @@ const StockChart = ({ stockData, syncRefs }) => {
     return () => {
       resizeObserver.disconnect();
       chart.remove();
+      const index = chartInstances.current.indexOf(chart);
+      if (index > -1) {
+        chartInstances.current.splice(index, 1);
+      }
     };
   }, [stockData]);
+
+  useSyncCharts(chartInstances.current);
 
   return (
     <div
       ref={chartContainerRef}
-      style={{ position: 'relative', width: '100%', overflow: 'auto' }}
+      style={{ position: 'relative', width: '100%' }}
     />
   );
 };
