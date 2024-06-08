@@ -1,30 +1,44 @@
-// src/containers/HomePage/HomePage.js
 import React from 'react';
+import './HomePage.css';
 import CompoundInterestCalculator from '../../components/CompoundInterestCalculator/CompoundInterestCalculator';
 import PercentageDifferenceCalculator from '../../components/PercentageDifferenceCalculator/PercentageDifferenceCalculator';
-import './HomePage.css';
 
-function HomePage({ stockData, error }) {
+const HomePage = ({
+  error,
+  onRangeChange,
+  currentRange,
+  toggleDarkMode,
+  isDarkMode,
+}) => {
   return (
-    <div className='container-fluid'>
-      <div className='hero-section'>
-        <h1>Welcome to Portfolio Manager</h1>
-        {error && <div className='alert alert-danger'>{error}</div>}
-        {stockData ? (
-          <div className='stock-data'>
-            <h2>{stockData.symbol}</h2>
-            <p>Date: {stockData.date}</p>
-            <p>Open: ${stockData.open.toFixed(2)}</p>
-            <p>Close: ${stockData.close.toFixed(2)}</p>
-            <p>High: ${stockData.high.toFixed(2)}</p>
-            <p>Low: ${stockData.low.toFixed(2)}</p>
-            <p>Volume: {stockData.volume.toLocaleString()}</p>
-          </div>
-        ) : (
-          <p>Search for a stock symbol to see the price data.</p>
-        )}
+    <div className='homepage container mt-4'>
+      {error && <div className='alert alert-danger'>{error}</div>}
+      <div className='controls mt-4'>
+        <button
+          className='btn btn-primary me-2'
+          onClick={() => onRangeChange('1d')}>
+          1D
+        </button>
+        <button
+          className='btn btn-primary me-2'
+          onClick={() => onRangeChange('1w')}>
+          1W
+        </button>
+        <button
+          className='btn btn-primary me-2'
+          onClick={() => onRangeChange('1m')}>
+          1M
+        </button>
+        <button
+          className='btn btn-primary me-2'
+          onClick={() => onRangeChange('1y')}>
+          1Y
+        </button>
+        <button className='btn btn-secondary' onClick={() => toggleDarkMode()}>
+          {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+        </button>
       </div>
-      <div className='row'>
+      <div className='row mt-4'>
         <div className='col-md-6'>
           <div className='card'>
             <div className='card-header'>
@@ -50,6 +64,6 @@ function HomePage({ stockData, error }) {
       </div>
     </div>
   );
-}
+};
 
 export default HomePage;

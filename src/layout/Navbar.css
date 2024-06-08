@@ -1,0 +1,34 @@
+.navbar .search-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+}
+
+.navbar .search-wrapper {
+  position: relative;
+  flex-grow: 1;
+}
+
+.navbar .form-control {
+  width: 100%;
+}
+
+.navbar .list-group {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  border: 1px solid #ddd;
+  border-top: none;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.navbar .list-group-item {
+  cursor: pointer;
+}
+
+.navbar .list-group-item:hover {
+  background-color: #f1f1f1;
+}

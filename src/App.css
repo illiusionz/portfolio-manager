@@ -57,20 +57,6 @@ body {
   color: white;
 }
 
-/* Custom styles for search bar */
-form.d-flex {
-  flex-grow: 1;
-  align-items: center;
-}
-
-form.d-flex .form-control {
-  width: auto;
-  flex-grow: 1;
-}
-
-form.d-flex .btn-outline-primary {
-  margin-left: 10px;
-}
 
 /* Hero section styles */
 .hero-section {
@@ -80,4 +66,35 @@ form.d-flex .btn-outline-primary {
 
 .stock-data {
   margin-top: 1rem;
+}
+
+
+body.light-mode {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+body.dark-mode {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+.search-bar input {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+body.dark-mode .search-bar input {
+  background-color: #444444;
+  color: #ffffff;
+}
+
+.list-group-item {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+body.dark-mode .list-group-item {
+  background-color: #444444;
+  color: #ffffff;
 }
