@@ -1,5 +1,5 @@
 // src/App.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './containers/HomePage/HomePage';
 import CompoundInterestCalculator from './components/CompoundInterestCalculator/CompoundInterestCalculator';
@@ -19,29 +19,38 @@ function App() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const fetchStockData = async (query) => {
+  const fetchStockData = async (query, startDate, endDate) => {
     const apiKey = '6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq';
-    const url = `https://api.polygon.io/v2/aggs/ticker/${query}/range/1/day/2023-01-01/2023-12-31?apiKey=${apiKey}`;
+    const url = `https://api.polygon.io/v2/aggs/ticker/${query}/range/1/day/${startDate}/${endDate}?apiKey=${apiKey}`;
 
     try {
       const response = await fetch(url);
+      if (!response.ok) {
+        const errorDetails = await response.json();
+        throw new Error(
+          `Error: ${response.status} ${response.statusText}. ${errorDetails.message}`
+        );
+      }
       const data = await response.json();
-      setStockData(data.results);
-      setSymbol(query);
-      localStorage.setItem('lastStock', query);
-      setError(null);
+      if (data.results && data.results.length > 0) {
+        setStockData(data.results);
+        setError(null);
+        setSymbol(query);
+        localStorage.setItem('lastStock', query);
+      } else {
+        setStockData(null);
+        setError('No data found for the specified symbol.');
+      }
     } catch (error) {
       console.error(error);
-      setError('Error fetching stock data');
+      setStockData(null);
+      setError(error.message);
     }
   };
 
-  useEffect(() => {
-    const lastStock = localStorage.getItem('lastStock');
-    if (lastStock) {
-      fetchStockData(lastStock);
-    }
-  }, []);
+  const handleSymbolSearch = (query) => {
+    fetchStockData(query, '2023-01-01', '2023-12-31'); // Adjust dates as needed
+  };
 
   return (
     <Router>
@@ -50,7 +59,7 @@ function App() {
         <div id='page-content-wrapper'>
           <Navbar
             toggleSidebar={toggleSidebar}
-            fetchStockData={fetchStockData}
+            handleSymbolSearch={handleSymbolSearch}
           />
           <div className='container-fluid'>
             <Routes>

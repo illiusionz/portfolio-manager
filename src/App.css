@@ -119,3 +119,7 @@ form.d-flex .btn-outline-primary {
 .react-autosuggest__suggestion--highlighted {
   background-color: #ddd;
 }
+
+.hero-section .stock-data {
+  height:600px;
+}

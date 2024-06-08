@@ -18,19 +18,8 @@ function HomePage({ stockData, error, symbol }) {
           <TradingViewWidget symbol={symbol} />
         </div>
       </div>
-      <div className='controls'>
-        <button
-          className='btn btn-outline-primary'
-          onClick={() => setShowRSI(!showRSI)}>
-          Toggle RSI
-        </button>
-        <button
-          className='btn btn-outline-primary'
-          onClick={() => setShowMACD(!showMACD)}>
-          Toggle MACD
-        </button>
-      </div>
-      <div className='row'>
+
+      <div className='row mt-2'>
         <div className='col-md-6'>
           <div className='card'>
             <div className='card-header'>
