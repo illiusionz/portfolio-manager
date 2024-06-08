@@ -1,9 +1,9 @@
-// src/components/StockChart.js
+// src/components/MACDChart.js
 import React, { useEffect, useRef } from 'react';
-import { createChart, CrosshairMode } from 'lightweight-charts';
+import { createChart } from 'lightweight-charts';
 import useSyncScroll from '../hooks/useSyncScroll';
 
-const StockChart = ({ stockData, syncRefs }) => {
+const MACDChart = ({ stockData, syncRefs }) => {
   const chartContainerRef = useRef();
   useSyncScroll(syncRefs);
 
@@ -15,7 +15,7 @@ const StockChart = ({ stockData, syncRefs }) => {
 
     const chart = createChart(chartContainerRef.current, {
       width: chartContainerRef.current.clientWidth,
-      height: 300,
+      height: 200,
       layout: {
         backgroundColor: '#1c1c1c',
         textColor: '#d1d4dc',
@@ -28,30 +28,26 @@ const StockChart = ({ stockData, syncRefs }) => {
           color: '#2c2c2c',
         },
       },
-      crosshair: {
-        mode: CrosshairMode.Normal,
-      },
       rightPriceScale: {
         borderColor: '#555ffd',
       },
       timeScale: {
         borderColor: '#555ffd',
-        timeVisible: true,
-        secondsVisible: false,
       },
     });
 
-    const lineSeries = chart.addLineSeries({
+    const macdSeries = chart.addHistogramSeries({
       color: '#4e5b6e',
-      lineWidth: 2,
+      lineWidth: 1,
+      priceLineVisible: false,
     });
 
-    lineSeries.setData(
-      stockData.map((data) => ({
-        time: data.t / 1000,
-        value: data.c,
-      }))
-    );
+    const macdData = stockData.map((data, index) => ({
+      time: data.t / 1000,
+      value: Math.sin(index / 10) * 10,
+    }));
+
+    macdSeries.setData(macdData);
 
     const resizeObserver = new ResizeObserver((entries) => {
       if (
@@ -61,7 +57,7 @@ const StockChart = ({ stockData, syncRefs }) => {
         return;
       }
       const newWidth = entries[0].contentRect.width;
-      chart.resize(newWidth, 300);
+      chart.resize(newWidth, 200);
     });
 
     resizeObserver.observe(chartContainerRef.current);
@@ -80,4 +76,4 @@ const StockChart = ({ stockData, syncRefs }) => {
   );
 };
 
-export default StockChart;
+export default MACDChart;
