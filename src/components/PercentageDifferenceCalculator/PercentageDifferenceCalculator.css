@@ -1,0 +1,25 @@
+/* src/components/PercentageDifferenceCalculator/PercentageDifferenceCalculator.css */
+
+.form-inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+}
+
+.form-label {
+  margin-right: 5px;
+}
+
+.form-control {
+  flex: 1;
+}
+
+.btn {
+  flex-shrink: 0;
+}

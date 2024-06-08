@@ -1,4 +1,3 @@
-// src/components/OptionPremiumCalculator/OptionPremiumCalculator.js
 import React, { useState } from 'react';
 import './OptionPremiumCalculator.css';
 
@@ -7,19 +6,21 @@ const OptionPremiumCalculator = () => {
   const [strikePrice, setStrikePrice] = useState('');
   const [numContracts, setNumContracts] = useState('');
   const [premiumAmount, setPremiumAmount] = useState('');
-  const [numWeeks, setNumWeeks] = useState('');
+  const [weeks, setWeeks] = useState('');
   const [totalPremium, setTotalPremium] = useState(null);
-  const [percentReturn, setPercentReturn] = useState(null);
+  const [totalCapital, setTotalCapital] = useState(null);
+  const [returnPercentage, setReturnPercentage] = useState(null);
 
   const handleCalculate = (e) => {
     e.preventDefault();
 
-    const capitalRequired = strikePrice * 100 * numContracts;
-    const collectedPremium = premiumAmount * 100 * numContracts * numWeeks;
-    const returnPercentage = (collectedPremium / capitalRequired) * 100;
+    const capital = strikePrice * numContracts * 100;
+    const premiumCollected = premiumAmount * numContracts * 100 * weeks;
+    const returnPct = ((premiumCollected / capital) * 100).toFixed(2);
 
-    setTotalPremium(collectedPremium.toFixed(2));
-    setPercentReturn(returnPercentage.toFixed(2));
+    setTotalPremium(premiumCollected);
+    setTotalCapital(capital);
+    setReturnPercentage(returnPct);
   };
 
   return (
@@ -30,10 +31,9 @@ const OptionPremiumCalculator = () => {
       <div className='card-body'>
         <form onSubmit={handleCalculate}>
           <div className='form-group'>
-            <label htmlFor='stockName'>Stock Name:</label>
+            <label>Stock Name:</label>
             <input
               type='text'
-              id='stockName'
               className='form-control'
               value={stockName}
               onChange={(e) => setStockName(e.target.value)}
@@ -41,10 +41,9 @@ const OptionPremiumCalculator = () => {
             />
           </div>
           <div className='form-group'>
-            <label htmlFor='strikePrice'>Contract Strike Price:</label>
+            <label>Stock Strike Price:</label>
             <input
               type='number'
-              id='strikePrice'
               className='form-control'
               value={strikePrice}
               onChange={(e) => setStrikePrice(e.target.value)}
@@ -52,10 +51,9 @@ const OptionPremiumCalculator = () => {
             />
           </div>
           <div className='form-group'>
-            <label htmlFor='numContracts'>Number of Contracts:</label>
+            <label>Number of Contracts:</label>
             <input
               type='number'
-              id='numContracts'
               className='form-control'
               value={numContracts}
               onChange={(e) => setNumContracts(e.target.value)}
@@ -63,10 +61,10 @@ const OptionPremiumCalculator = () => {
             />
           </div>
           <div className='form-group'>
-            <label htmlFor='premiumAmount'>Premium Amount:</label>
+            <label>Premium Amount:</label>
             <input
               type='number'
-              id='premiumAmount'
+              step='0.01'
               className='form-control'
               value={premiumAmount}
               onChange={(e) => setPremiumAmount(e.target.value)}
@@ -74,13 +72,12 @@ const OptionPremiumCalculator = () => {
             />
           </div>
           <div className='form-group'>
-            <label htmlFor='numWeeks'>Amount of Weeks:</label>
+            <label>Amount of Weeks:</label>
             <input
               type='number'
-              id='numWeeks'
               className='form-control'
-              value={numWeeks}
-              onChange={(e) => setNumWeeks(e.target.value)}
+              value={weeks}
+              onChange={(e) => setWeeks(e.target.value)}
               required
             />
           </div>
@@ -88,10 +85,11 @@ const OptionPremiumCalculator = () => {
             Calculate
           </button>
         </form>
-        {totalPremium !== null && percentReturn !== null && (
-          <div className='mt-3'>
-            <p>Total Premium Collected: ${totalPremium}</p>
-            <p>% Return: {percentReturn}%</p>
+        {totalPremium !== null && (
+          <div className='result mt-3'>
+            <p>Total Premium Collected: ${totalPremium.toFixed(2)}</p>
+            <p>Total Capital Used: ${totalCapital.toFixed(2)}</p>
+            <p>% Return: {returnPercentage}%</p>
           </div>
         )}
       </div>

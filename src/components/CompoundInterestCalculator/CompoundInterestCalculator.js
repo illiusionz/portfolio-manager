@@ -1,80 +1,75 @@
-// src/components/CompoundInterestCalculator/CompoundInterestCalculator.js
 import React, { useState } from 'react';
 import './CompoundInterestCalculator.css';
 
-function CompoundInterestCalculator() {
-  const [initialCapital, setInitialCapital] = useState(200000);
-  const [weeklyRate, setWeeklyRate] = useState(3);
+const CompoundInterestCalculator = () => {
+  const [initialCapital, setInitialCapital] = useState(0);
+  const [weeklyRate, setWeeklyRate] = useState(0);
   const [results, setResults] = useState([]);
 
-  const calculateProfits = () => {
+  const calculate = () => {
     let capital = parseFloat(initialCapital);
     const rate = parseFloat(weeklyRate) / 100;
-    const weeks = 52;
-    const newResults = [];
-
-    for (let week = 1; week <= weeks; week++) {
+    let newResults = [];
+    for (let week = 1; week <= 52; week++) {
       const profit = capital * rate;
       capital += profit;
-      newResults.push({
-        week,
-        profit: profit.toFixed(2),
-        capital: capital.toFixed(2),
-      });
+      newResults.push({ week, profit, capital });
     }
-
     setResults(newResults);
   };
 
   return (
-    <div>
-      <div className='input-group mb-3'>
-        <label htmlFor='initialCapital' className='input-group-text'>
-          Initial Capital:{' '}
-        </label>
-        <input
-          type='number'
-          className='form-control'
-          id='initialCapital'
-          value={initialCapital}
-          onChange={(e) => setInitialCapital(e.target.value)}
-        />
-        <label htmlFor='weeklyRate' className='input-group-text'>
-          Weekly Rate (%):{' '}
-        </label>
-        <input
-          type='number'
-          className='form-control'
-          id='weeklyRate'
-          value={weeklyRate}
-          onChange={(e) => setWeeklyRate(e.target.value)}
-        />
-        <button className='btn btn-primary' onClick={calculateProfits}>
-          Calculate
-        </button>
+    <div className='card'>
+      <div className='card-header'>
+        <h5 className='card-title mb-0'>Compound Interest Calculator</h5>
       </div>
-      <table
-        className='table table-bordered table-striped table-hover'
-        style={{ maxWidth: '1280px', margin: '0 auto' }}>
-        <thead className='thead-light'>
-          <tr>
-            <th>Week</th>
-            <th>Weekly Profit ($)</th>
-            <th>Capital ($)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {results.map((result) => (
-            <tr key={result.week}>
-              <td>{result.week}</td>
-              <td>{result.profit}</td>
-              <td>{result.capital}</td>
+      <div className='card-body'>
+        <form>
+          <div className='form-group'>
+            <label htmlFor='initialCapital'>Initial Capital:</label>
+            <input
+              type='number'
+              className='form-control'
+              id='initialCapital'
+              value={initialCapital}
+              onChange={(e) => setInitialCapital(e.target.value)}
+            />
+          </div>
+          <div className='form-group'>
+            <label htmlFor='weeklyRate'>Weekly Rate (%):</label>
+            <input
+              type='number'
+              className='form-control'
+              id='weeklyRate'
+              value={weeklyRate}
+              onChange={(e) => setWeeklyRate(e.target.value)}
+            />
+          </div>
+          <button type='button' className='btn btn-primary' onClick={calculate}>
+            Calculate
+          </button>
+        </form>
+        <table className='table mt-3'>
+          <thead>
+            <tr>
+              <th>Week</th>
+              <th>Weekly Profit ($)</th>
+              <th>Capital ($)</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {results.map((result) => (
+              <tr key={result.week}>
+                <td>{result.week}</td>
+                <td>{result.profit.toFixed(2)}</td>
+                <td>{result.capital.toFixed(2)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
-}
+};
 
 export default CompoundInterestCalculator;

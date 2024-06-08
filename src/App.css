@@ -5,6 +5,17 @@ body {
   background-color: #f8f9fa;
 }
 
+/* Hide the arrows from number inputs */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 #wrapper {
   display: flex;
   width: 100%;

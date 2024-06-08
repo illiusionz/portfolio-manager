@@ -1,10 +1,9 @@
-// src/containers/HomePage/HomePage.js
 import React from 'react';
 import CompoundInterestCalculator from '../../components/CompoundInterestCalculator/CompoundInterestCalculator';
 import PercentageDifferenceCalculator from '../../components/PercentageDifferenceCalculator/PercentageDifferenceCalculator';
-import OptionPremiumCalculator from '../../components/OptionPremiumCalculator/OptionPremiumCalculator';
 import TradingViewWidget from '../../components/TradingViewWidget';
 import NewsFeed from '../../components/NewsFeed/NewsFeed';
+import OptionPremiumCalculator from '../../components/OptionPremiumCalculator/OptionPremiumCalculator';
 import './HomePage.css';
 
 function HomePage({ stockData, error, symbol }) {
@@ -20,37 +19,14 @@ function HomePage({ stockData, error, symbol }) {
 
       <NewsFeed symbol={symbol} />
       <div className='row'>
-        <div className='col-md-6'>
-          <div className='card'>
-            <div className='card-header'>
-              <h5 className='card-title mb-0'>Compound Interest Calculator</h5>
-            </div>
-            <div className='card-body'>
-              <CompoundInterestCalculator />
-            </div>
-          </div>
+        <div className='col-md-4'>
+          <CompoundInterestCalculator />
         </div>
-        <div className='col-md-6'>
-          <div className='card'>
-            <div className='card-header'>
-              <h5 className='card-title mb-0'>
-                Percentage Difference Calculator
-              </h5>
-            </div>
-            <div className='card-body'>
-              <PercentageDifferenceCalculator />
-            </div>
-          </div>
+        <div className='col-md-4'>
+          <PercentageDifferenceCalculator />
         </div>
-        <div className='col-md-6'>
-          <div className='card'>
-            <div className='card-header'>
-              <h5 className='card-title mb-0'>Option Premium Calculator</h5>
-            </div>
-            <div className='card-body'>
-              <OptionPremiumCalculator />
-            </div>
-          </div>
+        <div className='col-md-4'>
+          <OptionPremiumCalculator />
         </div>
       </div>
     </div>
