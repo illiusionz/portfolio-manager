@@ -3,10 +3,27 @@ import Autosuggest from 'react-autosuggest';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
+import flagIcons from '../utils/flagIcons'; // A utility to map locale to flag URLs
+import exchangeType from '../utils/exchanges'; // A utility to map locale to flag URLs
 
 const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+
+  const fetchBrandingAndLocale = async (ticker) => {
+    try {
+      const response = await fetch(
+        `https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq`
+      );
+      const data = await response.json();
+      console.log(data.results);
+
+      return data.results || {};
+    } catch (error) {
+      console.error('Error fetching branding and locale:', error);
+      return {};
+    }
+  };
 
   const onSuggestionsFetchRequested = async ({ value }) => {
     try {
@@ -14,7 +31,20 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
         `https://api.polygon.io/v3/reference/tickers?search=${value}&active=true&sort=ticker&order=asc&limit=10&apiKey=6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq`
       );
       const data = await response.json();
-      setSuggestions(data.results || []);
+      const results = data.results || [];
+
+      const suggestionsWithBranding = await Promise.all(
+        results.map(async (suggestion) => {
+          const brandingData = await fetchBrandingAndLocale(suggestion.ticker);
+          return {
+            ...suggestion,
+            branding: brandingData.branding,
+            locale: brandingData.locale,
+          };
+        })
+      );
+
+      setSuggestions(suggestionsWithBranding);
     } catch (error) {
       console.error('Error fetching suggestions:', error);
       setSuggestions([]);
@@ -29,8 +59,24 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
     `${suggestion.ticker} - ${suggestion.name}`;
 
   const renderSuggestion = (suggestion) => (
-    <div>
-      {suggestion.ticker} - {suggestion.name}
+    <div className='suggestion-item'>
+      {/*<img
+        src={suggestion.branding?.icon_url || 'default-icon-url'}
+        alt={suggestion.ticker}
+        className='stock-icon'
+        onError={(e) => {
+          e.target.src = 'default-icon-url';
+        }} */}
+      <span className='suggestion-ticker'>{suggestion.ticker}</span>
+      <span className='suggestion-name'>{suggestion.name}</span>
+      <span className='suggestion-exchange'>
+        {exchangeType[suggestion.primary_exchange]}
+        <img
+          src={flagIcons[suggestion.locale] || 'default-flag-url'}
+          alt={suggestion.locale}
+          className='flag-icon'
+        />
+      </span>
     </div>
   );
 
@@ -52,7 +98,7 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
 
   return (
     <nav className='navbar navbar-expand-lg navbar-light bg-light'>
-      <button className='btn' onClick={toggleSidebar}>
+      <button className='btn btn-primary' onClick={toggleSidebar}>
         <FontAwesomeIcon icon={faBars} />
       </button>
       <form className='form-inline my-2 my-lg-0' onSubmit={onSubmit}>

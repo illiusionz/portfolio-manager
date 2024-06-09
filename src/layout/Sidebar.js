@@ -58,8 +58,8 @@ const Sidebar = () => {
           </Link>
         </li>
         <li>
-          <Link to='/tools'>
-            <FaTools className='icon' /> Tools
+          <Link to='/market-tools'>
+            <FaTools className='icon' /> Market Tools
           </Link>
         </li>
         <li>
