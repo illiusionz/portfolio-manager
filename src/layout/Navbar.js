@@ -52,7 +52,7 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
 
   return (
     <nav className='navbar navbar-expand-lg navbar-light bg-light'>
-      <button className='btn btn-primary' onClick={toggleSidebar}>
+      <button className='btn' onClick={toggleSidebar}>
         <FontAwesomeIcon icon={faBars} />
       </button>
       <form className='form-inline my-2 my-lg-0' onSubmit={onSubmit}>

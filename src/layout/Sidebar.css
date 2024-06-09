@@ -1,3 +1,4 @@
+/* Sidebar.css */
 .sidebar {
   background-color: #2c3e50;
   color: #ecf0f1;
@@ -10,16 +11,14 @@
 
 .sidebar .sidebar-header {
   padding: 20px;
-  position: relative;
-}
-.sidebar .logo {
-  width: 100px;
-  height: auto;
-  margin: auto;
   text-align: center;
-  display: block;
 }
 
+.sidebar .sidebar-header .logo {
+  max-width: 100%;
+  width: 150px;
+  height: auto;
+}
 
 .sidebar ul {
   padding: 0;
@@ -30,6 +29,8 @@
   padding: 10px 20px;
   cursor: pointer;
   transition: all 0.3s;
+  display: flex;
+  align-items: center;
 }
 
 .sidebar ul li:hover {
@@ -41,17 +42,19 @@
   text-decoration: none;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .sidebar ul li a .icon {
   margin-right: 10px;
 }
 
-.sidebar ul li .submenu {
-  display: none;
-  padding-left: 20px;
+/* Toggled sidebar styles */
+#wrapper.toggled .sidebar {
+  margin-left: -250px;
 }
 
-.sidebar ul li.active .submenu {
-  display: block;
+#wrapper.toggled #page-content-wrapper {
+  margin-left: 0;
+  width: 100%;
 }
