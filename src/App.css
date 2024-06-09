@@ -16,8 +16,6 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
-
-
 #wrapper {
   display: flex;
   width: 100%;
@@ -134,7 +132,7 @@ form.d-flex .btn-outline-primary {
 }
 
 .hero-section {
-  margin: 0 1rem;
+  margin: 0;
 }
 
 .hero-section .stock-data {

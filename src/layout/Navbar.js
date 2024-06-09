@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import Autosuggest from 'react-autosuggest';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import ReactCountryFlag from 'react-country-flag';
 import './Navbar.css';
-import flagIcons from '../utils/flagIcons'; // A utility to map locale to flag URLs
-import exchangeType from '../utils/exchanges'; // A utility to map locale to flag URLs
+import exchangeType from '../utils/exchanges'; // A utility to map exchange codes to names
 
 const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
   const [query, setQuery] = useState('');
@@ -16,8 +16,6 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
         `https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq`
       );
       const data = await response.json();
-      console.log(data.results);
-
       return data.results || {};
     } catch (error) {
       console.error('Error fetching branding and locale:', error);
@@ -66,14 +64,15 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
         className='stock-icon'
         onError={(e) => {
           e.target.src = 'default-icon-url';
-        }} */}
+        }}
+      />*/}
       <span className='suggestion-ticker'>{suggestion.ticker}</span>
       <span className='suggestion-name'>{suggestion.name}</span>
       <span className='suggestion-exchange'>
         {exchangeType[suggestion.primary_exchange]}
-        <img
-          src={flagIcons[suggestion.locale] || 'default-flag-url'}
-          alt={suggestion.locale}
+        <ReactCountryFlag
+          countryCode={suggestion.locale.toUpperCase()}
+          svg
           className='flag-icon'
         />
       </span>
