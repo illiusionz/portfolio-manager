@@ -27,6 +27,18 @@ const PercentageDifferenceCalculator = () => {
         <form className='form-inline' onSubmit={calculatePercentageChange}>
           <div className='form-group mx-2'>
             <label className='form-label' htmlFor='currentPrice'>
+              Stock Name:
+            </label>
+            <input
+              type='text'
+              id='stockName'
+              className='form-control mx-2'
+              value=''
+              onChange=''
+            />
+          </div>
+          <div className='form-group mx-2'>
+            <label className='form-label' htmlFor='currentPrice'>
               Current Price:
             </label>
             <input

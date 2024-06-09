@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Autosuggest from 'react-autosuggest';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 
 const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
@@ -51,7 +53,7 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
   return (
     <nav className='navbar navbar-expand-lg navbar-light bg-light'>
       <button className='btn btn-primary' onClick={toggleSidebar}>
-        Toggle Menu
+        <FontAwesomeIcon icon={faBars} />
       </button>
       <form className='form-inline my-2 my-lg-0' onSubmit={onSubmit}>
         <Autosuggest

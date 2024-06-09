@@ -1,7 +1,7 @@
 /* src/App.css */
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   background-color: #f8f9fa;
 }
 
@@ -133,6 +133,10 @@ form.d-flex .btn-outline-primary {
   background-color: #ddd;
 }
 
+.hero-section {
+  margin: 0 1rem;
+}
+
 .hero-section .stock-data {
   height:550px;
 }
@@ -151,8 +155,10 @@ form.d-flex .btn-outline-primary {
 }
 
 .form-label {
-  margin-right: 5px;
+  margin-right: 2px;
   margin-bottom: 0;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .form-control {

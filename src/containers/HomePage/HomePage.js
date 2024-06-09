@@ -17,7 +17,7 @@ function HomePage({ stockData, error, symbol }) {
         </div>
       </div>
 
-      <div className='row my-3'>
+      <div className='row my-2'>
         <div className='col-md-6'>
           <CompoundInterestCalculator />
         </div>

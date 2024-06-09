@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './containers/HomePage/HomePage';
 import AssetManagement from './containers/AssetManagement/AssetManagement';
-
 import CompoundInterestCalculator from './components/CompoundInterestCalculator/CompoundInterestCalculator';
 import PercentageDifferenceCalculator from './components/PercentageDifferenceCalculator/PercentageDifferenceCalculator';
 import Sidebar from './layout/Sidebar';
