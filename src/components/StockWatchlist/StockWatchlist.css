@@ -1,0 +1,40 @@
+/* src/components/StockWatchlist/StockWatchlist.css */
+.watchlist {
+  margin-top: 20px;
+}
+
+.watchlist h5 {
+  margin-bottom: 10px;
+}
+
+.watchlist .list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.watchlist .btn-danger {
+  margin-left: 10px;
+}
+
+
+
+
+/* src/components/StockWatchlist/StockWatchlist.css */
+
+/* src/components/StockWatchlist/StockWatchlist.css */
+
+.table th,
+.table td {
+  text-align: center;
+}
+
+.table th {
+  font-weight: bold;
+}
+
+.flag-icon {
+  width: 16px;
+  height: 11px;
+  margin-left: 5px;
+}

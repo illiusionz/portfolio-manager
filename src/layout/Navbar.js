@@ -1,5 +1,6 @@
+// src/layout/Navbar.js
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -8,12 +9,14 @@ import flagIcons from '../utils/flagIcons';
 import exchangeType from '../utils/exchanges';
 import { fetchStockPrice } from '../redux/actions/stockActions';
 import { setUserSymbol } from '../redux/actions/userActions';
+import { addToWatchlist } from '../redux/actions/watchlistActions';
 
 const Navbar = ({ toggleSidebar }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const dispatch = useDispatch();
+  const watchlist = useSelector((state) => state.watchlist.symbols);
 
   const fetchBrandingAndLocale = async (ticker) => {
     try {
@@ -92,6 +95,13 @@ const Navbar = ({ toggleSidebar }) => {
     dispatch(fetchStockPrice(symbol));
   };
 
+  const onAddToWatchlist = () => {
+    const symbol = query.split(' - ')[0];
+    if (symbol && !watchlist.includes(symbol)) {
+      dispatch(addToWatchlist(symbol));
+    }
+  };
+
   const inputProps = {
     placeholder: 'Search for a stock',
     value: query,
@@ -119,6 +129,12 @@ const Navbar = ({ toggleSidebar }) => {
         />
         <button className='btn btn-outline-success my-2 my-sm-0' type='submit'>
           Search
+        </button>
+        <button
+          className='btn btn-outline-primary my-2 my-sm-0'
+          type='button'
+          onClick={onAddToWatchlist}>
+          Add
         </button>
       </form>
       <ul className='navbar-nav navbar-align'>
