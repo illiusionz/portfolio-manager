@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { formatNumberWithCommas } from '../../utils/format';
 import './OptionPremiumCalculator.css';
 
 const OptionPremiumCalculator = () => {
-  const [stockName, setStockName] = useState('');
   const [stockStrikePrice, setStockStrikePrice] = useState('');
   const [numberOfContracts, setNumberOfContracts] = useState('');
   const [premiumAmount, setPremiumAmount] = useState('');
@@ -11,6 +11,9 @@ const OptionPremiumCalculator = () => {
   const [totalPremium, setTotalPremium] = useState(null);
   const [percentageReturn, setPercentageReturn] = useState(null);
   const [totalCapital, setTotalCapital] = useState(null);
+
+  const stockPrice = useSelector((state) => state.user.stockPrice);
+  const stockName = useSelector((state) => state.user.symbol);
 
   const calculatePremium = () => {
     const strikePrice = parseFloat(stockStrikePrice.replace(/,/g, ''));
@@ -26,6 +29,16 @@ const OptionPremiumCalculator = () => {
     setPercentageReturn(returnPercentage);
     setTotalCapital(capitalRequired);
   };
+
+  useEffect(() => {
+    // Log current stock price and name for debugging
+    console.log('Current stock price:', stockPrice);
+    console.log('Stock name:', stockName);
+
+    if (stockPrice) {
+      setStockStrikePrice(Math.round(stockPrice).toString());
+    }
+  }, [stockPrice, stockName]);
 
   return (
     <div className='option-premium-calculator'>
@@ -43,7 +56,7 @@ const OptionPremiumCalculator = () => {
               id='stockName'
               className='form-control'
               value={stockName}
-              onChange={(e) => setStockName(e.target.value)}
+              readOnly
             />
           </div>
           <div className='form-group'>
@@ -51,13 +64,11 @@ const OptionPremiumCalculator = () => {
               Stock Strike Price:
             </label>
             <input
-              type='text'
+              type='number'
               id='stockStrikePrice'
               className='form-control'
-              value={formatNumberWithCommas(stockStrikePrice)}
-              onChange={(e) =>
-                setStockStrikePrice(e.target.value.replace(/,/g, ''))
-              }
+              value={stockStrikePrice}
+              onChange={(e) => setStockStrikePrice(e.target.value)}
             />
           </div>
           <div className='form-group'>
