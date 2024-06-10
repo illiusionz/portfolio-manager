@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { setUserSymbol } from '../redux/actions/userActions';
 import './Navbar.css';
-import flagIcons from '../utils/flagIcons'; // A utility to map locale to flag URLs
-import exchangeType from '../utils/exchanges'; // A utility to map locale to flag URLs
+import flagIcons from '../utils/flagIcons';
+import exchangeType from '../utils/exchanges';
 
-const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
+const Navbar = ({ toggleSidebar }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const dispatch = useDispatch();
 
   const fetchBrandingAndLocale = async (ticker) => {
     try {
@@ -77,13 +80,13 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
   };
 
   const onSuggestionSelected = (event, { suggestion }) => {
-    handleSymbolSearch(suggestion.ticker);
+    dispatch(setUserSymbol(suggestion.ticker));
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
     const symbol = query.split(' - ')[0];
-    handleSymbolSearch(symbol);
+    dispatch(setUserSymbol(symbol));
   };
 
   const inputProps = {

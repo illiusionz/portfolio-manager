@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import './NewsFeed.css';
 
-const NewsFeed = ({ symbol }) => {
+const NewsFeed = () => {
   const [news, setNews] = useState([]);
+  const { symbol } = useSelector((state) => state.user);
   const apiKey = '6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq';
 
   useEffect(() => {
