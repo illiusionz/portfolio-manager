@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Autosuggest from 'react-autosuggest';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import flagIcons from '../utils/flagIcons'; // A utility to map locale to flag URLs
 import exchangeType from '../utils/exchanges'; // A utility to map locale to flag URLs
@@ -77,7 +77,12 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
   };
 
   const onSuggestionSelected = (event, { suggestion }) => {
-    const symbol = suggestion.ticker;
+    handleSymbolSearch(suggestion.ticker);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const symbol = query.split(' - ')[0];
     handleSymbolSearch(symbol);
   };
 
@@ -91,14 +96,16 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
     setDropdownVisible(!dropdownVisible);
   };
 
+  const closeDropdown = () => {
+    setDropdownVisible(false);
+  };
+
   return (
     <nav className='navbar navbar-expand-lg navbar-light bg-light'>
       <button className='btn btn-primary' onClick={toggleSidebar}>
         <FontAwesomeIcon icon={faBars} />
       </button>
-      <form
-        className='form-inline my-2 my-lg-0'
-        onSubmit={(e) => e.preventDefault()}>
+      <form className='form-inline my-2 my-lg-0' onSubmit={onSubmit}>
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -109,28 +116,45 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
           onSuggestionSelected={onSuggestionSelected}
         />
         <button className='btn btn-outline-success my-2 my-sm-0' type='submit'>
-          <FontAwesomeIcon icon={faSearch} />
+          Search
         </button>
       </form>
-      <div className='user-profile' onClick={toggleDropdown}>
-        <img src='path-to-user-image' alt='User' className='user-image' />
-        <span className='user-name'>Chris Wood</span>
-        <FontAwesomeIcon icon={faUser} />
-        <div className={`dropdown-menu ${dropdownVisible ? 'show' : ''}`}>
-          <a href='#profile' className='dropdown-item'>
-            Profile
-          </a>
-          <a href='#settings' className='dropdown-item'>
-            Settings
-          </a>
-          <a href='#help' className='dropdown-item'>
-            Help
-          </a>
-          <a href='#signout' className='dropdown-item'>
-            Sign out
-          </a>
-        </div>
-      </div>
+      <ul className='navbar-nav navbar-align'>
+        <li className='nav-item dropdown'>
+          <div
+            className='nav-link dropdown-toggle'
+            onClick={toggleDropdown}
+            aria-expanded={dropdownVisible}>
+            <img
+              src='../assets/images/user-image.jpg'
+              alt='User'
+              className='user-image'
+            />
+            <span className='user-name'>Jeff Liu</span>
+          </div>
+          <div
+            className={`dropdown-menu dropdown-menu-end ${
+              dropdownVisible ? 'show' : ''
+            }`}>
+            <a className='dropdown-item' href='/profile'>
+              Profile
+            </a>
+            <a className='dropdown-item' href='/analytics'>
+              Analytics
+            </a>
+            <div className='dropdown-divider'></div>
+            <a className='dropdown-item' href='/settings'>
+              Settings &amp; Privacy
+            </a>
+            <a className='dropdown-item' href='/help'>
+              Help
+            </a>
+            <a className='dropdown-item' href='/signout'>
+              Sign out
+            </a>
+          </div>
+        </li>
+      </ul>
     </nav>
   );
 };

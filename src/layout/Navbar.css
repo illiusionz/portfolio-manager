@@ -7,21 +7,18 @@
 
 .navbar .btn-primary {
   height: 38px;
-  margin-right: 10px;
 }
 
-.navbar .form-inline {
+.navbar form {
   display: flex;
   align-items: center;
-  flex-grow: 1;
-  justify-content: center;
+  justify-content: space-between;
+  width: 60%;
+  text-align: center;
+  margin: 0 0 auto 13%;
 }
 
-.react-autosuggest__container {
-  width: 50%;
-}
-
-.react-autosuggest__input {
+.navbar .react-autosuggest__input {
   height: 38px;
   width: 100%;
   padding: 6px 12px;
@@ -35,46 +32,7 @@
   margin-left: 10px;
 }
 
-.user-profile {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.user-profile img {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.dropdown-menu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: white;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-  z-index: 1000;
-}
-
-.dropdown-menu.show {
-  display: block;
-}
-
-.dropdown-item {
-  padding: 0.5rem 1rem;
-  color: #000;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-}
-
-.dropdown-item:hover {
-  background-color: #f8f9fa;
-}
+/* Navbar.css */
 
 .suggestion-item {
   display: flex;
@@ -101,8 +59,6 @@
 
 .suggestion-exchange {
   margin-right: 20px;
-  position: absolute;
-  right: 0;
 }
 
 .react-autosuggest__suggestions-list {
@@ -114,4 +70,53 @@
 .react-autosuggest__suggestion {
   border: 0.5px solid #00000007;
   padding: 0;
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.navbar-align {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.nav-item .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  z-index: 1000;
+}
+
+.nav-item .dropdown-menu.show {
+  display: block;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+  border-radius: 50%;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  padding: 0.5rem;
+}
+
+.user-image {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 5px;
 }
