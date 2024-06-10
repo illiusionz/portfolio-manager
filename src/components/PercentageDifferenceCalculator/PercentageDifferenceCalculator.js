@@ -1,22 +1,30 @@
 // src/components/PercentageDifferenceCalculator/PercentageDifferenceCalculator.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import './PercentageDifferenceCalculator.css';
-import { formatNumberWithCommas } from '../../utils/format';
 
 const PercentageDifferenceCalculator = () => {
-  const [currentPrice, setCurrentPrice] = useState('');
   const [targetPrice, setTargetPrice] = useState('');
   const [percentageChange, setPercentageChange] = useState(null);
 
+  const stockPrice = useSelector((state) => state.user.stockPrice);
+  const stockName = useSelector((state) => state.user.symbol);
+
   const calculatePercentageChange = (e) => {
     e.preventDefault();
-    if (!currentPrice || !targetPrice) {
+    if (!stockPrice || !targetPrice) {
       setPercentageChange(null);
       return;
     }
-    const change = ((targetPrice - currentPrice) / currentPrice) * 100;
+    const change = ((targetPrice - stockPrice) / stockPrice) * 100;
     setPercentageChange(change.toFixed(2));
   };
+
+  useEffect(() => {
+    // Log current stock price and name for debugging
+    console.log('Current stock price:', stockPrice);
+    console.log('Stock name:', stockName);
+  }, [stockPrice, stockName]);
 
   return (
     <div className='card'>
@@ -33,8 +41,8 @@ const PercentageDifferenceCalculator = () => {
               type='text'
               id='stockName'
               className='form-control mx-2'
-              value=''
-              onChange=''
+              value={stockName}
+              readOnly
             />
           </div>
           <div className='form-group mx-2'>
@@ -45,8 +53,8 @@ const PercentageDifferenceCalculator = () => {
               type='number'
               id='currentPrice'
               className='form-control mx-2'
-              value={formatNumberWithCommas(currentPrice)}
-              onChange={(e) => setCurrentPrice(e.target.value)}
+              value={stockPrice || ''}
+              readOnly
             />
           </div>
           <div className='form-group mx-2'>
@@ -57,7 +65,7 @@ const PercentageDifferenceCalculator = () => {
               type='number'
               id='targetPrice'
               className='form-control mx-2'
-              value={formatNumberWithCommas(targetPrice)}
+              value={targetPrice}
               onChange={(e) => setTargetPrice(e.target.value)}
             />
           </div>

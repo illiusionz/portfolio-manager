@@ -1,3 +1,4 @@
+// src/containers/HomePage/HomePage.js
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CompoundInterestCalculator from '../../components/CompoundInterestCalculator/CompoundInterestCalculator';
@@ -5,7 +6,7 @@ import PercentageDifferenceCalculator from '../../components/PercentageDifferenc
 import TradingViewWidget from '../../components/TradingViewWidget';
 import NewsFeed from '../../components/NewsFeed/NewsFeed';
 import OptionPremiumCalculator from '../../components/OptionPremiumCalculator/OptionPremiumCalculator';
-import { fetchStocks } from '../../redux/actions/stockActions';
+import { fetchStocks, fetchStockPrice } from '../../redux/actions/stockActions';
 import { fetchNews } from '../../redux/actions/newsActions';
 
 import './HomePage.css';
@@ -22,6 +23,7 @@ const HomePage = () => {
     dispatch(fetchStocks());
     if (symbol) {
       dispatch(fetchNews(symbol));
+      dispatch(fetchStockPrice(symbol));
     }
   }, [dispatch, symbol]);
 

@@ -1,36 +1,13 @@
-// src/redux/actions/newsActions.js
-const API_KEY = '6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const fetchNewsRequest = () => ({ type: 'FETCH_NEWS_REQUEST' });
-
-export const fetchNewsSuccess = (articles) => ({
-  type: 'FETCH_NEWS_SUCCESS',
-  payload: articles,
+export const fetchNews = createAsyncThunk('news/fetchNews', async (symbol) => {
+  const apiKey = '6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq';
+  const response = await fetch(
+    `https://api.polygon.io/v2/reference/news?ticker=${symbol}&limit=12&apiKey=${apiKey}`
+  );
+  if (!response.ok) {
+    throw new Error('Failed to fetch news');
+  }
+  const data = await response.json();
+  return data.results;
 });
-
-export const fetchNewsFailure = (error) => ({
-  type: 'FETCH_NEWS_FAILURE',
-  payload: error,
-});
-
-export const fetchNews = () => {
-  return (dispatch) => {
-    dispatch(fetchNewsRequest());
-    const url = `https://api.polygon.io/v2/reference/news?limit=10&apiKey=${API_KEY}`;
-    fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (Array.isArray(data.results)) {
-          dispatch(fetchNewsSuccess(data.results));
-        } else {
-          dispatch(fetchNewsSuccess([]));
-        }
-      })
-      .catch((error) => dispatch(fetchNewsFailure(error)));
-  };
-};

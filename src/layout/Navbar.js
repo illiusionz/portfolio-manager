@@ -3,10 +3,11 @@ import { useDispatch } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { setUserSymbol } from '../redux/actions/userActions';
 import './Navbar.css';
 import flagIcons from '../utils/flagIcons';
 import exchangeType from '../utils/exchanges';
+import { fetchStockPrice } from '../redux/actions/stockActions';
+import { setUserSymbol } from '../redux/actions/userActions';
 
 const Navbar = ({ toggleSidebar }) => {
   const [query, setQuery] = useState('');
@@ -81,12 +82,14 @@ const Navbar = ({ toggleSidebar }) => {
 
   const onSuggestionSelected = (event, { suggestion }) => {
     dispatch(setUserSymbol(suggestion.ticker));
+    dispatch(fetchStockPrice(suggestion.ticker));
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
     const symbol = query.split(' - ')[0];
     dispatch(setUserSymbol(symbol));
+    dispatch(fetchStockPrice(symbol));
   };
 
   const inputProps = {
@@ -97,10 +100,6 @@ const Navbar = ({ toggleSidebar }) => {
 
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
-  };
-
-  const closeDropdown = () => {
-    setDropdownVisible(false);
   };
 
   return (
