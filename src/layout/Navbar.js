@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Autosuggest from 'react-autosuggest';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import flagIcons from '../utils/flagIcons'; // A utility to map locale to flag URLs
 import exchangeType from '../utils/exchanges'; // A utility to map locale to flag URLs
@@ -9,6 +9,7 @@ import exchangeType from '../utils/exchanges'; // A utility to map locale to fla
 const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
 
   const fetchBrandingAndLocale = async (ticker) => {
     try {
@@ -16,8 +17,6 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
         `https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq`
       );
       const data = await response.json();
-      console.log(data.results);
-
       return data.results || {};
     } catch (error) {
       console.error('Error fetching branding and locale:', error);
@@ -60,14 +59,6 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
 
   const renderSuggestion = (suggestion) => (
     <div className='suggestion-item'>
-      <img
-        src={suggestion.branding?.icon_url || 'default-icon-url'}
-        alt={suggestion.ticker}
-        className='stock-icon'
-        onError={(e) => {
-          e.target.src = 'default-icon-url';
-        }}
-      />
       <span className='suggestion-ticker'>{suggestion.ticker}</span>
       <span className='suggestion-name'>{suggestion.name}</span>
       <span className='suggestion-exchange'>
@@ -85,9 +76,8 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
     setQuery(newValue);
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const symbol = query.split(' - ')[0];
+  const onSuggestionSelected = (event, { suggestion }) => {
+    const symbol = suggestion.ticker;
     handleSymbolSearch(symbol);
   };
 
@@ -97,27 +87,50 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
     onChange: onChange,
   };
 
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
+
   return (
     <nav className='navbar navbar-expand-lg navbar-light bg-light'>
       <button className='btn btn-primary' onClick={toggleSidebar}>
         <FontAwesomeIcon icon={faBars} />
       </button>
-      <form className='form-inline my-2 my-lg-0' onSubmit={onSubmit}>
-        <div className='search-container'>
-          <FontAwesomeIcon icon={faSearch} className='search-icon' />
-          <Autosuggest
-            suggestions={suggestions}
-            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-            onSuggestionsClearRequested={onSuggestionsClearRequested}
-            getSuggestionValue={getSuggestionValue}
-            renderSuggestion={renderSuggestion}
-            inputProps={inputProps}
-          />
-        </div>
+      <form
+        className='form-inline my-2 my-lg-0'
+        onSubmit={(e) => e.preventDefault()}>
+        <Autosuggest
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={onSuggestionsClearRequested}
+          getSuggestionValue={getSuggestionValue}
+          renderSuggestion={renderSuggestion}
+          inputProps={inputProps}
+          onSuggestionSelected={onSuggestionSelected}
+        />
         <button className='btn btn-outline-success my-2 my-sm-0' type='submit'>
-          Search
+          <FontAwesomeIcon icon={faSearch} />
         </button>
       </form>
+      <div className='user-profile' onClick={toggleDropdown}>
+        <img src='path-to-user-image' alt='User' className='user-image' />
+        <span className='user-name'>Chris Wood</span>
+        <FontAwesomeIcon icon={faUser} />
+        <div className={`dropdown-menu ${dropdownVisible ? 'show' : ''}`}>
+          <a href='#profile' className='dropdown-item'>
+            Profile
+          </a>
+          <a href='#settings' className='dropdown-item'>
+            Settings
+          </a>
+          <a href='#help' className='dropdown-item'>
+            Help
+          </a>
+          <a href='#signout' className='dropdown-item'>
+            Sign out
+          </a>
+        </div>
+      </div>
     </nav>
   );
 };
