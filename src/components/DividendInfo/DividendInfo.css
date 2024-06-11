@@ -1,0 +1,27 @@
+/* src/components/DividendInfo/DividendInfo.css */
+.dividend-info {
+}
+
+.suggestion-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.suggestion-ticker {
+  font-weight: bold;
+}
+
+.suggestion-name {
+  color: #666;
+}
+
+.table th, .table td {
+  text-align: left;
+}
+
+.table th {
+  font-weight: bold;
+}

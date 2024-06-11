@@ -8,6 +8,7 @@ import OptionPremiumCalculator from '../../components/OptionPremiumCalculator/Op
 import StockWatchlist from '../../components/StockWatchlist/StockWatchlist';
 import DollarCostAveragingCalculator from '../../components/DollarCostAveragingCalculator/DollarCostAveragingCalculator';
 import TopMovers from '../../components/TopMovers/TopMovers';
+import DividendInfo from '../../components/DividendInfo/DividendInfo'; // Add this line
 
 import { fetchStocks } from '../../redux/actions/stockActions';
 import { fetchNews } from '../../redux/actions/newsActions';
@@ -55,17 +56,21 @@ const HomePage = () => {
 
       <div className='row my-2'>
         <div className='col-md-3'>
-          <OptionPremiumCalculator />
-        </div>
-        <div className='col-md-2'>
-          <DollarCostAveragingCalculator />
+          <TopMovers />
         </div>
         <div className='col-md-3'>
           <StockWatchlist />
         </div>
         <div className='col-md-3'>
-          <TopMovers />
+          <OptionPremiumCalculator />
         </div>
+        <div className='col-md-3'>
+          <DollarCostAveragingCalculator />
+        </div>
+      </div>
+
+      <div className='row my-3'>
+        <DividendInfo />
       </div>
 
       <div className='row my-3'>

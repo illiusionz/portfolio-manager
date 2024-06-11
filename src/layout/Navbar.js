@@ -127,14 +127,14 @@ const Navbar = ({ toggleSidebar }) => {
           inputProps={inputProps}
           onSuggestionSelected={onSuggestionSelected}
         />
-        <button className='btn btn-outline-success my-2 my-sm-0' type='submit'>
+        <button className='btn btn-primary ms-1 my-2 my-sm-0' type='submit'>
           Search
         </button>
         <button
-          className='btn btn-outline-primary my-2 my-sm-0'
+          className='btn btn-primary ms-1  my-2 my-sm-0'
           type='button'
           onClick={onAddToWatchlist}>
-          Add
+          Add to Watch List
         </button>
       </form>
       <ul className='navbar-nav navbar-align'>

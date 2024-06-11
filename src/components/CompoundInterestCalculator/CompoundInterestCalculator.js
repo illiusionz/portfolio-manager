@@ -4,10 +4,10 @@ import { formatNumberWithCommas } from '../../utils/format';
 const CompoundInterestCalculator = () => {
   const [initialCapital, setInitialCapital] = useState('');
   const [weeklyRate, setWeeklyRate] = useState('');
+  const [weeks, setWeeks] = useState('52'); // default to 52 weeks
   const [results, setResults] = useState([]);
 
-  const calculateCompoundInterest = (initial, rate) => {
-    const weeks = 52;
+  const calculateCompoundInterest = (initial, rate, weeks) => {
     let capital = parseFloat(initial);
     const weeklyRateDecimal = parseFloat(rate) / 100;
     const result = [];
@@ -25,7 +25,8 @@ const CompoundInterestCalculator = () => {
   const handleCalculate = () => {
     const calculatedResults = calculateCompoundInterest(
       initialCapital.replace(/,/g, ''),
-      weeklyRate
+      weeklyRate,
+      parseInt(weeks)
     );
     setResults(calculatedResults);
   };
@@ -37,7 +38,7 @@ const CompoundInterestCalculator = () => {
       </div>
       <div className='card-body'>
         <div className='form-inline'>
-          <div className='form-group  mx-2'>
+          <div className='form-group mx-2'>
             <label className='form-label' htmlFor='initialCapital'>
               Initial Capital:
             </label>
@@ -53,7 +54,7 @@ const CompoundInterestCalculator = () => {
               }
             />
           </div>
-          <div className='form-group  mx-2'>
+          <div className='form-group mx-2'>
             <label className='form-label' htmlFor='weeklyRate'>
               Weekly Rate (%):
             </label>
@@ -65,7 +66,19 @@ const CompoundInterestCalculator = () => {
               onChange={(e) => setWeeklyRate(e.target.value)}
             />
           </div>
-          <div className='form-group  mx-2'>
+          <div className='form-group mx-2'>
+            <label className='form-label' htmlFor='weeks'>
+              Number of Weeks:
+            </label>
+            <input
+              type='text'
+              id='weeks'
+              className='form-control'
+              value={weeks}
+              onChange={(e) => setWeeks(e.target.value)}
+            />
+          </div>
+          <div className='form-group mx-2'>
             <button className='btn btn-primary' onClick={handleCalculate}>
               Calculate
             </button>
