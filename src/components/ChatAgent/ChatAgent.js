@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './ChatAgent.css';
-import { testOpenAI } from '../../api'; // Adjust this path based on your actual file structure
+import { testOpenAI } from '../../api/openAiApi';
 
 const ChatAgent = () => {
   const [input, setInput] = useState('');

@@ -5,8 +5,9 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import HomePage from './containers/HomePage/HomePage';
 import ChartAnalysisPage from './containers/ChartAnalysisPage/ChartAnalysisPage';
+/*import AssetManagement from './containers/AssetManagement/AssetManagement';*/
+import EducationPage from './containers/EducationPage/EducationPage';
 
-import AssetManagement from './containers/AssetManagement/AssetManagement';
 import CompoundInterestCalculator from './components/CompoundInterestCalculator/CompoundInterestCalculator';
 import PercentageDifferenceCalculator from './components/PercentageDifferenceCalculator/PercentageDifferenceCalculator';
 import Sidebar from './layout/Sidebar';
@@ -64,11 +65,7 @@ function App() {
             <div className='container-fluid'>
               <Routes>
                 <Route path='/' element={<HomePage />} />
-                <Route
-                  path='/chart-analysis'
-                  element={<ChartAnalysisPage />}
-                />{' '}
-                {/* Define the route */}
+                <Route path='/chart-analysis' element={<ChartAnalysisPage />} />
                 <Route
                   path='/compound-interest-calculator'
                   element={<CompoundInterestCalculator />}
@@ -77,7 +74,8 @@ function App() {
                   path='/percentage-difference'
                   element={<PercentageDifferenceCalculator />}
                 />
-                <Route path='/asset-management' element={<AssetManagement />} />
+                {/*<Route path='/asset-management' element={<AssetManagement />} />*/}
+                <Route path='/education' element={<EducationPage />} />
               </Routes>
             </div>
           </div>
