@@ -1,0 +1,24 @@
+/* src/components/TopMovers/TopMovers.css */
+.top-movers {
+
+}
+
+.nav-link {
+  cursor: pointer;
+}
+
+.table th, .table td {
+  text-align: left;
+}
+
+.ticker {
+  font-weight: bold;
+}
+
+.percentage {
+  color: green; /* Adjust color as needed */
+}
+
+.percentage.negative {
+  color: red;
+}
