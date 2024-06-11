@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 import Autosuggest from 'react-autosuggest';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -24,6 +25,7 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch, toggleTheme }) => {
   const dispatch = useDispatch();
   const watchlist = useSelector((state) => state.watchlist.symbols);
   const theme = useSelector((state) => state.theme);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
@@ -100,6 +102,7 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch, toggleTheme }) => {
   const onSuggestionSelected = (event, { suggestion }) => {
     dispatch(setUserSymbol(suggestion.ticker));
     dispatch(fetchStockPrice(suggestion.ticker));
+    navigate('/'); // Navigate to the home page
   };
 
   const onSubmit = (e) => {
@@ -107,6 +110,7 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch, toggleTheme }) => {
     const symbol = query.split(' - ')[0];
     dispatch(setUserSymbol(symbol));
     dispatch(fetchStockPrice(symbol));
+    navigate('/'); // Navigate to the home page
   };
 
   const onAddToWatchlist = () => {
