@@ -35,13 +35,12 @@
   --form-control-border-dark: #495057;
 
 
-  --form-control-placeholder-light: #ffffffbe;
+  --form-control-placeholder-light: #000000be;
   --form-control-placeholder-dark: #bbbbbb;
   --autosuggest-suggestion-highlighted-light: #ddd;
   --autosuggest-suggestion-highlighted-dark: #444444;
   --dropdown-menu-background-dark: #1f1f1f;
 }
-
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
@@ -86,10 +85,15 @@ body {
   color: var(--form-control-placeholder-dark);
 }
 
+
 .dark .react-autosuggest__input {
   background-color: var(--form-control-background-dark);
   color: var(--text-color-dark);
   border-color: var(--form-control-border-dark);
+}
+
+.dark .react-autosuggest__input::placeholder {
+  color: var(--form-control-placeholder-dark);
 }
 
 .dark .react-autosuggest__suggestion--highlighted {
@@ -173,6 +177,8 @@ input[type="number"] {
 
 .card-title {
   padding: 0.3rem 0;
+  text-align: center;
+  font-weight: 600;
 }
 
 /* Form styles */
@@ -191,7 +197,7 @@ input[type="number"] {
 .form-label {
   margin-right: 0.5rem;
   margin-bottom: 0;
-  font-size: 15px;
+  font-size: 1rem;
   font-weight: 600;
 }
 

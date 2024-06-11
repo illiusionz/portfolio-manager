@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 import HomePage from './containers/HomePage/HomePage';
 import AssetManagement from './containers/AssetManagement/AssetManagement';
 import CompoundInterestCalculator from './components/CompoundInterestCalculator/CompoundInterestCalculator';
@@ -11,11 +13,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { fetchStocks, fetchStockPrice } from './redux/actions/stockActions';
 import { setUserSymbol } from './redux/actions/userActions';
+import { setTheme } from './redux/actions/themeActions';
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [theme, setTheme] = useState('light'); // Add theme state
   const dispatch = useDispatch();
+  const theme = useSelector((state) => state.theme);
   const [symbol, setSymbol] = useState(
     localStorage.getItem('lastStock') || 'TSLA'
   );
@@ -25,8 +28,8 @@ function App() {
   };
 
   const toggleTheme = () => {
-    // Add toggleTheme function
-    setTheme(theme === 'light' ? 'dark' : 'light');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    dispatch(setTheme(newTheme));
   };
 
   useEffect(() => {
@@ -44,35 +47,36 @@ function App() {
   };
 
   return (
-    <Router>
-      <div className={`d-flex ${isSidebarOpen ? '' : 'toggled'}`} id='wrapper'>
-        <Sidebar />
-        <div id='page-content-wrapper' className={theme}>
-          {' '}
-          {/* Add theme class */}
-          <Navbar
-            toggleSidebar={toggleSidebar}
-            handleSymbolSearch={handleSymbolSearch}
-            toggleTheme={toggleTheme} // Pass toggleTheme to Navbar
-            theme={theme} // Pass theme to Navbar
-          />
-          <div className='container-fluid'>
-            <Routes>
-              <Route path='/' element={<HomePage />} />
-              <Route
-                path='/compound-interest-calculator'
-                element={<CompoundInterestCalculator />}
-              />
-              <Route
-                path='/percentage-difference'
-                element={<PercentageDifferenceCalculator />}
-              />
-              <Route path='/asset-management' element={<AssetManagement />} />
-            </Routes>
+    <Provider store={store}>
+      <Router>
+        <div
+          className={`d-flex ${isSidebarOpen ? '' : 'toggled'}`}
+          id='wrapper'>
+          <Sidebar />
+          <div id='page-content-wrapper' className={theme}>
+            <Navbar
+              toggleSidebar={toggleSidebar}
+              handleSymbolSearch={handleSymbolSearch}
+              toggleTheme={toggleTheme}
+            />
+            <div className='container-fluid'>
+              <Routes>
+                <Route path='/' element={<HomePage />} />
+                <Route
+                  path='/compound-interest-calculator'
+                  element={<CompoundInterestCalculator />}
+                />
+                <Route
+                  path='/percentage-difference'
+                  element={<PercentageDifferenceCalculator />}
+                />
+                <Route path='/asset-management' element={<AssetManagement />} />
+              </Routes>
+            </div>
           </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </Provider>
   );
 }
 

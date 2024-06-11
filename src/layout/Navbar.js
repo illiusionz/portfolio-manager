@@ -1,23 +1,30 @@
-// src/layout/Navbar.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faSun, faMoon } from '@fortawesome/free-solid-svg-icons'; // Add icons
+import { faBars, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import flagIcons from '../utils/flagIcons';
 import exchangeType from '../utils/exchanges';
 import { fetchStockPrice } from '../redux/actions/stockActions';
 import { setUserSymbol } from '../redux/actions/userActions';
 import { addToWatchlist } from '../redux/actions/watchlistActions';
+import { setTheme } from '../redux/actions/themeActions';
 
-const Navbar = ({ toggleSidebar, toggleTheme, theme, handleSymbolSearch }) => {
-  // Add toggleTheme and theme
+const Navbar = ({ toggleSidebar, handleSymbolSearch, toggleTheme }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const dispatch = useDispatch();
   const watchlist = useSelector((state) => state.watchlist.symbols);
+  const theme = useSelector((state) => state.theme);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      dispatch(setTheme(savedTheme));
+    }
+  }, [dispatch]);
 
   const fetchBrandingAndLocale = async (ticker) => {
     try {
@@ -113,6 +120,12 @@ const Navbar = ({ toggleSidebar, toggleTheme, theme, handleSymbolSearch }) => {
     setDropdownVisible(!dropdownVisible);
   };
 
+  const handleToggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    dispatch(setTheme(newTheme));
+    localStorage.setItem('theme', newTheme);
+  };
+
   return (
     <nav className='navbar navbar-expand-lg'>
       <button className='btn btn-primary' onClick={toggleSidebar}>
@@ -139,9 +152,10 @@ const Navbar = ({ toggleSidebar, toggleTheme, theme, handleSymbolSearch }) => {
         </button>
       </form>
       <button
-        className='btn btn-primary ms-1  my-2 my-sm-0'
-        onClick={toggleTheme}>
-        <FontAwesomeIcon icon={theme === 'light' ? faMoon : faSun} />
+        className='btn btn-light ms-auto my-2 my-sm-0 theme-toggle'
+        type='button'
+        onClick={handleToggleTheme}>
+        <FontAwesomeIcon icon={theme === 'dark' ? faMoon : faSun} />
       </button>
       <ul className='navbar-nav navbar-align'>
         <li className='nav-item dropdown'>

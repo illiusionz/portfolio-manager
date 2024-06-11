@@ -57,8 +57,10 @@ const DollarCostAveragingCalculator = () => {
 
   return (
     <div className='dca-calculator card'>
+      <div class='card-header'>
+        <h5 className='card-title mb-0'>Dollar Cost Averaging Calculator</h5>
+      </div>
       <div className='card-body'>
-        <h5 className='card-title'>Dollar Cost Averaging Calculator</h5>
         {investments.map((investment, index) => (
           <div key={index} className='investment-row mb-3'>
             <h6>Investment {index + 1}</h6>

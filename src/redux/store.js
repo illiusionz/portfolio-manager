@@ -4,6 +4,7 @@ import stockReducer from './reducers/stockReducer';
 import newsReducer from './reducers/newsReducer';
 import userReducer from './reducers/userReducer';
 import watchlistReducer from './reducers/watchlistReducer';
+import themeReducer from './reducers/themeReducer';
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     news: newsReducer,
     user: userReducer,
     watchlist: watchlistReducer,
+    theme: themeReducer,
   },
 });
 

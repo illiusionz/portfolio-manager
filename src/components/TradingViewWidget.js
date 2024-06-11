@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 
 function TradingViewWidget({ symbol }) {
   const container = useRef();
+  const theme = useSelector((state) => state.theme); // Assuming you have a theme state in your Redux store
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -15,7 +17,7 @@ function TradingViewWidget({ symbol }) {
         "symbol": "${symbol}",
         "interval": "D",
         "timezone": "exchange",
-        "theme": "light",
+        "theme": "${theme}",
         "style": "1",
         "withdateranges": true,
         "hide_side_toolbar": false,
@@ -32,7 +34,7 @@ function TradingViewWidget({ symbol }) {
       }`;
     container.current.innerHTML = '';
     container.current.appendChild(script);
-  }, [symbol]);
+  }, [symbol, theme]);
 
   return (
     <div
