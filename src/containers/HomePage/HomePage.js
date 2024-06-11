@@ -46,8 +46,11 @@ const HomePage = () => {
       </div>
 
       <div className='row my-2'>
-        <div className='col-md-6'>
-          <CompoundInterestCalculator />
+        <div className='col-md-3'>
+          <OptionPremiumCalculator />
+        </div>
+        <div className='col-md-3'>
+          <DollarCostAveragingCalculator />
         </div>
         <div className='col-md-6'>
           <PercentageDifferenceCalculator />
@@ -61,11 +64,8 @@ const HomePage = () => {
         <div className='col-md-3'>
           <StockWatchlist />
         </div>
-        <div className='col-md-3'>
-          <OptionPremiumCalculator />
-        </div>
-        <div className='col-md-3'>
-          <DollarCostAveragingCalculator />
+        <div className='col-md-6'>
+          <CompoundInterestCalculator />
         </div>
       </div>
 

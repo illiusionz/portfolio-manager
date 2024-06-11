@@ -11,6 +11,7 @@
 
 .option-premium-calculator .form-group {
   justify-content: space-between;
+  margin-bottom: 1rem;
 }
 
 .option-premium-calculator .card-body {
