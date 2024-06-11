@@ -102,7 +102,7 @@ const DividendInfo = () => {
   return (
     <div className='card dividend-info'>
       <div className='card-header'>
-        <h5 className='card-title mb-0'>Dividend Information</h5>
+        <h5 className='card-title mb-0'>Stock Dividend Information</h5>
       </div>
       <div className='card-body'>
         <form className='form-inline my-2 my-lg-0' onSubmit={handleSearch}>

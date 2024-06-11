@@ -10,6 +10,7 @@ import { fetchStockPrice } from '../redux/actions/stockActions';
 import { setUserSymbol } from '../redux/actions/userActions';
 import { addToWatchlist } from '../redux/actions/watchlistActions';
 import { setTheme } from '../redux/actions/themeActions';
+import profileImage from '../assets/images/user-image.jpg';
 
 const Navbar = ({ toggleSidebar, handleSymbolSearch, toggleTheme }) => {
   const [query, setQuery] = useState('');
@@ -163,11 +164,7 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch, toggleTheme }) => {
             className='nav-link dropdown-toggle'
             onClick={toggleDropdown}
             aria-expanded={dropdownVisible}>
-            <img
-              src='../assets/images/user-image.jpg'
-              alt='User'
-              className='user-image'
-            />
+            <img src={profileImage} alt='User' className='user-image' />
             <span className='user-name'>Jeff Liu</span>
           </div>
           <div

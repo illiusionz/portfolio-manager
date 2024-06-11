@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 60%;
+  width: 70%;
   text-align: center;
   margin: 0 0 auto 13%;
 }
@@ -52,10 +52,13 @@
 
 .suggestion-name {
   margin-right: 10px;
+  text-transform: uppercase;
 }
 
 .suggestion-exchange {
   margin-right: 20px;
+  position: absolute;
+  right: 0;
 }
 
 .react-autosuggest__suggestions-list {
@@ -112,8 +115,32 @@
 }
 
 .user-image {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   margin-right: 5px;
+}
+
+.user-name {
+  margin-left: 5px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+
+.dark .dropdown-item:focus, .dark .dropdown-item:hover {
+  color: var(--navbar-background-dark);
+}
+
+.dark .navbar-nav .dropdown-menu {
+  background-color: var(--navbar-background-dark);
+  border: var(--navbar-border-dark);
+}
+
+.dark .navbar-nav .dropdown-menu .dropdown-item {
+  color: var( --text-color-dark);
+}
+
+.dark .dropdown-divider {
+  border-top: 1px solid var(--navbar-border-dark);
 }

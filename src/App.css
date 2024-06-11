@@ -5,8 +5,6 @@
   --background-color-light: #f8f9fa;
   /*--background-color-dark: #121212;*/
   --background-color-dark: #202634;
-
-  
   
   --text-color-light: #000000;
   /*--text-color-dark: #ffffff;*/
@@ -15,14 +13,14 @@
   
   --navbar-background-light: #ffffff;
   --navbar-background-dark: #1e222d;
+  --navbar-border-dark: #ebebeb1a;
+
   --card-background-light: #ffffff;
   --card-background-dark: #1e222d;
-
   --card-background-dark: #293042;
-
-  
   --card-border-light: #e3e6f0;
   --card-border-dark: #ebebeb1a;
+
   --btn-primary-light: #007bff;
   --btn-primary-dark: #0d6efd;
   --form-control-background-light: #ffffff;
@@ -38,7 +36,7 @@
   --form-control-placeholder-light: #000000be;
   --form-control-placeholder-dark: #bbbbbb;
   --autosuggest-suggestion-highlighted-light: #ddd;
-  --autosuggest-suggestion-highlighted-dark: #444444;
+  --autosuggest-suggestion-highlighted-dark: #2a2e39;
   --dropdown-menu-background-dark: #1f1f1f;
 }
 body {
@@ -47,7 +45,9 @@ body {
   background-color: var(--background-color-light);
   color: var(--text-color-light);
 }
-
+.btn {
+  font-weight: 900;
+}
 /* Dark theme */
 .dark {
   background-color: var(--background-color-dark);
@@ -59,6 +59,18 @@ body {
   border-bottom: 1px solid var(--card-border-dark);
 }
 
+.dark .nav-link:focus, 
+.dark .nav-link:hover {
+  color: var(--text-color-dark);
+  background-color: var(--navbar-background-dark);
+}
+
+.dark .dropdown-item:focus, 
+.dark .dropdown-item:hover {
+  color: var(--navbar-background-dark);
+  background-color: #157347;
+
+}
 .dark .card {
   background-color: var(--card-background-dark);
   color: var(--text-color-dark);
@@ -85,11 +97,21 @@ body {
   color: var(--form-control-placeholder-dark);
 }
 
-
+.dark .react-autosuggest__suggestions-container--open {
+  background-color: var(--card-background-dark);
+  border: 1px solid var(--navbar-border-dark);
+}
 .dark .react-autosuggest__input {
   background-color: var(--form-control-background-dark);
   color: var(--text-color-dark);
   border-color: var(--form-control-border-dark);
+}
+.dark .react-autosuggest__suggestion {
+  border-bottom: 1px solid #f0f3fa1c;
+}
+
+.dark .suggestion-name {
+  color: var(--text-color-dark);
 }
 
 .dark .react-autosuggest__input::placeholder {
@@ -181,6 +203,10 @@ input[type="number"] {
   font-weight: 600;
 }
 
+.card-header-tabs {
+  font-weight: 600;
+}
+
 /* Form styles */
 .form-inline {
   display: flex;
@@ -264,6 +290,7 @@ form.d-flex .btn-outline-primary {
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   z-index: 2;
+  text-align: left;
 }
 
 .react-autosuggest__input {
@@ -283,7 +310,16 @@ form.d-flex .btn-outline-primary {
   padding: 5px 20px;
   cursor: pointer;
 }
+.react-autosuggest__suggestion::hover {
+}
+
+
 
 .react-autosuggest__suggestion--highlighted {
+  background: #2a2e39; 
+}
+
+.suggestion-item::hover {
   background-color: var(--autosuggest-suggestion-highlighted-light);
+      /* background: #2a2e39; */
 }

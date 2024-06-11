@@ -29,7 +29,11 @@ const NewsFeed = () => {
     <div className='news-feed'>
       {news.map((article, index) => (
         <div key={index} className='news-item'>
-          <img src={article.image_url} alt={article.title} />
+          <img
+            src={article.image_url}
+            alt={article.title}
+            className='news-thumbnail'
+          />
           <div className='news-content'>
             <a
               href={article.article_url}

@@ -4,7 +4,7 @@
   color: #ecf0f1;
   height: 100vh;
   position: relative;
-  width: 260px;
+  width: 300px;
   z-index: 1000;
   transition: all 0.3s;
 }
@@ -21,7 +21,7 @@
 }
 
 .sidebar ul {
-  padding: 0;
+  padding: 1rem;
   list-style: none;
 }
 
@@ -34,7 +34,7 @@
 }
 
 .sidebar ul li:hover {
-  background: #1abc9c;
+  background: #157347;
 }
 
 .sidebar ul li a {
