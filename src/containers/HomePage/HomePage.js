@@ -6,6 +6,7 @@ import TradingViewWidget from '../../components/TradingViewWidget';
 import NewsFeed from '../../components/NewsFeed/NewsFeed';
 import OptionPremiumCalculator from '../../components/OptionPremiumCalculator/OptionPremiumCalculator';
 import StockWatchlist from '../../components/StockWatchlist/StockWatchlist';
+import DollarCostAveragingCalculator from '../../components/DollarCostAveragingCalculator/DollarCostAveragingCalculator';
 
 import { fetchStocks } from '../../redux/actions/stockActions';
 import { fetchNews } from '../../redux/actions/newsActions';
@@ -57,6 +58,9 @@ const HomePage = () => {
         </div>
         <div className='col-md-3'>
           <StockWatchlist />
+        </div>
+        <div className='col-md-2'>
+          <DollarCostAveragingCalculator />
         </div>
       </div>
 

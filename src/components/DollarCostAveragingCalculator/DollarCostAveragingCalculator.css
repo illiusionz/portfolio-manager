@@ -1,0 +1,33 @@
+.dca-calculator {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  color: #000;
+}
+
+.dca-calculator .form-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dca-calculator .form-row .col {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.dca-calculator .form-row .col:last-child {
+  margin-right: 0;
+}
+
+.dca-calculator .button-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dca-calculator .button-group button {
+  margin-right: 10px;
+}
+
+.dca-calculator .button-group button:last-child {
+  margin-right: 0;
+}
