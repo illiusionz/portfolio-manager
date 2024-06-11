@@ -1,8 +1,16 @@
-import axios from 'axios';
+// src/api.js
+const API_URL = 'http://localhost:5001/api';
 
-const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
-  withCredentials: true, // to send and receive cookies
-});
-
-export default api;
+export const testOpenAI = async () => {
+  try {
+    const response = await fetch(`${API_URL}/test-openai`);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching OpenAI test data:', error);
+    throw error;
+  }
+};
