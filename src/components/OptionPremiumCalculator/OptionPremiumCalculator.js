@@ -113,23 +113,23 @@ const OptionPremiumCalculator = () => {
               }
             />
           </div>
-          <button className='btn btn-primary' onClick={calculatePremium}>
+          <button className='btn btn-primary w-100' onClick={calculatePremium}>
             Calculate
           </button>
           {totalPremium !== null && (
-            <div>
-              <h5>
-                Total Premium Collected: $
+            <div class='result'>
+              <h6>
+                <strong>Total Premium Collected:</strong>$
                 {formatNumberWithCommas(totalPremium.toFixed(2))}
-              </h5>
-              <h5>
-                Total Capital Used: $
+              </h6>
+              <h6>
+                <strong> Total Capital Used:</strong>$
                 {formatNumberWithCommas(totalCapital.toFixed(2))}
-              </h5>
-              <h5>
-                Average Return:{' '}
+              </h6>
+              <h6>
+                <strong> Average Return: </strong>
                 {formatNumberWithCommas(percentageReturn.toFixed(2))}%
-              </h5>
+              </h6>
             </div>
           )}
         </div>

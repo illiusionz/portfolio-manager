@@ -39,15 +39,18 @@
   --autosuggest-suggestion-highlighted-dark: #2a2e39;
   --dropdown-menu-background-dark: #1f1f1f;
 }
+
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
   background-color: var(--background-color-light);
   color: var(--text-color-light);
 }
+
 .btn {
   font-weight: 900;
 }
+
 /* Dark theme */
 .dark {
   background-color: var(--background-color-dark);
@@ -69,8 +72,8 @@ body {
 .dark .dropdown-item:hover {
   color: var(--navbar-background-dark);
   background-color: #157347;
-
 }
+
 .dark .card {
   background-color: var(--card-background-dark);
   color: var(--text-color-dark);
@@ -101,11 +104,13 @@ body {
   background-color: var(--card-background-dark);
   border: 1px solid var(--navbar-border-dark);
 }
+
 .dark .react-autosuggest__input {
   background-color: var(--form-control-background-dark);
   color: var(--text-color-dark);
   border-color: var(--form-control-border-dark);
 }
+
 .dark .react-autosuggest__suggestion {
   border-bottom: 1px solid #f0f3fa1c;
 }
@@ -294,7 +299,7 @@ form.d-flex .btn-outline-primary {
 }
 
 .react-autosuggest__input {
-  height: 38px;
+  height: 40px;
   width: 100%;
   padding: 6px 12px;
   font-size: 1rem;
@@ -310,16 +315,19 @@ form.d-flex .btn-outline-primary {
   padding: 5px 20px;
   cursor: pointer;
 }
-.react-autosuggest__suggestion::hover {
+
+.react-autosuggest__suggestion:hover {
+  background-color: var(--autosuggest-suggestion-highlighted-light);
 }
-
-
 
 .react-autosuggest__suggestion--highlighted {
-  background: #2a2e39; 
+  background: var(--autosuggest-suggestion-highlighted-dark);
 }
 
-.suggestion-item::hover {
+.suggestion-item:hover {
   background-color: var(--autosuggest-suggestion-highlighted-light);
-      /* background: #2a2e39; */
+}
+
+.theme-toggle {
+  border-radius: 50%;
 }

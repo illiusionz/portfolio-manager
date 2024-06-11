@@ -4,4 +4,5 @@
   border-top: 1px solid var(--card-border-dark);
   padding-top: 1rem;
   text-align: center;
+  margin: 0;
 }

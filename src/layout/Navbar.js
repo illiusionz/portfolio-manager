@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBars,
+  faSun,
+  faMoon,
+  faSearch,
+} from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import flagIcons from '../utils/flagIcons';
 import exchangeType from '../utils/exchanges';
@@ -133,17 +138,24 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch, toggleTheme }) => {
         <FontAwesomeIcon icon={faBars} />
       </button>
       <form className='form-inline my-2 my-lg-0' onSubmit={onSubmit}>
-        <Autosuggest
-          suggestions={suggestions}
-          onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-          onSuggestionsClearRequested={onSuggestionsClearRequested}
-          getSuggestionValue={getSuggestionValue}
-          renderSuggestion={renderSuggestion}
-          inputProps={inputProps}
-          onSuggestionSelected={onSuggestionSelected}
-        />
+        <div className='input-group'>
+          <div className='input-group-prepend'>
+            <span className='input-group-text'>
+              <FontAwesomeIcon icon={faSearch} />
+            </span>
+          </div>
+          <Autosuggest
+            suggestions={suggestions}
+            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+            onSuggestionsClearRequested={onSuggestionsClearRequested}
+            getSuggestionValue={getSuggestionValue}
+            renderSuggestion={renderSuggestion}
+            inputProps={inputProps}
+            onSuggestionSelected={onSuggestionSelected}
+          />
+        </div>
         <button className='btn btn-primary ms-1 my-2 my-sm-0' type='submit'>
-          Search
+          <FontAwesomeIcon icon={faSearch} />
         </button>
         <button
           className='btn btn-primary ms-1  my-2 my-sm-0'
@@ -156,7 +168,7 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch, toggleTheme }) => {
         className='btn btn-light ms-auto my-2 my-sm-0 theme-toggle'
         type='button'
         onClick={handleToggleTheme}>
-        <FontAwesomeIcon icon={theme === 'dark' ? faMoon : faSun} />
+        <FontAwesomeIcon icon={theme === 'dark' ? faSun : faMoon} />
       </button>
       <ul className='navbar-nav navbar-align'>
         <li className='nav-item dropdown'>

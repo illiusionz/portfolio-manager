@@ -1,3 +1,4 @@
+/* Navbar.css */
 .navbar {
   position: sticky;
   top: 0;
@@ -22,7 +23,6 @@
   text-align: center;
   margin: 0 0 auto 13%;
 }
-
 
 .navbar .btn-outline-success {
   height: 38px;
@@ -127,7 +127,6 @@
   font-weight: 500;
 }
 
-
 .dark .dropdown-item:focus, .dark .dropdown-item:hover {
   color: var(--navbar-background-dark);
 }
@@ -143,4 +142,11 @@
 
 .dark .dropdown-divider {
   border-top: 1px solid var(--navbar-border-dark);
+}
+
+/* Search bar icon */
+.input-group-prepend .input-group-text {
+  background-color: transparent;
+  border: none;
+  color: #ced4da;
 }

@@ -26,7 +26,7 @@
 }
 
 .sidebar ul li {
-  padding: 1rem;
+  padding: 1.2rem;
   cursor: pointer;
   transition: all 0.3s;
   display: flex;

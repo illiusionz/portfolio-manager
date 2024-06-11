@@ -2,3 +2,27 @@
 .option-premium-calculator .form-label {
   display: block;
 }
+
+.option-premium-calculator .result {
+  border-top: 1px solid var(--card-border-dark);
+  padding-top: 1rem;
+  margin: 1rem 0;
+}
+
+.option-premium-calculator .result h6 strong{
+  margin-right: 10px;
+}
+
+.option-premium-calculator .form-control {
+  width: 50%;
+  flex: none;
+}
+
+.option-premium-calculator .form-group {
+  justify-content: space-between;
+}
+
+.option-premium-calculator .card-body {
+  padding: 1rem 2rem;
+
+}
