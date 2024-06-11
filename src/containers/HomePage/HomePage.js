@@ -49,10 +49,17 @@ const HomePage = () => {
         <div className='col-md-6'>
           <PercentageDifferenceCalculator />
         </div>
+      </div>
+
+      <div className='row my-2'>
         <div className='col-md-3'>
           <OptionPremiumCalculator />
         </div>
+        <div className='col-md-3'>
+          <StockWatchlist />
+        </div>
       </div>
+
       <div className='row my-3'>
         <div className='col-md-12'>
           <h3>Related News</h3>
@@ -60,11 +67,6 @@ const HomePage = () => {
             <div className='alert alert-danger'>{newsError.message}</div>
           )}
           <NewsFeed />
-        </div>
-      </div>
-      <div className='row my-3'>
-        <div className='col-md-12'>
-          <StockWatchlist /> {/* Add StockWatchlist component */}
         </div>
       </div>
     </div>
