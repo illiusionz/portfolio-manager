@@ -1,4 +1,9 @@
 .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Ensure the navbar stays above other content */
+  background-color: white; /* Or any other background color you prefer */
+  border-bottom: 1px solid #ddd; /* Optional, for a border at the bottom */
   display: flex;
   align-items: center;
   justify-content: space-between;

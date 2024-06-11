@@ -14,6 +14,7 @@ import { setUserSymbol } from './redux/actions/userActions';
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
   const dispatch = useDispatch();
   const [symbol, setSymbol] = useState(
     localStorage.getItem('lastStock') || 'TSLA'
@@ -21,6 +22,11 @@ function App() {
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    document.body.classList.toggle('dark-mode', !darkMode);
   };
 
   useEffect(() => {
@@ -45,6 +51,8 @@ function App() {
           <Navbar
             toggleSidebar={toggleSidebar}
             handleSymbolSearch={handleSymbolSearch}
+            toggleDarkMode={toggleDarkMode}
+            darkMode={darkMode}
           />
           <div className='container-fluid'>
             <Routes>
