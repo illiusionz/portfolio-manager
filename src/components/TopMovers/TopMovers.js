@@ -110,18 +110,20 @@ const TopMovers = () => {
         </ul>
       </div>
       <div className='card-body'>
-        <table className='table table-striped'>
-          <thead>
-            <tr>
-              <th>Symbol</th>
-              <th>Last</th>
-              <th>Chg</th>
-              <th>Chg%</th>
-              <th>Vol</th>
-            </tr>
-          </thead>
-          <tbody>{renderTableRows(activeItems)}</tbody>
-        </table>
+        <div className='table-responsive'>
+          <table className='table table-striped table-dark'>
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Last</th>
+                <th>Chg</th>
+                <th>Chg%</th>
+                <th>Vol</th>
+              </tr>
+            </thead>
+            <tbody>{renderTableRows(activeItems)}</tbody>
+          </table>
+        </div>
         {renderPagination(activeItems)}
       </div>
     </div>

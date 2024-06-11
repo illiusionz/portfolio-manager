@@ -63,7 +63,9 @@ const DollarCostAveragingCalculator = () => {
       <div className='card-body'>
         {investments.map((investment, index) => (
           <div key={index} className='investment-row mb-3'>
-            <h6>Investment {index + 1}</h6>
+            <h6>
+              <strong>Investment {index + 1}</strong>
+            </h6>
             <div className='form-row mb-2'>
               <div className='col'>
                 <label className='form-label'>Shares</label>
@@ -116,8 +118,10 @@ const DollarCostAveragingCalculator = () => {
           </button>
         </div>
         {result && (
-          <div>
-            <h6>Result</h6>
+          <div class='result'>
+            <h6>
+              <strong>Result</strong>
+            </h6>
             <div className='form-row'>
               <div className='col'>
                 <label className='form-label'>Shares</label>

@@ -85,6 +85,13 @@ body {
   border-bottom: 1px solid var(--card-border-dark);
 }
 
+.dark .card-header-tabs .nav-link.active {
+  background-color: var(--card-background-dark);
+  color: #85a9ff;
+  border: 1px solid var(--card-border-dark);
+}
+
+
 .dark .btn-primary {
   background-color: var(--btn-primary-dark);
   border-color: var(--btn-primary-dark);
@@ -130,6 +137,11 @@ body {
 .dark .dropdown-menu {
   background-color: var(--dropdown-menu-background-dark);
   color: var(--text-color-dark);
+}
+
+.table-dark {
+  --bs-table-bg: #293042;
+  --bs-table-striped-bg:#f4f7f90d;
 }
 
 /* Hide the arrows from number inputs */
@@ -331,3 +343,4 @@ form.d-flex .btn-outline-primary {
 .theme-toggle {
   border-radius: 50%;
 }
+
