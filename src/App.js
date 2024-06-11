@@ -14,7 +14,7 @@ import { setUserSymbol } from './redux/actions/userActions';
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
+  const [theme, setTheme] = useState('light'); // Add theme state
   const dispatch = useDispatch();
   const [symbol, setSymbol] = useState(
     localStorage.getItem('lastStock') || 'TSLA'
@@ -24,9 +24,9 @@ function App() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.body.classList.toggle('dark-mode', !darkMode);
+  const toggleTheme = () => {
+    // Add toggleTheme function
+    setTheme(theme === 'light' ? 'dark' : 'light');
   };
 
   useEffect(() => {
@@ -47,12 +47,14 @@ function App() {
     <Router>
       <div className={`d-flex ${isSidebarOpen ? '' : 'toggled'}`} id='wrapper'>
         <Sidebar />
-        <div id='page-content-wrapper'>
+        <div id='page-content-wrapper' className={theme}>
+          {' '}
+          {/* Add theme class */}
           <Navbar
             toggleSidebar={toggleSidebar}
             handleSymbolSearch={handleSymbolSearch}
-            toggleDarkMode={toggleDarkMode}
-            darkMode={darkMode}
+            toggleTheme={toggleTheme} // Pass toggleTheme to Navbar
+            theme={theme} // Pass theme to Navbar
           />
           <div className='container-fluid'>
             <Routes>

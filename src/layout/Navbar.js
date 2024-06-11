@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faSun, faMoon } from '@fortawesome/free-solid-svg-icons'; // Add icons
 import './Navbar.css';
 import flagIcons from '../utils/flagIcons';
 import exchangeType from '../utils/exchanges';
@@ -11,7 +11,8 @@ import { fetchStockPrice } from '../redux/actions/stockActions';
 import { setUserSymbol } from '../redux/actions/userActions';
 import { addToWatchlist } from '../redux/actions/watchlistActions';
 
-const Navbar = ({ toggleSidebar }) => {
+const Navbar = ({ toggleSidebar, toggleTheme, theme, handleSymbolSearch }) => {
+  // Add toggleTheme and theme
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -113,7 +114,7 @@ const Navbar = ({ toggleSidebar }) => {
   };
 
   return (
-    <nav className='navbar navbar-expand-lg navbar-light bg-light'>
+    <nav className='navbar navbar-expand-lg'>
       <button className='btn btn-primary' onClick={toggleSidebar}>
         <FontAwesomeIcon icon={faBars} />
       </button>
@@ -137,6 +138,11 @@ const Navbar = ({ toggleSidebar }) => {
           Add to Watch List
         </button>
       </form>
+      <button
+        className='btn btn-primary ms-1  my-2 my-sm-0'
+        onClick={toggleTheme}>
+        <FontAwesomeIcon icon={theme === 'light' ? faMoon : faSun} />
+      </button>
       <ul className='navbar-nav navbar-align'>
         <li className='nav-item dropdown'>
           <div

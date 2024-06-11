@@ -1,21 +1,115 @@
 /* src/App.css */
 
 /* General styles */
+:root {
+  --background-color-light: #f8f9fa;
+  /*--background-color-dark: #121212;*/
+  --background-color-dark: #202634;
+
+  
+  
+  --text-color-light: #000000;
+  /*--text-color-dark: #ffffff;*/
+  --text-color-dark: #f4f7f9;
+
+  
+  --navbar-background-light: #ffffff;
+  --navbar-background-dark: #1e222d;
+  --card-background-light: #ffffff;
+  --card-background-dark: #1e222d;
+
+  --card-background-dark: #293042;
+
+  
+  --card-border-light: #e3e6f0;
+  --card-border-dark: #ebebeb1a;
+  --btn-primary-light: #007bff;
+  --btn-primary-dark: #0d6efd;
+  --form-control-background-light: #ffffff;
+  /*--form-control-background-dark: #2a2e39;*/
+  --form-control-background-dark: #293042;
+
+
+  --form-control-border-light: #ced4da;
+  /*--form-control-border-dark: #444444;*/
+  --form-control-border-dark: #495057;
+
+
+  --form-control-placeholder-light: #ffffffbe;
+  --form-control-placeholder-dark: #bbbbbb;
+  --autosuggest-suggestion-highlighted-light: #ddd;
+  --autosuggest-suggestion-highlighted-dark: #444444;
+  --dropdown-menu-background-dark: #1f1f1f;
+}
+
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
-  background-color: #f8f9fa;
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
+}
+
+/* Dark theme */
+.dark {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}
+
+.dark .navbar {
+  background-color: var(--navbar-background-dark);
+  border-bottom: 1px solid var(--card-border-dark);
+}
+
+.dark .card {
+  background-color: var(--card-background-dark);
+  color: var(--text-color-dark);
+  border: 1px solid var(--card-border-dark);
+}
+
+.dark .card-header {
+  background-color: var(--card-background-dark);
+  border-bottom: 1px solid var(--card-border-dark);
+}
+
+.dark .btn-primary {
+  background-color: var(--btn-primary-dark);
+  border-color: var(--btn-primary-dark);
+}
+
+.dark .form-control {
+  background-color: var(--form-control-background-dark);
+  color: var(--text-color-dark);
+  border-color: var(--form-control-border-dark);
+}
+
+.dark .form-control::placeholder {
+  color: var(--form-control-placeholder-dark);
+}
+
+.dark .react-autosuggest__input {
+  background-color: var(--form-control-background-dark);
+  color: var(--text-color-dark);
+  border-color: var(--form-control-border-dark);
+}
+
+.dark .react-autosuggest__suggestion--highlighted {
+  background-color: var(--autosuggest-suggestion-highlighted-dark);
+}
+
+.dark .dropdown-menu {
+  background-color: var(--dropdown-menu-background-dark);
+  color: var(--text-color-dark);
 }
 
 /* Hide the arrows from number inputs */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 input[type="number"] {
-    -moz-appearance: textfield;
+  -moz-appearance: textfield;
 }
 
 /* Wrapper */
@@ -48,7 +142,8 @@ input[type="number"] {
   color: white;
 }
 
-.list-group-item:hover, .list-group-item:focus {
+.list-group-item:hover,
+.list-group-item:focus {
   background-color: #495057;
   color: white;
 }
@@ -72,8 +167,12 @@ input[type="number"] {
 }
 
 .card-header {
-  background-color: #ffffff;
-  border-bottom: 1px solid #e3e6f0;
+  background-color: var(--card-background-light);
+  border-bottom: 1px solid var(--card-border-light);
+}
+
+.card-title {
+  padding: 0.3rem 0;
 }
 
 /* Form styles */
@@ -90,7 +189,7 @@ input[type="number"] {
 }
 
 .form-label {
-  margin-right: 2px;
+  margin-right: 0.5rem;
   margin-bottom: 0;
   font-size: 15px;
   font-weight: 600;
@@ -98,6 +197,10 @@ input[type="number"] {
 
 .form-control {
   flex: 1;
+}
+
+.form-control::placeholder {
+  color: var(--form-control-placeholder-light);
 }
 
 .btn {
@@ -123,7 +226,7 @@ form.d-flex .react-autosuggest__input {
   padding: 6px 12px;
   font-size: 1rem;
   border-radius: 0.25rem;
-  border: 1px solid #ced4da;
+  border: 1px solid var(--form-control-border-light);
   width: 100%;
 }
 
@@ -148,7 +251,7 @@ form.d-flex .btn-outline-primary {
   top: 40px;
   width: 100%;
   border: 1px solid #aaa;
-  background-color: #fff;
+  background-color: var(--card-background-light);
   font-family: Arial, sans-serif;
   font-weight: 300;
   font-size: 16px;
@@ -163,7 +266,11 @@ form.d-flex .btn-outline-primary {
   padding: 6px 12px;
   font-size: 1rem;
   border-radius: 0.25rem;
-  border: 1px solid #ced4da;
+  border: 1px solid var(--form-control-border-light);
+}
+
+.react-autosuggest__input::placeholder {
+  color: var(--form-control-placeholder-light);
 }
 
 .react-autosuggest__suggestion {
@@ -172,5 +279,5 @@ form.d-flex .btn-outline-primary {
 }
 
 .react-autosuggest__suggestion--highlighted {
-  background-color: #ddd;
+  background-color: var(--autosuggest-suggestion-highlighted-light);
 }
