@@ -10,6 +10,7 @@ const DividendInfo = () => {
   const [dividends, setDividends] = useState([]);
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+  const theme = useSelector((state) => state.theme);
 
   const apiKey = '6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq';
 
@@ -119,7 +120,10 @@ const DividendInfo = () => {
             Search
           </button>
         </form>
-        <table className='table table-striped mt-3'>
+        <table
+          className={`table table-striped mt-3 ${
+            theme === 'dark' ? 'table-dark' : ''
+          }`}>
           <thead>
             <tr>
               <th>Ticker</th>

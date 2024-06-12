@@ -32,16 +32,17 @@
 
 .input-container {
   display: flex;
+  flex-direction: column;
   padding: 10px;
   border-top: 1px solid #ddd;
 }
 
-.input-container input {
-  flex: 1;
+.input-container input,
+.input-container textarea {
   padding: 10px;
   border: 1px solid #ced4da;
   border-radius: 4px;
-  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .input-container button {
@@ -55,4 +56,8 @@
 
 .input-container button:hover {
   background-color: #0056b3;
+}
+
+.input-container .file-upload {
+  margin-bottom: 10px;
 }

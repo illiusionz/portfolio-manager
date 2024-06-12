@@ -16,10 +16,3 @@
   color: #666;
 }
 
-.table th, .table td {
-  text-align: left;
-}
-
-.table th {
-  font-weight: bold;
-}

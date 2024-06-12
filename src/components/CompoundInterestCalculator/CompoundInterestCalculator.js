@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+
 import { formatNumberWithCommas } from '../../utils/format';
 
 const CompoundInterestCalculator = () => {
@@ -6,6 +8,7 @@ const CompoundInterestCalculator = () => {
   const [weeklyRate, setWeeklyRate] = useState('');
   const [weeks, setWeeks] = useState('52'); // default to 52 weeks
   const [results, setResults] = useState([]);
+  const theme = useSelector((state) => state.theme);
 
   const calculateCompoundInterest = (initial, rate, weeks) => {
     let capital = parseFloat(initial);
@@ -87,7 +90,10 @@ const CompoundInterestCalculator = () => {
         {results.length > 0 && (
           <div>
             <h5>Results:</h5>
-            <table className='table'>
+            <table
+              className={`table table-striped mt-3 ${
+                theme === 'dark' ? 'table-dark' : ''
+              }`}>
               <thead>
                 <tr>
                   <th>Week</th>

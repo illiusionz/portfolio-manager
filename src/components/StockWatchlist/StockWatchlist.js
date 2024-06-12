@@ -8,6 +8,7 @@ const StockWatchlist = () => {
   const dispatch = useDispatch();
   const watchlist = useSelector((state) => state.watchlist.symbols);
   const [stockData, setStockData] = React.useState({});
+  const theme = useSelector((state) => state.theme);
 
   useEffect(() => {
     const fetchStockData = async (symbol) => {
@@ -45,7 +46,10 @@ const StockWatchlist = () => {
         {watchlist.length === 0 ? (
           <p>No stocks in watchlist</p>
         ) : (
-          <table className='table'>
+          <table
+            className={`table table-striped mt-3 ${
+              theme === 'dark' ? 'table-dark' : ''
+            }`}>
             <thead>
               <tr>
                 <th>Symbol</th>

@@ -9,7 +9,7 @@ export const fetchStocks = createAsyncThunk(
   'stocks/fetchStocks',
   async (_, { getState }) => {
     const state = getState();
-    const symbol = state.user.symbol || 'TSLA';
+    const symbol = state.user.symbol;
     const url = `https://api.polygon.io/v2/aggs/ticker/${symbol}/range/1/day/2023-01-01/2023-12-31?apiKey=${apiKey}`;
 
     const response = await fetch(url);

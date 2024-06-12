@@ -1,5 +1,6 @@
 // src/components/TopMovers/TopMovers.js
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import './TopMovers.css';
 
@@ -8,6 +9,8 @@ const TopMovers = () => {
   const [losers, setLosers] = useState([]);
   const [activeTab, setActiveTab] = useState('gainers');
   const [currentPage, setCurrentPage] = useState(1);
+  const theme = useSelector((state) => state.theme);
+
   const resultsPerPage = 10;
 
   useEffect(() => {
@@ -111,7 +114,10 @@ const TopMovers = () => {
       </div>
       <div className='card-body'>
         <div className='table-responsive'>
-          <table className='table table-striped table-dark'>
+          <table
+            className={`table table-striped ${
+              theme === 'dark' ? 'table-dark' : ''
+            }`}>
             <thead>
               <tr>
                 <th>Symbol</th>
