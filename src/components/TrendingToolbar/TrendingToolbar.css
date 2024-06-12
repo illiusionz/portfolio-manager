@@ -1,0 +1,100 @@
+.dark .trending-toolbar {
+  background-color: var(--navbar-background-dark);
+  color: var(--text-color-dark);
+}
+
+.dark .stock-symbol {
+  color: var(--text-color-dark);
+  font-weight: 600;
+}
+
+.trending-toolbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--navbar-background-light);
+  color: var(--text-color-light);
+  padding: 10px 20px;
+  overflow: hidden;
+  border-bottom: 1px solid #ddd;
+}
+
+.index-data {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  width: 650px;
+}
+
+.index-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.index-item svg {
+  margin:0 5px;
+}
+
+.trending-stocks {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+}
+
+.trending-label {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.trending-label svg {
+  margin-left: 5px;
+}
+
+.stock-symbol {
+  color: var(--text-color-light);
+  font-weight: 600;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.scroll-container {
+  display: flex;
+  align-items: center;
+  animation: scroll 90s linear infinite;
+}
+
+.scroll-container.paused {
+  animation-play-state: paused;
+}
+
+.stock-item, .index-item {
+  margin: 0 7px;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.stock-item:hover, .index-item:hover {
+  background-color: #444;
+}
+
+.positive {
+  color: #4caf50;
+}
+
+.negative {
+  color: #f44336;
+}

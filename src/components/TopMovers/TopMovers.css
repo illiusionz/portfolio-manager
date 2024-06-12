@@ -30,7 +30,7 @@ table {
   margin: 1rem 0;
 }
 
-.table-dark {
+.dark .table-dark {
   --bs-table-bg: #293042;
   --bs-table-striped-bg:#f4f7f90d;
 }

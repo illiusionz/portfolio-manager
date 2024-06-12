@@ -7,6 +7,7 @@ import HomePage from './containers/HomePage/HomePage';
 import ChartAnalysisPage from './containers/ChartAnalysisPage/ChartAnalysisPage';
 /*import AssetManagement from './containers/AssetManagement/AssetManagement';*/
 import EducationPage from './containers/EducationPage/EducationPage';
+import TrendingToolbar from './components/TrendingToolbar/TrendingToolbar';
 
 import CompoundInterestCalculator from './components/CompoundInterestCalculator/CompoundInterestCalculator';
 import PercentageDifferenceCalculator from './components/PercentageDifferenceCalculator/PercentageDifferenceCalculator';
@@ -62,6 +63,8 @@ function App() {
               handleSymbolSearch={handleSymbolSearch}
               toggleTheme={toggleTheme}
             />
+            <TrendingToolbar />
+
             <div className='container-fluid'>
               <Routes>
                 <Route path='/' element={<HomePage />} />

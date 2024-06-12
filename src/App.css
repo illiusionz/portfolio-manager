@@ -43,6 +43,8 @@
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
+  /*font-family: "Source Sans 3", sans-serif;*/
+
   background-color: var(--background-color-light);
   color: var(--text-color-light);
 }
@@ -51,98 +53,6 @@ body {
   font-weight: 900;
 }
 
-/* Dark theme */
-.dark {
-  background-color: var(--background-color-dark);
-  color: var(--text-color-dark);
-}
-
-.dark .navbar {
-  background-color: var(--navbar-background-dark);
-  border-bottom: 1px solid var(--card-border-dark);
-}
-
-.dark .nav-link:focus, 
-.dark .nav-link:hover {
-  color: var(--text-color-dark);
-  background-color: var(--navbar-background-dark);
-}
-
-.dark .dropdown-item:focus, 
-.dark .dropdown-item:hover {
-  color: var(--navbar-background-dark);
-  background-color: #157347;
-}
-
-.dark .card {
-  background-color: var(--card-background-dark);
-  color: var(--text-color-dark);
-  border: 1px solid var(--card-border-dark);
-}
-
-.dark .card-header {
-  background-color: var(--card-background-dark);
-  border-bottom: 1px solid var(--card-border-dark);
-}
-
-.dark .card-header-tabs .nav-link.active {
-  background-color: var(--card-background-dark);
-  color: #85a9ff;
-  border: 1px solid var(--card-border-dark);
-}
-
-
-.dark .btn-primary {
-  background-color: var(--btn-primary-dark);
-  border-color: var(--btn-primary-dark);
-}
-
-.dark .form-control {
-  background-color: var(--form-control-background-dark);
-  color: var(--text-color-dark);
-  border-color: var(--form-control-border-dark);
-}
-
-.dark .form-control::placeholder {
-  color: var(--form-control-placeholder-dark);
-}
-
-.dark .react-autosuggest__suggestions-container--open {
-  background-color: var(--card-background-dark);
-  border: 1px solid var(--navbar-border-dark);
-}
-
-.dark .react-autosuggest__input {
-  background-color: var(--form-control-background-dark);
-  color: var(--text-color-dark);
-  border-color: var(--form-control-border-dark);
-}
-
-.dark .react-autosuggest__suggestion {
-  border-bottom: 1px solid #f0f3fa1c;
-}
-
-.dark .suggestion-name {
-  color: var(--text-color-dark);
-}
-
-.dark .react-autosuggest__input::placeholder {
-  color: var(--form-control-placeholder-dark);
-}
-
-.dark .react-autosuggest__suggestion--highlighted {
-  background-color: var(--autosuggest-suggestion-highlighted-dark);
-}
-
-.dark .dropdown-menu {
-  background-color: var(--dropdown-menu-background-dark);
-  color: var(--text-color-dark);
-}
-
-.table-dark {
-  --bs-table-bg: #293042;
-  --bs-table-striped-bg:#f4f7f90d;
-}
 
 /* Hide the arrows from number inputs */
 input[type="number"]::-webkit-outer-spin-button,
@@ -344,3 +254,127 @@ form.d-flex .btn-outline-primary {
   border-radius: 50%;
 }
 
+
+
+
+/* Dark theme */
+.dark {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}
+
+.dark .navbar {
+  background-color: var(--navbar-background-dark);
+  border-bottom: 1px solid var(--card-border-dark);
+}
+
+.dark .nav-link:focus, 
+.dark .nav-link:hover {
+  color: var(--text-color-dark);
+  background-color: var(--navbar-background-dark);
+}
+
+.dark .dropdown-item:focus, 
+.dark .dropdown-item:hover {
+  color: var(--navbar-background-dark);
+  background-color: #157347;
+}
+
+.dark .card {
+  background-color: var(--card-background-dark);
+  color: var(--text-color-dark);
+  border: 1px solid var(--card-border-dark);
+}
+
+.dark .card-header {
+  background-color: var(--card-background-dark);
+  border-bottom: 1px solid var(--card-border-dark);
+}
+
+.dark .card-header-tabs .nav-link.active {
+  background-color: var(--card-background-dark);
+  color: #85a9ff;
+  border: 1px solid var(--card-border-dark);
+}
+
+
+.dark .btn-primary {
+  background-color: var(--btn-primary-dark);
+  border-color: var(--btn-primary-dark);
+}
+
+.dark .form-control {
+  background-color: var(--form-control-background-dark);
+  color: var(--text-color-dark);
+  border-color: var(--form-control-border-dark);
+}
+
+.dark .form-control::placeholder {
+  color: var(--form-control-placeholder-dark);
+}
+
+.dark .react-autosuggest__suggestions-container--open {
+  background-color: var(--card-background-dark);
+  border: 1px solid var(--navbar-border-dark);
+}
+
+.dark .react-autosuggest__input {
+  background-color: var(--form-control-background-dark);
+  color: var(--text-color-dark);
+  border-color: var(--form-control-border-dark);
+}
+
+.dark .react-autosuggest__suggestion {
+  border-bottom: 1px solid #f0f3fa1c;
+}
+
+.dark .suggestion-name {
+  color: var(--text-color-dark);
+}
+
+.dark .react-autosuggest__input::placeholder {
+  color: var(--form-control-placeholder-dark);
+}
+
+.dark .react-autosuggest__suggestion--highlighted {
+  background-color: var(--autosuggest-suggestion-highlighted-dark);
+}
+
+.dark .dropdown-menu {
+  background-color: var(--dropdown-menu-background-dark);
+  color: var(--text-color-dark);
+}
+
+.table-dark {
+  --bs-table-bg: #293042;
+  --bs-table-striped-bg:#f4f7f90d;
+}
+
+
+
+
+.dark .react-autosuggest__suggestions-container--open {
+
+  background-color: var(--card-background-dark);
+}
+
+.dark .react-autosuggest__input {
+  border: 1px solid var(--form-control-border-dark);
+}
+
+.dark .react-autosuggest__input::placeholder {
+  color: var(--form-control-placeholder-dark);
+}
+
+
+.dark .react-autosuggest__suggestion:hover {
+  background-color: var(--autosuggest-suggestion-highlighted-dark);
+}
+
+.dark .react-autosuggest__suggestion--highlighted {
+  background: var(--autosuggest-suggestion-highlighted-dark);
+}
+
+.dark .suggestion-item:hover {
+  background-color: var(--autosuggest-suggestion-highlighted-dark);
+}
