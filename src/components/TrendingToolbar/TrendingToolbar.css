@@ -9,6 +9,7 @@
   overflow: hidden;
   border-bottom: 1px solid #ddd;
   position: relative;
+  overflow: visible;
 }
 
 .index-data {
@@ -92,4 +93,14 @@
 /* Stop scrolling on hover */
 .trending-stocks:hover .scroll-container {
   animation-play-state: paused;
+}
+
+.dark .trending-toolbar {
+  background-color: var(--navbar-background-dark);
+  color: var(--text-color-dark);
+  border-bottom: 1px solid #333;
+}
+
+.dark  .stock-symbol {
+  color: var(--text-color-dark);
 }

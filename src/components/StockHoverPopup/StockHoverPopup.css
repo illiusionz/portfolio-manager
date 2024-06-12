@@ -1,6 +1,6 @@
 .stock-hover-popup {
   position: absolute;
-  background-color: #333;
+  background-color: var(--card-background-light);
   color: #fff;
   padding: 10px;
   border-radius: 5px;
@@ -10,9 +10,19 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.dark .stock-hover-popup {
+  background-color: var(--card-background-dark);
+}
+
+
 .stock-hover-popup:hover {
   background-color: #444;
 }
+
+.dark .stock-hover-popup:hover {
+  background-color: var(--card-background-dark);
+}
+
 
 .popup-header {
   display: flex;

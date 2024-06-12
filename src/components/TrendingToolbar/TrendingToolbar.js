@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowUp,
@@ -7,12 +8,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import './TrendingToolbar.css';
 import StockHoverPopup from '../StockHoverPopup/StockHoverPopup';
+import { fetchStockData } from '../../redux/actions/stockActions';
 
 const TrendingToolbar = () => {
-  const [spyData, setSpyData] = useState(null);
-  const [qqqData, setQqqData] = useState(null);
-  const [iwmData, setIwmData] = useState(null);
-  const [diaData, setDiaData] = useState(null);
+  const [indexData, setIndexData] = useState({});
   const [trendingStocks, setTrendingStocks] = useState([]);
   const [hoveredStock, setHoveredStock] = useState(null);
   const [hoverPosition, setHoverPosition] = useState({ top: 0, left: 0 });
@@ -82,45 +81,34 @@ const TrendingToolbar = () => {
     'XOM',
   ];
 
-  useEffect(() => {
-    const fetchIndexData = async (ticker, setData) => {
-      try {
-        console.log(`Fetching data for index: ${ticker}`);
-        const response = await fetch(
-          `https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers/${ticker}?apiKey=6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq`
-        );
-        const data = await response.json();
-        setData(data.ticker || null);
-      } catch (error) {
-        console.error(`Error fetching data for ${ticker}:`, error);
-      }
-    };
+  const indexTickers = ['SPY', 'QQQ', 'IWM', 'DIA'];
 
-    const fetchTrendingStockData = async (ticker) => {
+  useEffect(() => {
+    const fetchData = async (ticker, isIndex = false) => {
       try {
-        console.log(`Fetching data for trending stock: ${ticker}`);
         const response = await fetch(
           `https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers/${ticker}?apiKey=6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq`
         );
         const data = await response.json();
-        return data.ticker || null;
+        if (isIndex) {
+          setIndexData((prevData) => ({ ...prevData, [ticker]: data.ticker }));
+        } else {
+          return data.ticker;
+        }
       } catch (error) {
         console.error(`Error fetching data for ${ticker}:`, error);
         return null;
       }
     };
 
-    const fetchAllTrendingStocks = async () => {
-      const stockDataPromises = manualStocks.map(fetchTrendingStockData);
+    const fetchTrendingStocks = async () => {
+      const stockDataPromises = manualStocks.map((ticker) => fetchData(ticker));
       const stockData = await Promise.all(stockDataPromises);
       setTrendingStocks(stockData.filter((stock) => stock !== null));
     };
 
-    fetchIndexData('SPY', setSpyData);
-    fetchIndexData('QQQ', setQqqData);
-    fetchIndexData('IWM', setIwmData);
-    fetchIndexData('DIA', setDiaData);
-    fetchAllTrendingStocks();
+    indexTickers.forEach((ticker) => fetchData(ticker, true));
+    fetchTrendingStocks();
   }, []);
 
   const renderStock = (stock, index) => {
@@ -131,7 +119,7 @@ const TrendingToolbar = () => {
 
     return (
       <div
-        key={stock.ticker + index}
+        key={`${stock.ticker}-${index}`}
         className={`stock-item ${changeClass}`}
         onMouseEnter={(e) => {
           setHoveredStock(stock);
@@ -145,14 +133,15 @@ const TrendingToolbar = () => {
     );
   };
 
-  const renderIndexData = (data) => {
+  const renderIndexData = (ticker) => {
+    const data = indexData[ticker];
     if (!data) return null;
     const changePercent = data.todaysChangePerc.toFixed(2);
     const changeClass = changePercent >= 0 ? 'positive' : 'negative';
     const arrowIcon = changePercent >= 0 ? faArrowUp : faArrowDown;
 
     return (
-      <div className={`index-item ${changeClass}`}>
+      <div key={ticker} className={`index-item ${changeClass}`}>
         <span className='stock-symbol'>{data.ticker} </span>
         <FontAwesomeIcon icon={arrowIcon} />
         <span className='stock-percent'> {changePercent}%</span>
@@ -163,17 +152,14 @@ const TrendingToolbar = () => {
   return (
     <div className='trending-toolbar'>
       <div className='index-data'>
-        {renderIndexData(spyData)}
-        {renderIndexData(qqqData)}
-        {renderIndexData(iwmData)}
-        {renderIndexData(diaData)}
+        {indexTickers.map((ticker) => renderIndexData(ticker))}
         <span className='trending-label text-secondary'>
           Trending <FontAwesomeIcon icon={faCircleInfo} />
         </span>
       </div>
       <div className='trending-stocks'>
         <div className='scroll-container'>
-          {trendingStocks.map((stock, index) => renderStock(stock, index))}
+          {[...trendingStocks, ...trendingStocks].map(renderStock)}
         </div>
       </div>
       {hoveredStock && (

@@ -19,6 +19,8 @@ const StockHoverPopup = ({ stock, position }) => {
     console.log(`Added ${stock.ticker} to watchlist`);
   };
 
+  console.log('Displaying popup for stock:', stock);
+
   return (
     <div
       className='stock-hover-popup'
