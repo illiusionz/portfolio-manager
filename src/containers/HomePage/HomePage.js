@@ -1,19 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import CompoundInterestCalculator from '../../components/CompoundInterestCalculator/CompoundInterestCalculator';
-import PercentageDifferenceCalculator from '../../components/PercentageDifferenceCalculator/PercentageDifferenceCalculator';
-import TradingViewWidget from '../../components/TradingViewWidget';
-import NewsFeed from '../../components/NewsFeed/NewsFeed';
-import OptionPremiumCalculator from '../../components/OptionPremiumCalculator/OptionPremiumCalculator';
-import StockWatchlist from '../../components/StockWatchlist/StockWatchlist';
-import DollarCostAveragingCalculator from '../../components/DollarCostAveragingCalculator/DollarCostAveragingCalculator';
-import TopMovers from '../../components/TopMovers/TopMovers';
-import DividendInfo from '../../components/DividendInfo/DividendInfo'; // Add this line
-
 import { fetchStocks } from '../../redux/actions/stockActions';
 import { fetchNews } from '../../redux/actions/newsActions';
-
 import './HomePage.css';
+
+// Lazy load the components
+const CompoundInterestCalculator = lazy(() =>
+  import(
+    '../../components/CompoundInterestCalculator/CompoundInterestCalculator'
+  )
+);
+const PercentageDifferenceCalculator = lazy(() =>
+  import(
+    '../../components/PercentageDifferenceCalculator/PercentageDifferenceCalculator'
+  )
+);
+const TradingViewWidget = lazy(() =>
+  import('../../components/TradingViewWidget')
+);
+const NewsFeed = lazy(() => import('../../components/NewsFeed/NewsFeed'));
+const OptionPremiumCalculator = lazy(() =>
+  import('../../components/OptionPremiumCalculator/OptionPremiumCalculator')
+);
+const StockWatchlist = lazy(() =>
+  import('../../components/StockWatchlist/StockWatchlist')
+);
+const DollarCostAveragingCalculator = lazy(() =>
+  import(
+    '../../components/DollarCostAveragingCalculator/DollarCostAveragingCalculator'
+  )
+);
+const TopMovers = lazy(() => import('../../components/TopMovers/TopMovers'));
+const DividendInfo = lazy(() =>
+  import('../../components/DividendInfo/DividendInfo')
+);
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -38,47 +58,45 @@ const HomePage = () => {
         )}
         <div className='stock-data'>
           {symbol ? (
-            <TradingViewWidget symbol={symbol} />
+            <Suspense fallback={<div>Loading...</div>}>
+              <TradingViewWidget symbol={symbol} />
+            </Suspense>
           ) : (
             <div>Please select a stock symbol.</div>
           )}
         </div>
       </div>
 
-      <div className='row my-2'>
-        <div className='col-md-3'>
-          <DollarCostAveragingCalculator />
-          <StockWatchlist />
+      <Suspense fallback={<div>Loading...</div>}>
+        <div className='row my-2'>
+          <div className='col-md-3'>
+            <DollarCostAveragingCalculator />
+            <StockWatchlist />
+          </div>
+          <div className='col-md-3'>
+            <OptionPremiumCalculator />
+            <TopMovers />
+          </div>
+          <div className='col-md-6'>
+            <PercentageDifferenceCalculator />
+            <CompoundInterestCalculator />
+          </div>
         </div>
-        <div className='col-md-3'>
-          <OptionPremiumCalculator />
-          <TopMovers />
-        </div>
-        <div className='col-md-6'>
-          <PercentageDifferenceCalculator />
-          <CompoundInterestCalculator />
-        </div>
-      </div>
 
-      <div className='row my-2'>
-        <div className='col-md-3'></div>
-        <div className='col-md-3'></div>
-        <div className='col-md-6'></div>
-      </div>
-
-      <div className='row my-3'>
-        <DividendInfo />
-      </div>
-
-      <div className='row my-3'>
-        <div className='col-md-12'>
-          <h3>Related News</h3>
-          {newsError && (
-            <div className='alert alert-danger'>{newsError.message}</div>
-          )}
-          <NewsFeed />
+        <div className='row my-3'>
+          <DividendInfo />
         </div>
-      </div>
+
+        <div className='row my-3'>
+          <div className='col-md-12'>
+            <h3>Related News</h3>
+            {newsError && (
+              <div className='alert alert-danger'>{newsError.message}</div>
+            )}
+            <NewsFeed />
+          </div>
+        </div>
+      </Suspense>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-/*import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { formatNumberWithCommas } from '../../utils/format';
 import './AssetManagementCalculator.css';
 
@@ -142,4 +142,4 @@ const AssetManagementCalculator = () => {
   );
 };
 
-export default AssetManagementCalculator;*/
+export default AssetManagementCalculator;

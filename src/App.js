@@ -1,23 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Provider } from 'react-redux';
 import store from './redux/store';
-import HomePage from './containers/HomePage/HomePage';
-import ChartAnalysisPage from './containers/ChartAnalysisPage/ChartAnalysisPage';
-/*import AssetManagement from './containers/AssetManagement/AssetManagement';*/
-import EducationPage from './containers/EducationPage/EducationPage';
-import TrendingToolbar from './components/TrendingToolbar/TrendingToolbar';
-
-import CompoundInterestCalculator from './components/CompoundInterestCalculator/CompoundInterestCalculator';
-import PercentageDifferenceCalculator from './components/PercentageDifferenceCalculator/PercentageDifferenceCalculator';
-import Sidebar from './layout/Sidebar';
-import Navbar from './layout/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { fetchStocks, fetchStockPrice } from './redux/actions/stockActions';
 import { setUserSymbol } from './redux/actions/userActions';
 import { setTheme } from './redux/actions/themeActions';
+
+// Lazy load the components
+const HomePage = lazy(() => import('./containers/HomePage/HomePage'));
+const ChartAnalysisPage = lazy(() =>
+  import('./containers/ChartAnalysisPage/ChartAnalysisPage')
+);
+// const AssetManagement = lazy(() => import('./containers/AssetManagement/AssetManagement'));
+const EducationPage = lazy(() =>
+  import('./containers/EducationPage/EducationPage')
+);
+const TrendingToolbar = lazy(() =>
+  import('./components/TrendingToolbar/TrendingToolbar')
+);
+const CompoundInterestCalculator = lazy(() =>
+  import('./components/CompoundInterestCalculator/CompoundInterestCalculator')
+);
+const PercentageDifferenceCalculator = lazy(() =>
+  import(
+    './components/PercentageDifferenceCalculator/PercentageDifferenceCalculator'
+  )
+);
+const Sidebar = lazy(() => import('./layout/Sidebar'));
+const Navbar = lazy(() => import('./layout/Navbar'));
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -56,30 +69,38 @@ function App() {
         <div
           className={`d-flex ${isSidebarOpen ? '' : 'toggled'}`}
           id='wrapper'>
-          <Sidebar />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Sidebar />
+          </Suspense>
           <div id='page-content-wrapper' className={theme}>
-            <Navbar
-              toggleSidebar={toggleSidebar}
-              handleSymbolSearch={handleSymbolSearch}
-              toggleTheme={toggleTheme}
-            />
-            <TrendingToolbar />
-
+            <Suspense fallback={<div>Loading...</div>}>
+              <Navbar
+                toggleSidebar={toggleSidebar}
+                handleSymbolSearch={handleSymbolSearch}
+                toggleTheme={toggleTheme}
+              />
+              <TrendingToolbar />
+            </Suspense>
             <div className='container-fluid'>
-              <Routes>
-                <Route path='/' element={<HomePage />} />
-                <Route path='/chart-analysis' element={<ChartAnalysisPage />} />
-                <Route
-                  path='/compound-interest-calculator'
-                  element={<CompoundInterestCalculator />}
-                />
-                <Route
-                  path='/percentage-difference'
-                  element={<PercentageDifferenceCalculator />}
-                />
-                {/*<Route path='/asset-management' element={<AssetManagement />} />*/}
-                <Route path='/education' element={<EducationPage />} />
-              </Routes>
+              <Suspense fallback={<div>Loading...</div>}>
+                <Routes>
+                  <Route path='/' element={<HomePage />} />
+                  <Route
+                    path='/chart-analysis'
+                    element={<ChartAnalysisPage />}
+                  />
+                  <Route
+                    path='/compound-interest-calculator'
+                    element={<CompoundInterestCalculator />}
+                  />
+                  <Route
+                    path='/percentage-difference'
+                    element={<PercentageDifferenceCalculator />}
+                  />
+                  {/*<Route path='/asset-management' element={<AssetManagement />} />*/}
+                  <Route path='/education' element={<EducationPage />} />
+                </Routes>
+              </Suspense>
             </div>
           </div>
         </div>
