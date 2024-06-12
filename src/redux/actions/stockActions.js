@@ -1,9 +1,8 @@
-// src/redux/actions/stockActions.js
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { setUserSymbol, setStockPrice } from './userActions';
 
-const apiKey = '6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq';
+const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 
 export const fetchStocks = createAsyncThunk(
   'stocks/fetchStocks',

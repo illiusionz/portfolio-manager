@@ -19,7 +19,7 @@ export const setWatchlistData = (data) => ({
 
 export const fetchWatchlistData = (symbols) => async (dispatch) => {
   try {
-    const apiKey = '6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq';
+    const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
     const promises = symbols.map((symbol) =>
       fetch(
         `https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers/${symbol}?apiKey=${apiKey}`

@@ -1,4 +1,3 @@
-// src/redux/reducers/watchlistReducer.js
 import {
   ADD_TO_WATCHLIST,
   REMOVE_FROM_WATCHLIST,

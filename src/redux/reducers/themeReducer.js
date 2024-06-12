@@ -1,4 +1,3 @@
-// src/redux/reducers/themeReducer.js
 const initialState = 'light';
 
 const themeReducer = (state = initialState, action) => {

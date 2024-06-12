@@ -1,21 +1,30 @@
-// src/redux/reducers/newsReducer.js
-const initialState = {
-  articles: [],
-  loading: false,
-  error: null,
-};
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchNews } from '../actions/newsActions';
 
-const newsReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case 'FETCH_NEWS_REQUEST':
-      return { ...state, loading: true };
-    case 'FETCH_NEWS_SUCCESS':
-      return { ...state, loading: false, articles: action.payload };
-    case 'FETCH_NEWS_FAILURE':
-      return { ...state, loading: false, error: action.payload };
-    default:
-      return state;
-  }
-};
+const newsSlice = createSlice({
+  name: 'news',
+  initialState: {
+    articles: [],
+    loading: false,
+    error: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchNews.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchNews.fulfilled, (state, action) => {
+        state.loading = false;
+        state.articles = action.payload;
+        state.error = null;
+      })
+      .addCase(fetchNews.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+  },
+});
 
-export default newsReducer;
+export default newsSlice.reducer;

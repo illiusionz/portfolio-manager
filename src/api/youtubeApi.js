@@ -1,14 +1,13 @@
-// src/api/youtubeApi.js
 import axios from 'axios';
 
-const API_KEY = 'AIzaSyBTkiRMqjzqZLN3rTEtPj4mAtj8uMZMlPQ';
-const CHANNEL_ID = 'UC44-XCDTGmDYOX75XL0cpbQ';
+const API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
+const CHANNEL_ID = process.env.REACT_APP_YOUTUBE_CHANNEL_ID;
 const MAX_RESULTS = 10;
 
 export const fetchYouTubeVideos = async () => {
   try {
     const response = await axios.get(
-      `https://www.googleapis.com/youtube/v3/search`,
+      'https://www.googleapis.com/youtube/v3/search',
       {
         params: {
           part: 'snippet',
@@ -19,9 +18,8 @@ export const fetchYouTubeVideos = async () => {
       }
     );
 
-    console.log('API Response:', response.data); // Log the entire response
-
-    return response.data.items; // Use the items directly
+    console.log('API Response:', response.data);
+    return response.data.items;
   } catch (error) {
     console.error('Error fetching YouTube videos:', error);
     throw error;

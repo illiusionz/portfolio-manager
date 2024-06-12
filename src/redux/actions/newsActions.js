@@ -1,7 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
+
 export const fetchNews = createAsyncThunk('news/fetchNews', async (symbol) => {
-  const apiKey = '6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq';
   const response = await fetch(
     `https://api.polygon.io/v2/reference/news?ticker=${symbol}&limit=12&apiKey=${apiKey}`
   );
