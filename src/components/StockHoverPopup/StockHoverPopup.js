@@ -1,37 +1,51 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { addToWatchlist } from '../../redux/actions/watchlistActions';
 import './StockHoverPopup.css';
 
-const StockHoverPopup = ({ stock }) => {
+const StockHoverPopup = ({ stock, position }) => {
+  const dispatch = useDispatch();
+
   if (!stock) return null;
 
   const changePercent = stock.todaysChangePerc.toFixed(2);
   const changeClass = changePercent >= 0 ? 'positive' : 'negative';
   const arrowIcon = changePercent >= 0 ? faArrowUp : faArrowDown;
 
+  const handleAddToWatchlist = () => {
+    dispatch(addToWatchlist(stock.ticker));
+    console.log(`Added ${stock.ticker} to watchlist`);
+  };
+
   return (
-    <div className='stock-hover-popup'>
+    <div
+      className='stock-hover-popup'
+      style={{ top: position.top + 10, left: position.left + 10 }}
+      onMouseEnter={() => console.log('Mouse enter popup')}
+      onMouseLeave={() => console.log('Mouse leave popup')}>
       <div className='popup-header'>
-        <div className='popup-symbol'>
-          {stock.ticker} - {stock.name}
+        <div className='popup-ticker'>
+          <span className='stock-symbol'>{stock.ticker}</span>
+          <span className='stock-name'>{stock.name}</span>
         </div>
-        <button className='watch-button'>Watch</button>
+        <button className='watch-button' onClick={handleAddToWatchlist}>
+          Watch
+        </button>
       </div>
       <div className='popup-price'>
-        <span className={changeClass}>
-          {stock.price} <FontAwesomeIcon icon={arrowIcon} />
+        <span className='stock-price'>${stock.price}</span>
+        <span className={`price-change ${changeClass}`}>
+          <FontAwesomeIcon icon={arrowIcon} /> {stock.priceChange} (
+          {changePercent}%)
         </span>
-        <span className={changeClass}> {changePercent}%</span>
       </div>
       <div className='popup-chart'>
-        {/* Replace this with a small line chart */}
-        <img
-          src={`https://dummyimage.com/100x40/ddd/000&text=${stock.ticker}`}
-          alt='chart'
-        />
+        {/* Placeholder for chart */}
+        <div className='line-chart'></div>
       </div>
-      <div className='popup-info'>
+      <div className='popup-description'>
         {stock.description || 'No description available.'}
       </div>
     </div>

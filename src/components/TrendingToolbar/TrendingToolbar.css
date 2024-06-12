@@ -1,12 +1,4 @@
-.dark .trending-toolbar {
-  background-color: var(--navbar-background-dark);
-  color: var(--text-color-dark);
-}
-
-.dark .stock-symbol {
-  color: var(--text-color-dark);
-  font-weight: 600;
-}
+/* Adjusted TrendingToolbar.css to handle hover and ensure proper styles are applied */
 
 .trending-toolbar {
   display: flex;
@@ -16,6 +8,7 @@
   padding: 10px 20px;
   overflow: hidden;
   border-bottom: 1px solid #ddd;
+  position: relative;
 }
 
 .index-data {
@@ -31,7 +24,7 @@
   align-items: center;
 }
 .index-item svg {
-  margin:0 5px;
+  margin: 0 5px;
 }
 
 .trending-stocks {
@@ -40,6 +33,7 @@
   white-space: nowrap;
   overflow: hidden;
   position: relative;
+  width: 100%;
 }
 
 .trending-label {
@@ -75,10 +69,6 @@
   animation: scroll 90s linear infinite;
 }
 
-.scroll-container.paused {
-  animation-play-state: paused;
-}
-
 .stock-item, .index-item {
   margin: 0 7px;
   padding: 5px;
@@ -97,4 +87,9 @@
 
 .negative {
   color: #f44336;
+}
+
+/* Stop scrolling on hover */
+.trending-stocks:hover .scroll-container {
+  animation-play-state: paused;
 }
