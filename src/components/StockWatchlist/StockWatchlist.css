@@ -1,4 +1,5 @@
 /* src/components/StockWatchlist/StockWatchlist.css */
+
 .watchlist {
   margin-top: 20px;
 }
@@ -17,10 +18,6 @@
   margin-left: 10px;
 }
 
-
-
-
-/* src/components/StockWatchlist/StockWatchlist.css */
 .table th,
 .table td {
   text-align: center;
@@ -34,4 +31,9 @@
   width: 16px;
   height: 11px;
   margin-left: 5px;
+}
+
+.error {
+  color: red;
+  margin-bottom: 10px;
 }

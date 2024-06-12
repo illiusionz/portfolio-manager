@@ -3,7 +3,6 @@
   display: block;
 }
 
-
 .option-premium-calculator .form-control {
   width: 50%;
   flex: none;
@@ -18,7 +17,6 @@
   padding: 1rem 2rem;
 }
 
-
 .option-premium-calculator .result {
   border-top: 1px solid var(--card-border-dark);
   padding-top: 1rem;
@@ -28,9 +26,9 @@
 .option-premium-calculator .result h6 {
   display: flex;
   justify-content: space-between;
-  padding: .2rem 0;
+  padding: 0.2rem 0;
 }
 
-.dark .option-premium-calculator .result h6 strong{
+.dark .option-premium-calculator .result h6 strong {
   color: var(--text-color-dark);
 }

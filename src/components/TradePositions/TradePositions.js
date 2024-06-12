@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { fetchGoogleSheetData } from '../../utils/googleSheetsAPI';
 import './TradePositions.css';
 
-const sheetId = '1nOlaumXN3Mlg6_BcGb4CRjVFngUgoPmNj6_WsYmRh6E'; // Your Google Sheet ID
-const range = 'Sheet1!A1:M20'; // Adjust the range as needed
-const apiKey = 'AIzaSyDHyA7Uk98E-1pzdgfhkD2ojPWZ0XrGWhU'; // Your API key
+const sheetId = process.env.REACT_APP_SHEET_ID;
+const range = 'Sheet1!A1:M20';
+const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 
 const TradePositions = () => {
   const [data, setData] = useState(null);
@@ -21,7 +21,7 @@ const TradePositions = () => {
       }
     };
     getData();
-  }, []);
+  }, [sheetId, range, apiKey]);
 
   return (
     <div className='trade-positions'>

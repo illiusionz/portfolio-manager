@@ -21,6 +21,22 @@ const OptionPremiumCalculator = () => {
     const premium = parseFloat(premiumAmount.replace(/,/g, ''));
     const weeks = parseInt(amountOfWeeks.replace(/,/g, ''), 10);
 
+    if (
+      isNaN(strikePrice) ||
+      isNaN(contracts) ||
+      isNaN(premium) ||
+      isNaN(weeks) ||
+      strikePrice <= 0 ||
+      contracts <= 0 ||
+      premium <= 0 ||
+      weeks <= 0
+    ) {
+      setTotalPremium(null);
+      setPercentageReturn(null);
+      setTotalCapital(null);
+      return;
+    }
+
     const totalCollected = premium * contracts * 100 * weeks;
     const capitalRequired = strikePrice * contracts * 100;
     const returnPercentage = (totalCollected / capitalRequired) * 100;
@@ -31,7 +47,6 @@ const OptionPremiumCalculator = () => {
   };
 
   useEffect(() => {
-    // Log current stock price and name for debugging
     console.log('Current stock price:', stockPrice);
     console.log('Stock name:', stockName);
 
@@ -119,17 +134,17 @@ const OptionPremiumCalculator = () => {
             Calculate
           </button>
           {totalPremium !== null && (
-            <div class='result'>
+            <div className='result'>
               <h6>
                 <strong>Total Premium Collected:</strong>+$
                 {formatNumberWithCommas(totalPremium.toFixed(2))}
               </h6>
               <h6>
-                <strong> Total Capital Used:</strong>$
+                <strong>Total Capital Used:</strong>$
                 {formatNumberWithCommas(totalCapital.toFixed(2))}
               </h6>
               <h6>
-                <strong> Average Return: </strong>+
+                <strong>Average Return:</strong>+
                 {formatNumberWithCommas(percentageReturn.toFixed(2))}%
               </h6>
             </div>

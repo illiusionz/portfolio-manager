@@ -1,4 +1,3 @@
-// src/components/PercentageDifferenceCalculator/PercentageDifferenceCalculator.js
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import './PercentageDifferenceCalculator.css';
@@ -21,21 +20,20 @@ const PercentageDifferenceCalculator = () => {
   };
 
   useEffect(() => {
-    // Log current stock price and name for debugging
     console.log('Current stock price:', stockPrice);
     console.log('Stock name:', stockName);
   }, [stockPrice, stockName]);
 
   return (
-    <div class='percentage-difference-calculator'>
-      <div className='card '>
+    <div className='percentage-difference-calculator'>
+      <div className='card'>
         <div className='card-header'>
           <h5 className='card-title mb-0'>Stock Price % Change</h5>
         </div>
         <div className='card-body'>
           <form className='form-inline' onSubmit={calculatePercentageChange}>
             <div className='form-group mx-2'>
-              <label className='form-label' htmlFor='currentPrice'>
+              <label className='form-label' htmlFor='stockName'>
                 Stock Name:
               </label>
               <input

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowUp,
@@ -8,7 +7,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import './TrendingToolbar.css';
 import StockHoverPopup from '../StockHoverPopup/StockHoverPopup';
-import { fetchStockData } from '../../redux/actions/stockActions';
 
 const TrendingToolbar = () => {
   const [indexData, setIndexData] = useState({});
@@ -80,14 +78,14 @@ const TrendingToolbar = () => {
     'WMT',
     'XOM',
   ];
-
   const indexTickers = ['SPY', 'QQQ', 'IWM', 'DIA'];
+  const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 
   useEffect(() => {
     const fetchData = async (ticker, isIndex = false) => {
       try {
         const response = await fetch(
-          `https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers/${ticker}?apiKey=6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq`
+          `https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers/${ticker}?apiKey=${apiKey}`
         );
         const data = await response.json();
         if (isIndex) {
@@ -109,7 +107,7 @@ const TrendingToolbar = () => {
 
     indexTickers.forEach((ticker) => fetchData(ticker, true));
     fetchTrendingStocks();
-  }, []);
+  }, [apiKey]);
 
   const renderStock = (stock, index) => {
     if (!stock) return null;
@@ -126,9 +124,9 @@ const TrendingToolbar = () => {
           setHoverPosition({ top: e.clientY, left: e.clientX });
         }}
         onMouseLeave={() => setHoveredStock(null)}>
-        <span className='stock-symbol'>{stock.ticker} </span>
+        <span className='stock-symbol'>{stock.ticker}</span>
         <FontAwesomeIcon icon={arrowIcon} />
-        <span className='stock-percent'> {changePercent}%</span>
+        <span className='stock-percent'>{changePercent}%</span>
       </div>
     );
   };
@@ -142,9 +140,9 @@ const TrendingToolbar = () => {
 
     return (
       <div key={ticker} className={`index-item ${changeClass}`}>
-        <span className='stock-symbol'>{data.ticker} </span>
+        <span className='stock-symbol'>{data.ticker}</span>
         <FontAwesomeIcon icon={arrowIcon} />
-        <span className='stock-percent'> {changePercent}%</span>
+        <span className='stock-percent'>{changePercent}%</span>
       </div>
     );
   };
