@@ -5,8 +5,10 @@ import './NewsFeed.css';
 
 const NewsFeed = () => {
   const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { symbol } = useSelector((state) => state.user);
-  const apiKey = '6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq';
+  const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -15,15 +17,26 @@ const NewsFeed = () => {
           `https://api.polygon.io/v2/reference/news?ticker=${symbol}&limit=12&apiKey=${apiKey}`
         );
         setNews(response.data.results);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching news:', error);
+        setError('Failed to fetch news');
+        setLoading(false);
       }
     };
 
     if (symbol) {
       fetchNews();
     }
-  }, [symbol]);
+  }, [symbol, apiKey]);
+
+  if (loading) {
+    return <div>Loading news...</div>;
+  }
+
+  if (error) {
+    return <div className='error'>{error}</div>;
+  }
 
   return (
     <div className='news-feed'>

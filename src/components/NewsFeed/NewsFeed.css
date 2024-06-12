@@ -1,3 +1,5 @@
+/* src/components/NewsFeed/NewsFeed.css */
+
 .news-feed {
   display: flex;
   flex-wrap: wrap;
@@ -55,4 +57,8 @@
   width: 100px!important;
   margin-top: 10px;
   align-self: flex-end;
+}
+
+.error {
+  color: red;
 }
