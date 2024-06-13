@@ -50,7 +50,7 @@ body {
 }
 
 .btn {
-  font-weight: 900;
+  font-weight: 500;
 }
 
 
@@ -128,6 +128,11 @@ input[type="number"] {
   margin-bottom: 1rem;
 }
 
+.card-title {
+  font-size: .9rem;
+
+}
+
 .card-header {
   background-color: var(--card-background-light);
   border-bottom: 1px solid var(--card-border-light);
@@ -147,7 +152,7 @@ input[type="number"] {
 .form-inline {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   width: 100%;
 }
 
@@ -159,7 +164,7 @@ input[type="number"] {
 .form-label {
   margin-right: 0.5rem;
   margin-bottom: 0;
-  font-size: 1rem;
+  font-size: .9rem;
   font-weight: 600;
 }
 
