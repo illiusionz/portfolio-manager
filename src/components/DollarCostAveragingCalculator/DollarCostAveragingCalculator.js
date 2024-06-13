@@ -101,7 +101,10 @@ const DollarCostAveragingCalculator = () => {
             </div>
           </div>
         ))}
-        <div className='button-group mb-3'>
+        <div className='button-group max-auto mb-3'>
+          <button className='btn btn-primary' onClick={handleCalculate}>
+            Calculate
+          </button>
           <button className='btn btn-success me-2' onClick={handleAddRow}>
             Add
           </button>
@@ -110,11 +113,6 @@ const DollarCostAveragingCalculator = () => {
           </button>
           <button className='btn btn-danger' onClick={handleReset}>
             Reset
-          </button>
-        </div>
-        <div className='mb-3'>
-          <button className='btn btn-primary w-100' onClick={handleCalculate}>
-            Calculate
           </button>
         </div>
         {result && (

@@ -5,35 +5,32 @@ import Autosuggest from 'react-autosuggest';
 import './DividendInfo.css';
 
 const DividendInfo = () => {
-  const watchlist = useSelector((state) => state.watchlist.symbols);
+  const symbol = useSelector((state) => state.user.symbol); // Get the selected symbol from the state
   const [dividends, setDividends] = useState([]);
-  const [query, setQuery] = useState('');
-  const [numberOfShares, setNumberOfShares] = useState(''); // New state for number of shares
-  const [calculatedDividend, setCalculatedDividend] = useState(null); // New state for calculated dividend
+  const [query, setQuery] = useState(symbol || '');
+  const [numberOfShares, setNumberOfShares] = useState('');
+  const [calculatedDividend, setCalculatedDividend] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
   const theme = useSelector((state) => state.theme);
 
   const apiKey = '6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq';
 
   useEffect(() => {
-    const fetchDividends = async (symbol) => {
+    const fetchDividends = async () => {
       try {
         const response = await axios.get(
           `https://api.polygon.io/v3/reference/dividends?ticker=${symbol}&apiKey=${apiKey}`
         );
-        setDividends((prevDividends) => [
-          ...prevDividends,
-          ...response.data.results,
-        ]);
+        setDividends(response.data.results || []);
       } catch (error) {
         console.error('Error fetching dividend data:', error);
       }
     };
 
-    watchlist.forEach((symbol) => {
-      fetchDividends(symbol);
-    });
-  }, [watchlist]);
+    if (symbol) {
+      fetchDividends();
+    }
+  }, [symbol]);
 
   const onSuggestionsFetchRequested = async ({ value }) => {
     try {
@@ -65,15 +62,13 @@ const DividendInfo = () => {
   };
 
   const onSuggestionSelected = async (event, { suggestion }) => {
-    const symbol = suggestion.ticker;
+    const selectedSymbol = suggestion.ticker;
     try {
       const response = await axios.get(
-        `https://api.polygon.io/v3/reference/dividends?ticker=${symbol}&apiKey=${apiKey}`
+        `https://api.polygon.io/v3/reference/dividends?ticker=${selectedSymbol}&apiKey=${apiKey}`
       );
-      setDividends((prevDividends) => [
-        ...prevDividends,
-        ...response.data.results,
-      ]);
+      setDividends(response.data.results || []);
+      setQuery(selectedSymbol);
     } catch (error) {
       console.error('Error fetching dividend data:', error);
     }
@@ -81,15 +76,12 @@ const DividendInfo = () => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    const symbol = query.split(' - ')[0];
+    const searchSymbol = query.split(' - ')[0];
     try {
       const response = await axios.get(
-        `https://api.polygon.io/v3/reference/dividends?ticker=${symbol}&apiKey=${apiKey}`
+        `https://api.polygon.io/v3/reference/dividends?ticker=${searchSymbol}&apiKey=${apiKey}`
       );
-      setDividends((prevDividends) => [
-        ...prevDividends,
-        ...response.data.results,
-      ]);
+      setDividends(response.data.results || []);
     } catch (error) {
       console.error('Error fetching dividend data:', error);
     }
@@ -110,6 +102,8 @@ const DividendInfo = () => {
     setQuery('');
     setNumberOfShares('');
     setCalculatedDividend(null);
+    setDividends([]);
+    setSuggestions([]);
   };
 
   const inputProps = {

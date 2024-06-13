@@ -62,3 +62,16 @@
 .error {
   color: red;
 }
+
+.dark .news-item {
+  background-color: var(--card-background-dark);
+  border: 1px solid var(--card-border-dark);
+}
+
+.dark .news-title {
+  color: var(--text-color-dark);
+}
+
+.dark .news-date {
+  color: var(--text-color-dark);
+}

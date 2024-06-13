@@ -14,7 +14,6 @@ const HomePage = lazy(() => import('./containers/HomePage/HomePage'));
 const ChartAnalysisPage = lazy(() =>
   import('./containers/ChartAnalysisPage/ChartAnalysisPage')
 );
-// const AssetManagement = lazy(() => import('./containers/AssetManagement/AssetManagement'));
 const EducationPage = lazy(() =>
   import('./containers/EducationPage/EducationPage')
 );
@@ -47,6 +46,7 @@ function App() {
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     dispatch(setTheme(newTheme));
+    localStorage.setItem('theme', newTheme);
   };
 
   useEffect(() => {
@@ -97,7 +97,6 @@ function App() {
                     path='/percentage-difference'
                     element={<PercentageDifferenceCalculator />}
                   />
-                  {/*<Route path='/asset-management' element={<AssetManagement />} />*/}
                   <Route path='/education' element={<EducationPage />} />
                 </Routes>
               </Suspense>

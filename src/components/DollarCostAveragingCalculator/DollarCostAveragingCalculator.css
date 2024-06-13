@@ -24,7 +24,7 @@
 
 .dca-calculator .button-group {
   display: flex;
-  justify-content: start;
+  justify-content: center;
 }
 
 .dca-calculator .button-group button {
