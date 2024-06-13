@@ -6,3 +6,17 @@
   text-align: center;
   margin: 0;
 }
+
+.percentage-difference-calculator .card-body {
+  padding: 1rem 2rem;
+}
+
+.percentage-difference-calculator .form-control {
+  width: 50%;
+  flex: none;
+}
+
+.percentage-difference-calculator  .form-group {
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}

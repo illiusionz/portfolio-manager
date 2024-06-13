@@ -69,21 +69,23 @@ const HomePage = () => {
       <Suspense fallback={<div>Loading...</div>}>
         <div className='row my-2'>
           <div className='col-md-3'>
+            <TopMovers />
+          </div>
+          <div className='col-md-3'>
             <DollarCostAveragingCalculator />
             <StockWatchlist />
           </div>
           <div className='col-md-3'>
             <OptionPremiumCalculator />
-            <TopMovers />
           </div>
-          <div className='col-md-6'>
+          <div className='col-md-3'>
             <PercentageDifferenceCalculator />
-            <CompoundInterestCalculator />
           </div>
         </div>
 
         <div className='row my-3'>
           <DividendInfo />
+          <CompoundInterestCalculator />
         </div>
 
         <div className='row my-3'>

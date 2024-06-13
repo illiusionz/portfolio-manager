@@ -36,50 +36,51 @@ const PercentageDifferenceCalculator = () => {
           <h5 className='card-title mb-0'>Stock Price % Change</h5>
         </div>
         <div className='card-body'>
-          <form className='form-inline' onSubmit={calculatePercentageChange}>
-            <div className='form-group mx-2'>
+          <form className='' onSubmit={calculatePercentageChange}>
+            <div className='form-group'>
               <label className='form-label' htmlFor='stockName'>
                 Stock Name:
               </label>
               <input
                 type='text'
                 id='stockName'
-                className='form-control mx-2'
+                className='form-control'
                 value={stockName}
                 readOnly
               />
             </div>
-            <div className='form-group mx-2'>
+            <div className='form-group'>
               <label className='form-label' htmlFor='currentPrice'>
                 Current Price:
               </label>
               <input
                 type='number'
                 id='currentPrice'
-                className='form-control mx-2'
+                className='form-control'
                 value={stockPrice || ''}
                 readOnly
               />
             </div>
-            <div className='form-group mx-2'>
+            <div className='form-group'>
               <label className='form-label' htmlFor='targetPrice'>
                 Target Price:
               </label>
               <input
                 type='number'
                 id='targetPrice'
-                className='form-control mx-2'
+                className='form-control'
                 value={targetPrice}
                 onChange={(e) => setTargetPrice(e.target.value)}
               />
             </div>
-            <div className='form-group button-group'>
+
+            <div className='button-group'>
               <button type='submit' className='btn btn-primary mx-2'>
                 Calculate
               </button>
               <button
                 type='button'
-                className='btn btn-danger mx-2'
+                className='btn btn-danger'
                 onClick={resetFields}>
                 Reset
               </button>
