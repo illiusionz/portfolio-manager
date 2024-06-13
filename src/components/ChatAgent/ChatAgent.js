@@ -9,6 +9,7 @@ const ChatAgent = () => {
   const [lastRequestTime, setLastRequestTime] = useState(0);
   const RATE_LIMIT_DELAY = 1000; // 1 second
   const [file, setFile] = useState(null);
+  const [messages, setMessages] = useState([]);
 
   const handleSend = async () => {
     const currentTime = new Date().getTime();
@@ -18,6 +19,7 @@ const ChatAgent = () => {
     }
 
     setLoading(true);
+    setMessages([...messages, { role: 'user', content: input }]);
     try {
       let result;
       if (file) {
@@ -28,6 +30,10 @@ const ChatAgent = () => {
         result = await testOpenAI(input);
       }
       console.log('Received response:', result);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { role: 'assistant', content: result.content },
+      ]);
       setResponse(result.content);
       setLastRequestTime(currentTime);
     } catch (error) {
@@ -36,6 +42,7 @@ const ChatAgent = () => {
     } finally {
       setLoading(false);
       setFile(null); // Clear file after upload
+      setInput(''); // Clear input field
     }
   };
 
@@ -50,9 +57,11 @@ const ChatAgent = () => {
   return (
     <div className='chat-agent'>
       <div className='messages'>
-        <div className='message user'>Hello world</div>
-        <div className='message bot'>Hello! How can I assist you today?</div>
-        {response && <div className='message bot'>{response}</div>}
+        {messages.map((msg, index) => (
+          <div key={index} className={`message ${msg.role}`}>
+            {msg.content}
+          </div>
+        ))}
       </div>
       <div className='input-container'>
         <textarea

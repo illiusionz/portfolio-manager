@@ -1,13 +1,24 @@
-// src/api.js
 const API_URL = 'http://localhost:5001/api';
 
-export const testOpenAI = async () => {
+export const testOpenAI = async (message) => {
   try {
-    const response = await fetch(`${API_URL}/test-openai`);
+    console.log('Sending message to OpenAI API:', message);
+    const response = await fetch(`${API_URL}/test-openai`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message }),
+    });
+
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      const errorDetails = await response.json();
+      console.error('Error response from OpenAI API:', errorDetails);
+      throw new Error(`Network response was not ok: ${errorDetails.error}`);
     }
+
     const data = await response.json();
+    console.log('Received response from OpenAI API:', data);
     return data;
   } catch (error) {
     console.error('Error fetching OpenAI test data:', error);
@@ -20,16 +31,20 @@ export const uploadChartForAnalysis = async (file) => {
   formData.append('file', file);
 
   try {
+    console.log('Uploading file to OpenAI API:', file);
     const response = await fetch(`${API_URL}/upload-chart`, {
       method: 'POST',
       body: formData,
     });
 
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      const errorDetails = await response.json();
+      console.error('Error response from OpenAI API:', errorDetails);
+      throw new Error(`Network response was not ok: ${errorDetails.error}`);
     }
 
     const data = await response.json();
+    console.log('Received response from OpenAI API:', data);
     return data;
   } catch (error) {
     console.error('Error uploading chart:', error);
