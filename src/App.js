@@ -35,9 +35,7 @@ function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme);
-  const [symbol, setSymbol] = useState(
-    localStorage.getItem('lastStock') || 'TSLA'
-  );
+  const [symbol, setSymbol] = useState(localStorage.getItem('lastStock'));
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);

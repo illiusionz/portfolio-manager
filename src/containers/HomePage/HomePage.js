@@ -89,8 +89,8 @@ const HomePage = () => {
         </div>
 
         <div className='row my-3'>
-          <CompoundInterestCalculator />
           <DividendInfo />
+          <CompoundInterestCalculator />
         </div>
 
         <div className='row my-3'>

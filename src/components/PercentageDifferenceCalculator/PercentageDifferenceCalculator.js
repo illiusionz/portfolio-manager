@@ -4,7 +4,7 @@ import Autosuggest from 'react-autosuggest';
 import axios from 'axios';
 import './PercentageDifferenceCalculator.css';
 import { fetchStockPrice } from '../../redux/actions/stockActions';
-import { setUserSymbol } from '../../redux/actions/userActions'; // Ensure the correct path
+import { setUserSymbol } from '../../redux/actions/userActions';
 import { formatNumberWithCommas } from '../../utils/format';
 
 const PercentageDifferenceCalculator = () => {
@@ -21,6 +21,13 @@ const PercentageDifferenceCalculator = () => {
   useEffect(() => {
     calculatePercentageChange();
   }, [targetPrice, stockPrice]);
+
+  useEffect(() => {
+    if (symbol) {
+      setQuery(symbol);
+      dispatch(fetchStockPrice(symbol));
+    }
+  }, [symbol, dispatch]);
 
   const calculatePercentageChange = () => {
     if (!stockPrice || !targetPrice) {
@@ -70,10 +77,6 @@ const PercentageDifferenceCalculator = () => {
   const onSuggestionSelected = async (event, { suggestion }) => {
     const selectedSymbol = suggestion.ticker;
     try {
-      const response = await axios.get(
-        `https://api.polygon.io/v2/aggs/ticker/${selectedSymbol}/prev?adjusted=true&apiKey=YOUR_API_KEY`
-      );
-      const priceData = response.data.results[0];
       dispatch(setUserSymbol(selectedSymbol));
       dispatch(fetchStockPrice(selectedSymbol));
       setQuery(selectedSymbol);
