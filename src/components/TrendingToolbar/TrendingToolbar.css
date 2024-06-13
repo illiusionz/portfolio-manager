@@ -70,6 +70,16 @@
   animation: scroll 90s linear infinite;
 }
 
+.trending-toolbar .stock-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.trending-toolbar .stock-item svg {
+  margin: 0 5px;
+}
+
 .stock-item, .index-item {
   margin: 0 7px;
   padding: 5px;

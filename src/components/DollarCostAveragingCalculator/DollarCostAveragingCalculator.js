@@ -3,7 +3,7 @@ import './DollarCostAveragingCalculator.css';
 
 const DollarCostAveragingCalculator = () => {
   const [investments, setInvestments] = useState([
-    { shares: '', avgBuy: '', totalCost: '' },
+    { shares: '100', avgBuy: '', totalCost: '' },
   ]);
   const [result, setResult] = useState(null);
 

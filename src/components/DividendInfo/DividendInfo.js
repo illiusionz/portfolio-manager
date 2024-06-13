@@ -1,4 +1,3 @@
-// src/components/DividendInfo/DividendInfo.js
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
@@ -9,6 +8,8 @@ const DividendInfo = () => {
   const watchlist = useSelector((state) => state.watchlist.symbols);
   const [dividends, setDividends] = useState([]);
   const [query, setQuery] = useState('');
+  const [numberOfShares, setNumberOfShares] = useState(''); // New state for number of shares
+  const [calculatedDividend, setCalculatedDividend] = useState(null); // New state for calculated dividend
   const [suggestions, setSuggestions] = useState([]);
   const theme = useSelector((state) => state.theme);
 
@@ -94,6 +95,23 @@ const DividendInfo = () => {
     }
   };
 
+  const handleCalculate = () => {
+    const selectedDividend = dividends.find(
+      (dividend) => dividend.ticker === query.toUpperCase()
+    );
+    if (selectedDividend && numberOfShares) {
+      const totalDividend =
+        parseFloat(selectedDividend.cash_amount) * parseInt(numberOfShares, 10);
+      setCalculatedDividend(totalDividend.toFixed(2));
+    }
+  };
+
+  const handleReset = () => {
+    setQuery('');
+    setNumberOfShares('');
+    setCalculatedDividend(null);
+  };
+
   const inputProps = {
     placeholder: 'Search for a stock',
     value: query,
@@ -107,6 +125,21 @@ const DividendInfo = () => {
       </div>
       <div className='card-body'>
         <form className='form-inline my-2 my-lg-0' onSubmit={handleSearch}>
+          <div className='form-group me-5'>
+            <input
+              type='number'
+              className='form-control mx-2'
+              placeholder='Number of Shares'
+              value={numberOfShares}
+              onChange={(e) => setNumberOfShares(e.target.value)}
+            />
+            <button
+              type='button'
+              className='btn btn-primary my-2 my-sm-0 ml-2'
+              onClick={handleCalculate}>
+              Calculate Dividend
+            </button>
+          </div>
           <Autosuggest
             suggestions={suggestions}
             onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -116,10 +149,23 @@ const DividendInfo = () => {
             inputProps={inputProps}
             onSuggestionSelected={onSuggestionSelected}
           />
-          <button className='btn btn-primary my-2 my-sm-0 ml-2' type='submit'>
+          <button
+            className='btn btn-primary my-2 my-sm-0 ms-3 mx-3'
+            type='submit'>
             Search
           </button>
+          <button
+            type='button'
+            className='btn btn-danger my-2 my-sm-0 ml-2'
+            onClick={handleReset}>
+            Reset
+          </button>
         </form>
+        <div className='mt-3'>
+          <h5>
+            <strong>Total Dividend:</strong> ${calculatedDividend || '0.00'}
+          </h5>
+        </div>
         <table
           className={`table table-striped mt-3 ${
             theme === 'dark' ? 'table-dark' : ''

@@ -13,7 +13,7 @@ const ChatAgent = () => {
   const handleSend = async () => {
     const currentTime = new Date().getTime();
     if (currentTime - lastRequestTime < RATE_LIMIT_DELAY) {
-      console.log('Please wait before making another request.');
+      alert('Please wait a moment before making another request.');
       return;
     }
 
@@ -25,16 +25,14 @@ const ChatAgent = () => {
         result = await uploadChartForAnalysis(file);
       } else {
         console.log('Sending message:', input);
-        result = await testOpenAI();
+        result = await testOpenAI(input);
       }
       console.log('Received response:', result);
       setResponse(result.content);
       setLastRequestTime(currentTime);
     } catch (error) {
       console.error('Error sending message:', error);
-      if (error.message === 'Network response was not ok') {
-        console.log('Too many requests, please wait and try again.');
-      }
+      alert('Failed to send message. Please try again.');
     } finally {
       setLoading(false);
       setFile(null); // Clear file after upload
@@ -54,23 +52,27 @@ const ChatAgent = () => {
       <div className='messages'>
         <div className='message user'>Hello world</div>
         <div className='message bot'>Hello! How can I assist you today?</div>
-        {/* Render response here */}
+        {response && <div className='message bot'>{response}</div>}
       </div>
       <div className='input-container'>
         <textarea
           value={input}
           onChange={handleInputChange}
           placeholder='Type your message here...'
+          aria-label='Chat input'
         />
         <input
           type='file'
           className='file-upload'
           onChange={handleFileChange}
+          aria-label='File upload'
         />
-        <button onClick={handleSend} disabled={loading}>
+        <button
+          onClick={handleSend}
+          disabled={loading}
+          aria-label='Send message'>
           {loading ? 'Sending...' : 'Send'}
         </button>
-        <div className='response'>{response}</div>
       </div>
     </div>
   );

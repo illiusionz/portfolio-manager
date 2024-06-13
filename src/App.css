@@ -165,6 +165,7 @@ input[type="number"] {
 
 .form-control {
   flex: 1;
+  font-weight: 500;
 }
 
 .form-control::placeholder {
@@ -263,9 +264,6 @@ form.d-flex .btn-outline-primary {
   border-radius: 50%;
 }
 
-
-
-
 /* Dark theme */
 .dark {
   background-color: var(--background-color-dark);
@@ -359,11 +357,7 @@ form.d-flex .btn-outline-primary {
   --bs-table-striped-bg:#f4f7f90d;
 }
 
-
-
-
 .dark .react-autosuggest__suggestions-container--open {
-
   background-color: var(--card-background-dark);
 }
 
@@ -374,7 +368,6 @@ form.d-flex .btn-outline-primary {
 .dark .react-autosuggest__input::placeholder {
   color: var(--form-control-placeholder-dark);
 }
-
 
 .dark .react-autosuggest__suggestion:hover {
   background-color: var(--autosuggest-suggestion-highlighted-dark);

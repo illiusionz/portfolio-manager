@@ -5,9 +5,9 @@ import './OptionPremiumCalculator.css';
 
 const OptionPremiumCalculator = () => {
   const [stockStrikePrice, setStockStrikePrice] = useState('');
-  const [numberOfContracts, setNumberOfContracts] = useState('');
+  const [numberOfContracts, setNumberOfContracts] = useState('1');
   const [premiumAmount, setPremiumAmount] = useState('');
-  const [amountOfWeeks, setAmountOfWeeks] = useState('');
+  const [amountOfWeeks, setAmountOfWeeks] = useState('1'); // Default value set to 1
   const [totalPremium, setTotalPremium] = useState(null);
   const [percentageReturn, setPercentageReturn] = useState(null);
   const [totalCapital, setTotalCapital] = useState(null);
@@ -44,6 +44,16 @@ const OptionPremiumCalculator = () => {
     setTotalPremium(totalCollected);
     setPercentageReturn(returnPercentage);
     setTotalCapital(capitalRequired);
+  };
+
+  const resetFields = () => {
+    setStockStrikePrice('');
+    setNumberOfContracts('');
+    setPremiumAmount('');
+    setAmountOfWeeks('1');
+    setTotalPremium(null);
+    setPercentageReturn(null);
+    setTotalCapital(null);
   };
 
   useEffect(() => {
@@ -94,6 +104,7 @@ const OptionPremiumCalculator = () => {
               type='text'
               id='numberOfContracts'
               className='form-control'
+              placeholder='1'
               value={formatNumberWithCommas(numberOfContracts)}
               onChange={(e) =>
                 setNumberOfContracts(e.target.value.replace(/,/g, ''))
@@ -108,6 +119,7 @@ const OptionPremiumCalculator = () => {
               type='text'
               id='premiumAmount'
               className='form-control'
+              placeholder='0.00'
               value={formatNumberWithCommas(premiumAmount)}
               onChange={(e) =>
                 setPremiumAmount(e.target.value.replace(/,/g, ''))
@@ -128,11 +140,14 @@ const OptionPremiumCalculator = () => {
               }
             />
           </div>
-          <button
-            className='btn btn-primary mb-2 w-100'
-            onClick={calculatePremium}>
-            Calculate
-          </button>
+          <div className='button-group'>
+            <button className='btn btn-primary' onClick={calculatePremium}>
+              Calculate
+            </button>
+            <button className='btn btn-danger ml-2' onClick={resetFields}>
+              Reset
+            </button>
+          </div>
           {totalPremium !== null && (
             <div className='result'>
               <h6>

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-
 import { formatNumberWithCommas } from '../../utils/format';
+import './CompoundInterestCalculator.css';
 
 const CompoundInterestCalculator = () => {
-  const [initialCapital, setInitialCapital] = useState('');
-  const [weeklyRate, setWeeklyRate] = useState('');
+  const [initialCapital, setInitialCapital] = useState('10000');
+  const [weeklyRate, setWeeklyRate] = useState('1');
   const [weeks, setWeeks] = useState('52'); // default to 52 weeks
   const [results, setResults] = useState([]);
   const theme = useSelector((state) => state.theme);
@@ -32,6 +32,13 @@ const CompoundInterestCalculator = () => {
       parseInt(weeks)
     );
     setResults(calculatedResults);
+  };
+
+  const resetFields = () => {
+    setInitialCapital('10000');
+    setWeeklyRate('1');
+    setWeeks('52');
+    setResults([]);
   };
 
   return (
@@ -81,9 +88,12 @@ const CompoundInterestCalculator = () => {
               onChange={(e) => setWeeks(e.target.value)}
             />
           </div>
-          <div className='form-group mx-2'>
+          <div className='form-group button-group'>
             <button className='btn btn-primary' onClick={handleCalculate}>
               Calculate
+            </button>
+            <button className='btn btn-danger ml-2' onClick={resetFields}>
+              Reset
             </button>
           </div>
         </div>

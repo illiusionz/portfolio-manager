@@ -30,7 +30,7 @@ const AssetManagementCalculator = () => {
 
   const handleCalculate = () => {
     const totalCapital = parseFloat(capital.replace(/,/g, ''));
-    if (isNaN(totalCapital)) {
+    if (isNaN(totalCapital) || totalCapital <= 0) {
       setResults('Please enter a valid capital amount');
       return;
     }
@@ -39,6 +39,21 @@ const AssetManagementCalculator = () => {
       const allocation = parseFloat(sector.allocation.replace(/,/g, ''));
       const investments = parseFloat(sector.investments.replace(/,/g, ''));
       const returnRate = parseFloat(sector.returnRate.replace(/,/g, ''));
+      if (
+        isNaN(allocation) ||
+        isNaN(investments) ||
+        isNaN(returnRate) ||
+        allocation <= 0 ||
+        investments <= 0 ||
+        returnRate <= 0
+      ) {
+        return {
+          ...sector,
+          sectorCapital: 'Invalid',
+          totalReturn: 'Invalid',
+        };
+      }
+
       const sectorCapital = (allocation / 100) * totalCapital;
       const totalReturn = sectorCapital * (returnRate / 100);
 
