@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { formatNumberWithCommas } from '../../utils/format';
-import './CompoundInterestCalculator.css';
 
 const CompoundInterestCalculator = () => {
   const [initialCapital, setInitialCapital] = useState('10000');

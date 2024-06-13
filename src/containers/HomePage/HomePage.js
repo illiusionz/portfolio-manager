@@ -2,7 +2,6 @@ import React, { useEffect, Suspense, lazy } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchStocks } from '../../redux/actions/stockActions';
 import { fetchNews } from '../../redux/actions/newsActions';
-import './HomePage.css';
 
 // Lazy load the components
 const CompoundInterestCalculator = lazy(() =>

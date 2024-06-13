@@ -1,7 +1,6 @@
 // src/containers/AssetManagement/AssetManagement.js
 import React from 'react';
 import AssetManagementCalculator from '../../components/AssetManagementCalculator/AssetManagementCalculator';
-import './AssetManagement.css';
 
 const AssetManagement = () => {
   return (
