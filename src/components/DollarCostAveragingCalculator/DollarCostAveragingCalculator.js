@@ -84,6 +84,7 @@ const DollarCostAveragingCalculator = () => {
                   type='number'
                   className='form-control'
                   value={investment.avgBuy}
+                  placeholder='$0.00'
                   onChange={(e) =>
                     handleInputChange(index, 'avgBuy', e.target.value)
                   }
@@ -95,6 +96,7 @@ const DollarCostAveragingCalculator = () => {
                   type='number'
                   className='form-control'
                   value={investment.totalCost}
+                  placeholder='$0.00'
                   readOnly
                 />
               </div>

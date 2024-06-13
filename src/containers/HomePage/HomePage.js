@@ -30,6 +30,10 @@ const DollarCostAveragingCalculator = lazy(() =>
   )
 );
 const TopMovers = lazy(() => import('../../components/TopMovers/TopMovers'));
+const TrendingToolbar = lazy(() =>
+  import('../../components/TrendingToolbar/TrendingToolbar')
+);
+
 const DividendInfo = lazy(() =>
   import('../../components/DividendInfo/DividendInfo')
 );
@@ -78,14 +82,15 @@ const HomePage = () => {
           <div className='col-md-3'>
             <OptionPremiumCalculator />
           </div>
+
           <div className='col-md-3'>
             <PercentageDifferenceCalculator />
           </div>
         </div>
 
         <div className='row my-3'>
-          <DividendInfo />
           <CompoundInterestCalculator />
+          <DividendInfo />
         </div>
 
         <div className='row my-3'>
