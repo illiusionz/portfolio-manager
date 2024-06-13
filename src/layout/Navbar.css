@@ -11,8 +11,9 @@
   padding: 0.75rem 1.25rem;
 }
 
+.nav-tabs .nav-link,
 .navbar .btn-primary {
-  height: 38px;
+  font-size: 0.9rem;
 }
 
 .navbar form {

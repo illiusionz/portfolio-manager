@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { formatNumberWithCommas } from '../../utils/format';
+
 import axios from 'axios';
 import Autosuggest from 'react-autosuggest';
 import './DividendInfo.css';

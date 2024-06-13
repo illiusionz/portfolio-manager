@@ -119,7 +119,7 @@ const OptionPremiumCalculator = () => {
               type='text'
               id='premiumAmount'
               className='form-control'
-              placeholder='0.00'
+              placeholder='$0.00'
               value={formatNumberWithCommas(premiumAmount)}
               onChange={(e) =>
                 setPremiumAmount(e.target.value.replace(/,/g, ''))

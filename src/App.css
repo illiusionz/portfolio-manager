@@ -38,6 +38,9 @@
   --autosuggest-suggestion-highlighted-light: #ddd;
   --autosuggest-suggestion-highlighted-dark: #2a2e39;
   --dropdown-menu-background-dark: #1f1f1f;
+  --headline-font-size: #495057;
+
+  
 }
 
 body {
