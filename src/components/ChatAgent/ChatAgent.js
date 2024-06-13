@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import './ChatAgent.css';
-import { testOpenAI, uploadChartForAnalysis } from '../../api/openAiApi';
+import {
+  testOpenAI,
+  uploadChartForAnalysis,
+  uploadImageForAnalysis,
+} from '../../api/openAiApi';
 
 const ChatAgent = () => {
   const [input, setInput] = useState('');
@@ -9,6 +13,8 @@ const ChatAgent = () => {
   const [lastRequestTime, setLastRequestTime] = useState(0);
   const RATE_LIMIT_DELAY = 1000; // 1 second
   const [file, setFile] = useState(null);
+  const [fileType, setFileType] = useState('');
+  const [messages, setMessages] = useState([]);
 
   const handleSend = async () => {
     const currentTime = new Date().getTime();
@@ -18,16 +24,25 @@ const ChatAgent = () => {
     }
 
     setLoading(true);
+    setMessages([...messages, { role: 'user', content: input }]);
     try {
       let result;
       if (file) {
         console.log('Uploading file:', file);
-        result = await uploadChartForAnalysis(file);
+        if (fileType === 'image') {
+          result = await uploadImageForAnalysis(file);
+        } else {
+          result = await uploadChartForAnalysis(file);
+        }
       } else {
         console.log('Sending message:', input);
         result = await testOpenAI(input);
       }
       console.log('Received response:', result);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { role: 'assistant', content: result.content },
+      ]);
       setResponse(result.content);
       setLastRequestTime(currentTime);
     } catch (error) {
@@ -36,6 +51,7 @@ const ChatAgent = () => {
     } finally {
       setLoading(false);
       setFile(null); // Clear file after upload
+      setInput(''); // Clear input field
     }
   };
 
@@ -44,15 +60,31 @@ const ChatAgent = () => {
   };
 
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+    const selectedFile = event.target.files[0];
+    const allowedTypes = [
+      'text/csv',
+      'application/json',
+      'image/png',
+      'image/jpeg',
+    ];
+    if (selectedFile && !allowedTypes.includes(selectedFile.type)) {
+      alert('Please upload a CSV, JSON, PNG, or JPEG file.');
+      setFile(null);
+      setFileType('');
+    } else {
+      setFile(selectedFile);
+      setFileType(selectedFile.type.startsWith('image') ? 'image' : 'chart');
+    }
   };
 
   return (
     <div className='chat-agent'>
       <div className='messages'>
-        <div className='message user'>Hello world</div>
-        <div className='message bot'>Hello! How can I assist you today?</div>
-        {response && <div className='message bot'>{response}</div>}
+        {messages.map((msg, index) => (
+          <div key={index} className={`message ${msg.role}`}>
+            {msg.content}
+          </div>
+        ))}
       </div>
       <div className='input-container'>
         <textarea
