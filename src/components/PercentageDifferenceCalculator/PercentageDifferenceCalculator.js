@@ -34,7 +34,9 @@ const PercentageDifferenceCalculator = () => {
       setPercentageChange('0.00');
       return;
     }
-    const change = ((targetPrice - stockPrice) / stockPrice) * 100;
+    const change =
+      ((parseFloat(targetPrice.replace(/,/g, '')) - stockPrice) / stockPrice) *
+      100;
     setPercentageChange(change.toFixed(2));
   };
 
@@ -87,6 +89,13 @@ const PercentageDifferenceCalculator = () => {
     }
   };
 
+  const handleTargetPriceChange = (event) => {
+    const inputValue = event.target.value.replace(/,/g, '');
+    if (!isNaN(inputValue) && inputValue.length <= 10) {
+      setTargetPrice(formatNumberWithCommas(inputValue));
+    }
+  };
+
   const inputProps = {
     placeholder: 'Search for a stock',
     value: query,
@@ -120,10 +129,14 @@ const PercentageDifferenceCalculator = () => {
                 Current Price:
               </label>
               <input
-                type='number'
+                type='text'
                 id='currentPrice'
                 className='form-control'
-                value={stockPrice || ''}
+                value={
+                  stockPrice
+                    ? formatNumberWithCommas(stockPrice.toFixed(2))
+                    : ''
+                }
                 readOnly
               />
             </div>
@@ -132,13 +145,11 @@ const PercentageDifferenceCalculator = () => {
                 Target Price:
               </label>
               <input
-                type='number'
+                type='text'
                 id='targetPrice'
                 className='form-control'
-                value={formatNumberWithCommas(targetPrice)}
-                onChange={(e) =>
-                  setTargetPrice(e.target.value.replace(/,/g, ''))
-                }
+                value={targetPrice}
+                onChange={handleTargetPriceChange}
                 placeholder='$0.00'
               />
             </div>
@@ -160,8 +171,7 @@ const PercentageDifferenceCalculator = () => {
           </form>
           <div className='result mt-3'>
             <h5>
-              <strong>Percent Change:</strong>{' '}
-              {formatNumberWithCommas(percentageChange)}%
+              <strong>Percent Change:</strong> {percentageChange}%
             </h5>
           </div>
         </div>
