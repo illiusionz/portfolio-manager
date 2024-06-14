@@ -11,7 +11,7 @@
   overflow: visible;
   position: sticky;
   top: 71px;
-  z-index: 1000;
+  z-index: 3;
 }
 
 .index-data {

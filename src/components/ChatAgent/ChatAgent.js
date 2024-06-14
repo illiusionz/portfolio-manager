@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperclip, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import './ChatAgent.css';
@@ -17,6 +17,14 @@ const ChatAgent = () => {
   const [file, setFile] = useState(null);
   const [fileType, setFileType] = useState('');
   const [messages, setMessages] = useState([]);
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [input]);
 
   const handleSend = async () => {
     const currentTime = new Date().getTime();
@@ -79,8 +87,39 @@ const ChatAgent = () => {
     }
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      handleSend();
+    }
+  };
+
+  const handleDrop = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const selectedFile = event.dataTransfer.files[0];
+    const allowedTypes = [
+      'text/csv',
+      'application/json',
+      'image/png',
+      'image/jpeg',
+    ];
+    if (selectedFile && !allowedTypes.includes(selectedFile.type)) {
+      alert('Please upload a CSV, JSON, PNG, or JPEG file.');
+      setFile(null);
+      setFileType('');
+    } else {
+      setFile(selectedFile);
+      setFileType(selectedFile.type.startsWith('image') ? 'image' : 'chart');
+    }
+  };
+
+  const handleDragOver = (event) => {
+    event.preventDefault();
+  };
+
   return (
-    <div className='chat-agent'>
+    <div className='chat-agent' onDrop={handleDrop} onDragOver={handleDragOver}>
       <div className='messages'>
         {messages.map((msg, index) => (
           <div key={index} className={`message ${msg.role}`}>
@@ -99,10 +138,13 @@ const ChatAgent = () => {
           />
         </label>
         <textarea
+          ref={textareaRef}
           value={input}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           placeholder='Type your message here...'
           aria-label='Chat input'
+          rows='1'
         />
         <button
           onClick={handleSend}

@@ -2,7 +2,7 @@
 .chat-agent {
   display: flex;
   flex-direction: column;
-  max-width: 800px;
+  max-width: 860px;
   height: 95%;
   flex: 1;
   width: 100%;
@@ -11,17 +11,23 @@
 }
 
 .messages {
-  flex: 1;
+  flex: 1 1;
   overflow-y: auto;
   padding: 10px;
-  background: #000;
-  border-left: 1px solid var(--border-color-dark);
+  background: #fff;
+  border: 1px solid var(--border-color-dark);
+  max-width: 860px;
+  margin: auto;
+  width: 100%;
+  border-top: none;
+  border-bottom: none;
 }
 
 .message {
   padding: 10px;
   margin: 5px 0;
   border-radius: 5px;
+
 }
 
 .message.user {
@@ -40,13 +46,15 @@
   display: flex;
   align-items: center;
   border: 1px solid #333;
-  border-radius: 4px;
   padding: 5px;
-  background-color:#1e222d;
+  background-color: #fff;
   position: absolute;
   bottom: 0;
   width: 100%;
-  max-width: 800px;
+  max-width: 860px;
+  box-sizing: border-box;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .input-container textarea {
@@ -56,8 +64,11 @@
   outline: none;
   resize: none;
   height: 40px;
-  background-color:#1e222d;
+  background-color: #fff;
   color: white;
+  overflow: hidden; /* Remove scroll bar */
+  display: flex;
+  align-items: center;
 }
 
 .input-container input[type='file'] {
@@ -89,4 +100,20 @@
 
 .input-container button:hover {
   background-color: #0056b3;
+}
+
+
+
+.dark .messages{
+  background: var(--navbar-background-dark);
+  border-left: 1px solid var(--border-color-dark);
+}
+
+.dark .input-container { 
+  background-color: #1e222d;
+
+}
+
+.dark  .input-container textarea {
+  background-color:var(--form-control-background-dark);
 }
