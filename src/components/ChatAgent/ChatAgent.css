@@ -14,7 +14,7 @@
   flex: 1 1;
   overflow-y: auto;
   padding: 10px;
-  background: #fff;
+  background-color: var(--background-color-light);
   border: 1px solid var(--border-color-dark);
   max-width: 860px;
   margin: auto;
@@ -37,7 +37,7 @@
 }
 
 .message.bot {
-  background-color: #e9ecef;
+  background-color: var(--background-color-light);
   color: #343a40;
   align-self: flex-start;
 }
@@ -47,7 +47,7 @@
   align-items: center;
   border: 1px solid #333;
   padding: 5px;
-  background-color: #fff;
+  background-color: var(--background-color-light);
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -64,7 +64,7 @@
   outline: none;
   resize: none;
   height: 40px;
-  background-color: #fff;
+  background-color: var(--background-color-light);
   color: white;
   overflow: hidden; /* Remove scroll bar */
   display: flex;
