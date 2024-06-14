@@ -50,7 +50,6 @@ const OptionPremiumCalculator = () => {
     setTotalCapital(0);
     setPercentageReturn(0);
     setSuggestions([]);
-    dispatch(setUserSymbol('')); // Reset the user symbol
   };
 
   const onSuggestionsFetchRequested = async ({ value }) => {
@@ -85,11 +84,11 @@ const OptionPremiumCalculator = () => {
   const onSuggestionSelected = async (event, { suggestion }) => {
     const selectedSymbol = suggestion.ticker;
     try {
+      setStrikePrice('');
+      setPremiumAmount('');
       dispatch(setUserSymbol(selectedSymbol));
       dispatch(fetchStockPrice(selectedSymbol));
       setQuery(selectedSymbol);
-      setStrikePrice('');
-      setPremiumAmount('');
     } catch (error) {
       console.error('Error fetching price data:', error);
     }
