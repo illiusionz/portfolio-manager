@@ -93,6 +93,7 @@ const OptionPremiumCalculator = () => {
               id='stockStrikePrice'
               className='form-control'
               value={stockStrikePrice}
+              placeholder='$0.00'
               onChange={(e) => setStockStrikePrice(e.target.value)}
             />
           </div>
@@ -104,7 +105,7 @@ const OptionPremiumCalculator = () => {
               type='text'
               id='numberOfContracts'
               className='form-control'
-              placeholder='1'
+              placeholder='0'
               value={formatNumberWithCommas(numberOfContracts)}
               onChange={(e) =>
                 setNumberOfContracts(e.target.value.replace(/,/g, ''))
@@ -135,6 +136,7 @@ const OptionPremiumCalculator = () => {
               id='amountOfWeeks'
               className='form-control'
               value={formatNumberWithCommas(amountOfWeeks)}
+              placeholder='0'
               onChange={(e) =>
                 setAmountOfWeeks(e.target.value.replace(/,/g, ''))
               }

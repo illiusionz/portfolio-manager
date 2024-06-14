@@ -34,7 +34,7 @@ const Sidebar = () => {
         </li>
         <li>
           <Link to='/chart-analysis'>
-            <FaChartLine className='icon' /> Chart Analysis
+            <FaChartLine className='icon' /> A.I. Chart Analysis
           </Link>
         </li>
         <li>

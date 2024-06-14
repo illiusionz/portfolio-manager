@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperclip, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import './ChatAgent.css';
 import {
   testOpenAI,
@@ -87,23 +89,26 @@ const ChatAgent = () => {
         ))}
       </div>
       <div className='input-container'>
+        <label className='file-label' htmlFor='file-upload'>
+          <FontAwesomeIcon icon={faPaperclip} className='file-upload-icon' />
+          <input
+            type='file'
+            id='file-upload'
+            onChange={handleFileChange}
+            aria-label='File upload'
+          />
+        </label>
         <textarea
           value={input}
           onChange={handleInputChange}
           placeholder='Type your message here...'
           aria-label='Chat input'
         />
-        <input
-          type='file'
-          className='file-upload'
-          onChange={handleFileChange}
-          aria-label='File upload'
-        />
         <button
           onClick={handleSend}
           disabled={loading}
           aria-label='Send message'>
-          {loading ? 'Sending...' : 'Send'}
+          <FontAwesomeIcon icon={faPaperPlane} />
         </button>
       </div>
     </div>

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeFromWatchlist } from '../../redux/actions/watchlistActions';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import './StockWatchlist.css';
 
 const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
@@ -66,7 +68,7 @@ const StockWatchlist = () => {
                 <th>Chg</th>
                 <th>Chg%</th>
                 <th>Vol</th>
-                <th>Action</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -93,11 +95,10 @@ const StockWatchlist = () => {
                     <td>{changePercent}%</td>
                     <td>{volume}</td>
                     <td>
-                      <button
-                        className='btn btn-danger btn-sm'
-                        onClick={() => handleRemove(symbol)}>
-                        Remove
-                      </button>
+                      <FontAwesomeIcon
+                        icon={faTrash}
+                        onClick={() => handleRemove(symbol)}
+                      />
                     </td>
                   </tr>
                 );

@@ -6,6 +6,9 @@
   /*--background-color-dark: #121212;*/
   --background-color-dark: #202634;
   
+  --border-color-dark:#333;
+
+  
   --text-color-light: #000000;
   /*--text-color-dark: #ffffff;*/
   --text-color-dark: #f4f7f9;
@@ -20,6 +23,7 @@
   --card-background-dark: #293042;
   --card-border-light: #e3e6f0;
   --card-border-dark: #ebebeb1a;
+
 
   --btn-primary-light: #007bff;
   --btn-primary-dark: #0d6efd;
