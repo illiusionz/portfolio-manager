@@ -141,10 +141,17 @@ input[type="number"] {
 }
 
 .card-header {
+  position: relative;
   background-color: var(--card-background-light);
   border-bottom: 1px solid var(--card-border-light);
 }
-
+.card-refresh {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  right: 1rem;
+}
 .card-title {
   padding: 0.3rem 0;
   text-align: center;

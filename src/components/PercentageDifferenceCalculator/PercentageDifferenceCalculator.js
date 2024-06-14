@@ -6,6 +6,8 @@ import './PercentageDifferenceCalculator.css';
 import { fetchStockPrice } from '../../redux/actions/stockActions';
 import { setUserSymbol } from '../../redux/actions/userActions';
 import { formatNumberWithCommas } from '../../utils/format';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 
 const PercentageDifferenceCalculator = () => {
   const symbol = useSelector((state) => state.user.symbol); // Get the selected symbol from the state
@@ -113,6 +115,12 @@ const PercentageDifferenceCalculator = () => {
       setCurrentPrice(`$${formatNumberWithCommas(inputValue)}`);
     }
   };
+  const refreshCurrentPrice = () => {
+    if (symbol) {
+      dispatch(fetchStockPrice(symbol));
+      console.log('Refreshing current price...');
+    }
+  };
 
   const inputProps = {
     placeholder: 'Search for a stock',
@@ -125,6 +133,11 @@ const PercentageDifferenceCalculator = () => {
       <div className='card'>
         <div className='card-header'>
           <h5 className='card-title mb-0'>Stock Price % Change</h5>
+          <FontAwesomeIcon
+            icon={faArrowsRotate}
+            className='card-refresh'
+            onClick={refreshCurrentPrice}
+          />
         </div>
         <div className='card-body'>
           <form className='' onSubmit={(e) => e.preventDefault()}>
