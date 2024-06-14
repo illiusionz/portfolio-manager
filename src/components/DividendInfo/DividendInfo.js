@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { formatNumberWithCommas } from '../../utils/format';
-
+import { setUserSymbol } from '../../redux/actions/userActions';
 import axios from 'axios';
 import Autosuggest from 'react-autosuggest';
 import './DividendInfo.css';
 
 const DividendInfo = () => {
   const symbol = useSelector((state) => state.user.symbol); // Get the selected symbol from the state
-  const [dividends, setDividends] = useState([]);
   const [query, setQuery] = useState(symbol || '');
+  const [dividends, setDividends] = useState([]);
   const [numberOfShares, setNumberOfShares] = useState('');
   const [calculatedDividend, setCalculatedDividend] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
   const theme = useSelector((state) => state.theme);
+  const dispatch = useDispatch();
 
-  const apiKey = '6kf3MOEaHc3lbVrjKbqgjqcOo7pgMZmq';
+  const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 
   useEffect(() => {
     const fetchDividends = async () => {
@@ -30,6 +31,7 @@ const DividendInfo = () => {
     };
 
     if (symbol) {
+      setQuery(symbol);
       fetchDividends();
     }
   }, [symbol]);
@@ -69,6 +71,7 @@ const DividendInfo = () => {
       const response = await axios.get(
         `https://api.polygon.io/v3/reference/dividends?ticker=${selectedSymbol}&apiKey=${apiKey}`
       );
+      dispatch(setUserSymbol(selectedSymbol));
       setDividends(response.data.results || []);
       setQuery(selectedSymbol);
     } catch (error) {
@@ -159,7 +162,8 @@ const DividendInfo = () => {
         </form>
         <div className='mt-3'>
           <h5>
-            <strong>Total Dividend:</strong> ${calculatedDividend || '0.00'}
+            <strong>Total Dividend:</strong> $
+            {formatNumberWithCommas(calculatedDividend) || '0.00'}
           </h5>
         </div>
         <table
