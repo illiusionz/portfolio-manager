@@ -35,7 +35,8 @@ const PercentageDifferenceCalculator = () => {
       return;
     }
     const change =
-      ((parseFloat(targetPrice.replace(/,/g, '')) - stockPrice) / stockPrice) *
+      ((parseFloat(targetPrice.replace(/[^0-9.-]+/g, '')) - stockPrice) /
+        stockPrice) *
       100;
     setPercentageChange(change.toFixed(2));
   };
@@ -90,9 +91,9 @@ const PercentageDifferenceCalculator = () => {
   };
 
   const handleTargetPriceChange = (event) => {
-    const inputValue = event.target.value.replace(/,/g, '');
+    let inputValue = event.target.value.replace(/[^0-9.]/g, '');
     if (!isNaN(inputValue) && inputValue.length <= 10) {
-      setTargetPrice(formatNumberWithCommas(inputValue));
+      setTargetPrice(`$${formatNumberWithCommas(inputValue)}`);
     }
   };
 
@@ -134,7 +135,7 @@ const PercentageDifferenceCalculator = () => {
                 className='form-control'
                 value={
                   stockPrice
-                    ? formatNumberWithCommas(stockPrice.toFixed(2))
+                    ? `$${formatNumberWithCommas(stockPrice.toFixed(2))}`
                     : ''
                 }
                 readOnly
