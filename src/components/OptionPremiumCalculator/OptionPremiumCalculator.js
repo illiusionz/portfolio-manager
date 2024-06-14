@@ -1,69 +1,140 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { formatNumberWithCommas } from '../../utils/format';
+import { useSelector, useDispatch } from 'react-redux';
+import Autosuggest from 'react-autosuggest';
+import axios from 'axios';
 import './OptionPremiumCalculator.css';
+import { fetchStockPrice } from '../../redux/actions/stockActions';
+import { setUserSymbol } from '../../redux/actions/userActions';
+import {
+  formatNumberWithCommas,
+  formatCurrency,
+  parseCurrency,
+} from '../../utils/format';
 
 const OptionPremiumCalculator = () => {
-  const [stockStrikePrice, setStockStrikePrice] = useState('');
-  const [numberOfContracts, setNumberOfContracts] = useState('1');
+  const symbol = useSelector((state) => state.user.symbol);
+  const [query, setQuery] = useState(symbol || '');
+  const [strikePrice, setStrikePrice] = useState('');
   const [premiumAmount, setPremiumAmount] = useState('');
-  const [amountOfWeeks, setAmountOfWeeks] = useState('1'); // Default value set to 1
-  const [totalPremium, setTotalPremium] = useState(null);
-  const [percentageReturn, setPercentageReturn] = useState(null);
-  const [totalCapital, setTotalCapital] = useState(null);
-
+  const [numberOfContracts, setNumberOfContracts] = useState(1);
+  const [amountOfWeeks, setAmountOfWeeks] = useState(1);
+  const [suggestions, setSuggestions] = useState([]);
+  const [totalPremium, setTotalPremium] = useState(0);
+  const [totalCapital, setTotalCapital] = useState(0);
+  const [percentageReturn, setPercentageReturn] = useState(0);
   const stockPrice = useSelector((state) => state.user.stockPrice);
-  const stockName = useSelector((state) => state.user.symbol);
+  const dispatch = useDispatch();
 
-  const calculatePremium = () => {
-    const strikePrice = parseFloat(stockStrikePrice.replace(/,/g, ''));
-    const contracts = parseInt(numberOfContracts.replace(/,/g, ''), 10);
-    const premium = parseFloat(premiumAmount.replace(/,/g, ''));
-    const weeks = parseInt(amountOfWeeks.replace(/,/g, ''), 10);
+  const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 
-    if (
-      isNaN(strikePrice) ||
-      isNaN(contracts) ||
-      isNaN(premium) ||
-      isNaN(weeks) ||
-      strikePrice <= 0 ||
-      contracts <= 0 ||
-      premium <= 0 ||
-      weeks <= 0
-    ) {
-      setTotalPremium(null);
-      setPercentageReturn(null);
-      setTotalCapital(null);
-      return;
+  useEffect(() => {
+    if (symbol) {
+      setQuery(symbol);
+      dispatch(fetchStockPrice(symbol));
     }
+  }, [symbol, dispatch]);
 
-    const totalCollected = premium * contracts * 100 * weeks;
-    const capitalRequired = strikePrice * contracts * 100;
-    const returnPercentage = (totalCollected / capitalRequired) * 100;
-
-    setTotalPremium(totalCollected);
-    setPercentageReturn(returnPercentage);
-    setTotalCapital(capitalRequired);
-  };
+  useEffect(() => {
+    if (stockPrice) {
+      setStrikePrice(`$${formatNumberWithCommas(stockPrice.toFixed(2))}`);
+    }
+  }, [stockPrice]);
 
   const resetFields = () => {
-    setStockStrikePrice('');
-    setNumberOfContracts('');
+    setQuery('');
+    setStrikePrice('');
     setPremiumAmount('');
-    setAmountOfWeeks('1');
-    setTotalPremium(null);
-    setPercentageReturn(null);
-    setTotalCapital(null);
+    setNumberOfContracts(1);
+    setAmountOfWeeks(1);
+    setTotalPremium(0);
+    setTotalCapital(0);
+    setPercentageReturn(0);
+    setSuggestions([]);
+    dispatch(setUserSymbol('')); // Reset the user symbol
+  };
+
+  const onSuggestionsFetchRequested = async ({ value }) => {
+    try {
+      const response = await axios.get(
+        `https://api.polygon.io/v3/reference/tickers?search=${value}&active=true&sort=ticker&order=asc&limit=10&apiKey=${apiKey}`
+      );
+      setSuggestions(response.data.results || []);
+    } catch (error) {
+      console.error('Error fetching suggestions:', error);
+      setSuggestions([]);
+    }
+  };
+
+  const onSuggestionsClearRequested = () => {
+    setSuggestions([]);
+  };
+
+  const getSuggestionValue = (suggestion) => suggestion.ticker;
+
+  const renderSuggestion = (suggestion) => (
+    <div className='suggestion-item'>
+      <span className='suggestion-ticker'>{suggestion.ticker}</span>
+      <span className='suggestion-name'>{suggestion.name}</span>
+    </div>
+  );
+
+  const onChange = (event, { newValue }) => {
+    setQuery(newValue);
+  };
+
+  const onSuggestionSelected = async (event, { suggestion }) => {
+    const selectedSymbol = suggestion.ticker;
+    try {
+      dispatch(setUserSymbol(selectedSymbol));
+      dispatch(fetchStockPrice(selectedSymbol));
+      setQuery(selectedSymbol);
+      setStrikePrice('');
+      setPremiumAmount('');
+    } catch (error) {
+      console.error('Error fetching price data:', error);
+    }
+  };
+
+  const handleStrikePriceChange = (event) => {
+    const value = event.target.value.replace(/[^0-9.]/g, '');
+    setStrikePrice(formatCurrency(value));
+  };
+
+  const handlePremiumAmountChange = (event) => {
+    const value = event.target.value.replace(/[^0-9.]/g, '');
+    setPremiumAmount(formatCurrency(value));
+  };
+
+  const handleNumberOfContractsChange = (event) => {
+    const value = event.target.value;
+    setNumberOfContracts(value);
+  };
+
+  const handleAmountOfWeeksChange = (event) => {
+    const value = event.target.value;
+    setAmountOfWeeks(value);
   };
 
   useEffect(() => {
-    console.log('Current stock price:', stockPrice);
-    console.log('Stock name:', stockName);
+    calculateTotalPremium();
+  }, [strikePrice, premiumAmount, numberOfContracts, amountOfWeeks]);
 
-    if (stockPrice) {
-      setStockStrikePrice(Math.round(stockPrice).toString());
-    }
-  }, [stockPrice, stockName]);
+  const calculateTotalPremium = () => {
+    const strike = parseCurrency(strikePrice);
+    const premium = parseCurrency(premiumAmount);
+    const total = numberOfContracts * premium * amountOfWeeks;
+    setTotalPremium(isNaN(total) ? 0 : total);
+    const capitalUsed = numberOfContracts * strike * 100;
+    setTotalCapital(isNaN(capitalUsed) ? 0 : capitalUsed);
+    const percentage = (total / capitalUsed) * 100;
+    setPercentageReturn(isNaN(percentage) ? 0 : percentage);
+  };
+
+  const inputProps = {
+    placeholder: 'Search for a stock',
+    value: query,
+    onChange: onChange,
+  };
 
   return (
     <div className='option-premium-calculator'>
@@ -72,85 +143,85 @@ const OptionPremiumCalculator = () => {
           <h5 className='card-title mb-0'>Option Premium Calculator</h5>
         </div>
         <div className='card-body'>
-          <div className='form-group'>
-            <label className='form-label' htmlFor='stockName'>
-              Stock Name:
-            </label>
-            <input
-              type='text'
-              id='stockName'
-              className='form-control'
-              value={stockName}
-              readOnly
-            />
-          </div>
-          <div className='form-group'>
-            <label className='form-label' htmlFor='stockStrikePrice'>
-              Stock Strike Price:
-            </label>
-            <input
-              type='number'
-              id='stockStrikePrice'
-              className='form-control'
-              value={stockStrikePrice}
-              placeholder='$0.00'
-              onChange={(e) => setStockStrikePrice(e.target.value)}
-            />
-          </div>
-          <div className='form-group'>
-            <label className='form-label' htmlFor='numberOfContracts'>
-              Number of Contracts:
-            </label>
-            <input
-              type='text'
-              id='numberOfContracts'
-              className='form-control'
-              placeholder='0'
-              value={formatNumberWithCommas(numberOfContracts)}
-              onChange={(e) =>
-                setNumberOfContracts(e.target.value.replace(/,/g, ''))
-              }
-            />
-          </div>
-          <div className='form-group'>
-            <label className='form-label' htmlFor='premiumAmount'>
-              Premium Amount:
-            </label>
-            <input
-              type='text'
-              id='premiumAmount'
-              className='form-control'
-              placeholder='$0.00'
-              value={formatNumberWithCommas(premiumAmount)}
-              onChange={(e) =>
-                setPremiumAmount(e.target.value.replace(/,/g, ''))
-              }
-            />
-          </div>
-          <div className='form-group'>
-            <label className='form-label' htmlFor='amountOfWeeks'>
-              Amount of Weeks:
-            </label>
-            <input
-              type='text'
-              id='amountOfWeeks'
-              className='form-control'
-              value={formatNumberWithCommas(amountOfWeeks)}
-              placeholder='0'
-              onChange={(e) =>
-                setAmountOfWeeks(e.target.value.replace(/,/g, ''))
-              }
-            />
-          </div>
-          <div className='button-group'>
-            <button className='btn btn-primary' onClick={calculatePremium}>
-              Calculate
-            </button>
-            <button className='btn btn-danger ml-2' onClick={resetFields}>
-              Reset
-            </button>
-          </div>
-          {totalPremium !== null && (
+          <form className='' onSubmit={(e) => e.preventDefault()}>
+            <div className='form-group'>
+              <label className='form-label' htmlFor='stockName'>
+                Stock Name:
+              </label>
+              <Autosuggest
+                suggestions={suggestions}
+                onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                onSuggestionsClearRequested={onSuggestionsClearRequested}
+                getSuggestionValue={getSuggestionValue}
+                renderSuggestion={renderSuggestion}
+                inputProps={inputProps}
+                onSuggestionSelected={onSuggestionSelected}
+              />
+            </div>
+            <div className='form-group'>
+              <label className='form-label' htmlFor='strikePrice'>
+                Stock Strike Price:
+              </label>
+              <input
+                type='text'
+                id='strikePrice'
+                className='form-control'
+                value={strikePrice}
+                onChange={handleStrikePriceChange}
+                placeholder='$0.00'
+              />
+            </div>
+            <div className='form-group'>
+              <label className='form-label' htmlFor='premiumAmount'>
+                Premium Amount:
+              </label>
+              <input
+                type='text'
+                id='premiumAmount'
+                className='form-control'
+                value={premiumAmount}
+                onChange={handlePremiumAmountChange}
+                placeholder='$0.00'
+              />
+            </div>
+            <div className='form-group'>
+              <label className='form-label' htmlFor='numberOfContracts'>
+                Number of Contracts:
+              </label>
+              <input
+                type='number'
+                id='numberOfContracts'
+                className='form-control'
+                value={numberOfContracts}
+                onChange={handleNumberOfContractsChange}
+              />
+            </div>
+            <div className='form-group'>
+              <label className='form-label' htmlFor='amountOfWeeks'>
+                Amount of Weeks:
+              </label>
+              <input
+                type='number'
+                id='amountOfWeeks'
+                className='form-control'
+                value={amountOfWeeks}
+                onChange={handleAmountOfWeeksChange}
+              />
+            </div>
+            <div className='button-group'>
+              <button
+                type='button'
+                className='btn btn-primary'
+                onClick={calculateTotalPremium}>
+                Calculate
+              </button>
+              <button
+                type='button'
+                className='btn btn-danger'
+                onClick={resetFields}>
+                Reset
+              </button>
+            </div>
             <div className='result'>
               <h6>
                 <strong>Total Premium Collected:</strong>+$
@@ -165,7 +236,7 @@ const OptionPremiumCalculator = () => {
                 {formatNumberWithCommas(percentageReturn.toFixed(2))}%
               </h6>
             </div>
-          )}
+          </form>
         </div>
       </div>
     </div>

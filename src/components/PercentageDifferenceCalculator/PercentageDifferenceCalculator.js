@@ -11,6 +11,7 @@ const PercentageDifferenceCalculator = () => {
   const symbol = useSelector((state) => state.user.symbol); // Get the selected symbol from the state
   const [query, setQuery] = useState(symbol || '');
   const [targetPrice, setTargetPrice] = useState('');
+  const [currentPrice, setCurrentPrice] = useState(''); // New state for current price
   const [suggestions, setSuggestions] = useState([]);
   const [percentageChange, setPercentageChange] = useState('0.00');
   const stockPrice = useSelector((state) => state.user.stockPrice);
@@ -20,7 +21,7 @@ const PercentageDifferenceCalculator = () => {
 
   useEffect(() => {
     calculatePercentageChange();
-  }, [targetPrice, stockPrice]);
+  }, [targetPrice, currentPrice]);
 
   useEffect(() => {
     if (symbol) {
@@ -29,14 +30,21 @@ const PercentageDifferenceCalculator = () => {
     }
   }, [symbol, dispatch]);
 
+  useEffect(() => {
+    if (stockPrice) {
+      setCurrentPrice(`$${formatNumberWithCommas(stockPrice.toFixed(2))}`);
+    }
+  }, [stockPrice]);
+
   const calculatePercentageChange = () => {
-    if (!stockPrice || !targetPrice) {
+    if (!currentPrice || !targetPrice) {
       setPercentageChange('0.00');
       return;
     }
     const change =
-      ((parseFloat(targetPrice.replace(/[^0-9.-]+/g, '')) - stockPrice) /
-        stockPrice) *
+      ((parseFloat(targetPrice.replace(/[^0-9.-]+/g, '')) -
+        parseFloat(currentPrice.replace(/[^0-9.-]+/g, ''))) /
+        parseFloat(currentPrice.replace(/[^0-9.-]+/g, ''))) *
       100;
     setPercentageChange(change.toFixed(2));
   };
@@ -44,6 +52,7 @@ const PercentageDifferenceCalculator = () => {
   const resetFields = () => {
     setQuery('');
     setTargetPrice('');
+    setCurrentPrice('');
     setPercentageChange('0.00');
     setSuggestions([]);
   };
@@ -84,6 +93,7 @@ const PercentageDifferenceCalculator = () => {
       dispatch(fetchStockPrice(selectedSymbol));
       setQuery(selectedSymbol);
       setTargetPrice('');
+      setCurrentPrice('');
       setPercentageChange('0.00');
     } catch (error) {
       console.error('Error fetching price data:', error);
@@ -94,6 +104,13 @@ const PercentageDifferenceCalculator = () => {
     let inputValue = event.target.value.replace(/[^0-9.]/g, '');
     if (!isNaN(inputValue) && inputValue.length <= 10) {
       setTargetPrice(`$${formatNumberWithCommas(inputValue)}`);
+    }
+  };
+
+  const handleCurrentPriceChange = (event) => {
+    let inputValue = event.target.value.replace(/[^0-9.]/g, '');
+    if (!isNaN(inputValue) && inputValue.length <= 10) {
+      setCurrentPrice(`$${formatNumberWithCommas(inputValue)}`);
     }
   };
 
@@ -133,12 +150,9 @@ const PercentageDifferenceCalculator = () => {
                 type='text'
                 id='currentPrice'
                 className='form-control'
-                value={
-                  stockPrice
-                    ? `$${formatNumberWithCommas(stockPrice.toFixed(2))}`
-                    : ''
-                }
-                readOnly
+                value={currentPrice}
+                onChange={handleCurrentPriceChange}
+                placeholder='$0.00'
               />
             </div>
             <div className='form-group'>
