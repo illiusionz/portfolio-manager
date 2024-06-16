@@ -10,12 +10,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 
 const PercentageDifferenceCalculator = () => {
-  const symbol = useSelector((state) => state.user.symbol); // Get the selected symbol from the state
+  const symbol = useSelector((state) => state.user.symbol);
   const [query, setQuery] = useState(symbol || '');
   const [targetPrice, setTargetPrice] = useState('');
-  const [currentPrice, setCurrentPrice] = useState(''); // New state for current price
+  const [currentPrice, setCurrentPrice] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [percentageChange, setPercentageChange] = useState('0.00');
+  const [isRotating, setIsRotating] = useState(false);
   const stockPrice = useSelector((state) => state.user.stockPrice);
   const dispatch = useDispatch();
 
@@ -48,7 +49,7 @@ const PercentageDifferenceCalculator = () => {
         parseFloat(currentPrice.replace(/[^0-9.-]+/g, ''))) /
         parseFloat(currentPrice.replace(/[^0-9.-]+/g, ''))) *
       100;
-    setPercentageChange(change.toFixed(2));
+    setPercentageChange(isNaN(change) ? '0.00' : change.toFixed(2));
   };
 
   const resetFields = () => {
@@ -88,18 +89,14 @@ const PercentageDifferenceCalculator = () => {
     setQuery(newValue);
   };
 
-  const onSuggestionSelected = async (event, { suggestion }) => {
+  const onSuggestionSelected = (event, { suggestion }) => {
     const selectedSymbol = suggestion.ticker;
-    try {
-      dispatch(setUserSymbol(selectedSymbol));
-      dispatch(fetchStockPrice(selectedSymbol));
-      setQuery(selectedSymbol);
-      setTargetPrice('');
-      setCurrentPrice('');
-      setPercentageChange('0.00');
-    } catch (error) {
-      console.error('Error fetching price data:', error);
-    }
+    dispatch(setUserSymbol(selectedSymbol));
+    dispatch(fetchStockPrice(selectedSymbol));
+    setQuery(selectedSymbol);
+    setTargetPrice('');
+    setCurrentPrice('');
+    setPercentageChange('0.00');
   };
 
   const handleTargetPriceChange = (event) => {
@@ -115,10 +112,21 @@ const PercentageDifferenceCalculator = () => {
       setCurrentPrice(`$${formatNumberWithCommas(inputValue)}`);
     }
   };
-  const refreshCurrentPrice = () => {
+
+  const refreshCurrentPrice = async () => {
     if (symbol) {
-      dispatch(fetchStockPrice(symbol));
-      console.log('Refreshing current price...');
+      try {
+        const response = await axios.get(
+          `https://api.polygon.io/v2/aggs/ticker/${symbol}/prev?apiKey=${apiKey}`
+        );
+        const currentPrice = response.data.results[0].c;
+        setCurrentPrice(`$${formatNumberWithCommas(currentPrice.toFixed(2))}`);
+        console.log('Refreshing current price...');
+        setIsRotating(true);
+        setTimeout(() => setIsRotating(false), 500);
+      } catch (error) {
+        console.error('Error refreshing current price:', error);
+      }
     }
   };
 
@@ -135,12 +143,12 @@ const PercentageDifferenceCalculator = () => {
           <h5 className='card-title mb-0'>Stock Price % Change</h5>
           <FontAwesomeIcon
             icon={faArrowsRotate}
-            className='card-refresh'
+            className={`card-refresh ${isRotating ? 'rotating' : ''}`}
             onClick={refreshCurrentPrice}
           />
         </div>
         <div className='card-body'>
-          <form className='' onSubmit={(e) => e.preventDefault()}>
+          <form onSubmit={(e) => e.preventDefault()}>
             <div className='form-group'>
               <label className='form-label' htmlFor='stockName'>
                 Stock Name:

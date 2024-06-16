@@ -1,5 +1,4 @@
-/* src/components/PercentageDifferenceCalculator/PercentageDifferenceCalculator.css */
-
+/* General styles for the calculator */
 .percentage-difference-calculator .result h5 {
   border-top: 1px solid var(--card-border-dark);
   padding-top: 1rem;
@@ -7,12 +6,17 @@
   margin: 0;
   font-size: .9rem;
 }
+
 .percentage-difference-calculator .form-control {
   width: 50%;
   flex: none;
 }
 
-.percentage-difference-calculator  .form-group {
+.percentage-difference-calculator .form-group {
   justify-content: space-between;
   margin-bottom: 1rem;
+}
+
+.card-refresh.rotating {
+  animation: rotate 0.5s forwards;
 }
