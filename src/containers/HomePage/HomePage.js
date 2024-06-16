@@ -65,7 +65,7 @@ const HomePage = () => {
     const timer = setTimeout(() => {
       setShowWidget(true);
       console.log('Symbol and theme set, showing widget:', symbol);
-    }, 3000);
+    }, 100);
 
     return () => clearTimeout(timer);
   }, [symbol]);
