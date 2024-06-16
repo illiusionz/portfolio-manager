@@ -4,9 +4,10 @@
   --background-color-dark: #202634;
   --border-color-dark: #333;
   --border-radius: 8px;
+  --border-color: #ddd;
 
   --text-color-light: #000000;
-  --text-color-dark: rgba(255, 255, 255, 0.7);
+  --text-color-dark: #d1d4dc;
   
 
   --navbar-background-light: #ffffff;
@@ -36,7 +37,9 @@
   --dropdown-menu-background-dark: #1f1f1f;
   --headline-font-size: #495057;
 
-  --dark-background: rgb(21, 27, 36); 
+  --dark-background: #131722; 
+
+  --calculator-action-color: #f4a119;
 }
 
 /* General Styles */
@@ -174,7 +177,7 @@ input[type="number"] {
   margin-right: 0.5rem;
   margin-bottom: 0;
   font-size: .9rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .form-control {
