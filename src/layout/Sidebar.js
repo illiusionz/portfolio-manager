@@ -12,7 +12,18 @@ import {
   FaBook,
   FaTools,
   FaCalculator,
+  FaComments,
+  FaChartPie,
+  FaChartArea,
+  FaChalkboardTeacher,
 } from 'react-icons/fa';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faBars,
+  faSun,
+  faMoon,
+  faSearch,
+} from '@fortawesome/free-solid-svg-icons';
 import './Sidebar.css';
 
 const Sidebar = () => {
@@ -29,12 +40,12 @@ const Sidebar = () => {
         </li>
         <li>
           <Link to='/trade-positions'>
-            <FaChartLine className='icon' /> Trade Positions
+            <FaChartLine className='icon' /> Stock Portolio
           </Link>
         </li>
         <li>
           <Link to='/chart-analysis'>
-            <FaChartLine className='icon' /> A.I. Chart Analysis
+            <FaChartArea className='icon' /> A.I. Chart Analysis
           </Link>
         </li>
         <li>
@@ -49,17 +60,22 @@ const Sidebar = () => {
         </li>
         <li>
           <Link to='/asset-management'>
-            <FaMoneyCheckAlt className='icon' /> Asset Management
+            <FaChartPie className='icon' /> Asset Management
           </Link>
         </li>
         <li>
           <Link to='/education'>
-            <FaBook className='icon' /> Education
+            <FaChalkboardTeacher className='icon' /> Education
           </Link>
         </li>
         <li>
           <Link to='/market-tools'>
             <FaTools className='icon' /> Market Tools
+          </Link>
+        </li>
+        <li>
+          <Link to='/market-tools'>
+            <FaComments className='icon' /> Chat Room
           </Link>
         </li>
         <li>
