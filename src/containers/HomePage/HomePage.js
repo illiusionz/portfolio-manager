@@ -1,9 +1,8 @@
-import React, { useEffect, Suspense, lazy } from 'react';
+import React, { useEffect, Suspense, lazy, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchStocks } from '../../redux/actions/stockActions';
 import { fetchNews } from '../../redux/actions/newsActions';
 
-// Lazy load the components
 const CompoundInterestCalculator = lazy(() =>
   import(
     '../../components/CompoundInterestCalculator/CompoundInterestCalculator'
@@ -33,11 +32,9 @@ const TopMovers = lazy(() => import('../../components/TopMovers/TopMovers'));
 const TrendingToolbar = lazy(() =>
   import('../../components/TrendingToolbar/TrendingToolbar')
 );
-
 const DividendInfo = lazy(() =>
   import('../../components/DividendInfo/DividendInfo')
 );
-
 const MuiCalendar = lazy(() => import('../../components/Calendar/MuiCalendar'));
 const Calculator = lazy(() => import('../../components/Calculator/Calculator'));
 const PortfolioValueCard = lazy(() =>
@@ -53,6 +50,7 @@ const HomePage = () => {
   const { error: newsError } = useSelector((state) => state.news);
 
   const totalValue = 123456.78;
+  const [showWidget, setShowWidget] = useState(false);
 
   useEffect(() => {
     dispatch(fetchStocks());
@@ -60,6 +58,17 @@ const HomePage = () => {
       dispatch(fetchNews(symbol));
     }
   }, [dispatch, symbol]);
+
+  useEffect(() => {
+    if (!symbol) return;
+
+    const timer = setTimeout(() => {
+      setShowWidget(true);
+      console.log('Symbol and theme set, showing widget:', symbol);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [symbol]);
 
   return (
     <div className='container-fluid'>
@@ -70,7 +79,11 @@ const HomePage = () => {
         <div className='stock-data'>
           {symbol ? (
             <Suspense fallback={<div>Loading...</div>}>
-              <TradingViewWidget symbol={symbol} />
+              {showWidget ? (
+                <TradingViewWidget symbol={symbol} />
+              ) : (
+                <div>Loading...</div>
+              )}
             </Suspense>
           ) : (
             <div>Please select a stock symbol.</div>
@@ -100,8 +113,10 @@ const HomePage = () => {
         </div>
 
         <div className='row my-3'>
-          <DividendInfo />
-          <CompoundInterestCalculator />
+          <div className='col-md-9'>
+            <DividendInfo />
+            <CompoundInterestCalculator />
+          </div>
         </div>
 
         <div className='row my-3'>
