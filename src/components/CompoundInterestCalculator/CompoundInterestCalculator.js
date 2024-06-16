@@ -14,10 +14,11 @@ const CompoundInterestCalculator = () => {
     const weeklyRateDecimal = parseFloat(rate) / 100;
     const result = [];
     for (let i = 1; i <= weeks; i++) {
-      capital += capital * weeklyRateDecimal;
+      const profit = capital * weeklyRateDecimal;
+      capital += profit;
       result.push({
         week: i,
-        profit: capital - initial,
+        profit: profit,
         capital: capital,
       });
     }
