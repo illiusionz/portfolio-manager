@@ -57,7 +57,7 @@ const DollarCostAveragingCalculator = () => {
 
   return (
     <div className='dca-calculator card'>
-      <div class='card-header'>
+      <div className='card-header'>
         <h5 className='card-title mb-0'>Dollar Cost Averaging Calculator</h5>
       </div>
       <div className='card-body'>
@@ -118,7 +118,7 @@ const DollarCostAveragingCalculator = () => {
           </button>
         </div>
         {result && (
-          <div class='result'>
+          <div className='result'>
             <h6>
               <strong>Result</strong>
             </h6>
