@@ -38,6 +38,12 @@ const DividendInfo = lazy(() =>
   import('../../components/DividendInfo/DividendInfo')
 );
 
+const MuiCalendar = lazy(() => import('../../components/Calendar/MuiCalendar'));
+const Calculator = lazy(() => import('../../components/Calculator/Calculator'));
+const PortfolioValueCard = lazy(() =>
+  import('../../components/PortfolioValueCard/PortfolioValueCard')
+);
+
 const HomePage = () => {
   const dispatch = useDispatch();
   const { data: stockData, error: stockError } = useSelector(
@@ -45,6 +51,8 @@ const HomePage = () => {
   );
   const { symbol } = useSelector((state) => state.user);
   const { error: newsError } = useSelector((state) => state.news);
+
+  const totalValue = 123456.78;
 
   useEffect(() => {
     dispatch(fetchStocks());
@@ -73,11 +81,13 @@ const HomePage = () => {
       <Suspense fallback={<div>Loading...</div>}>
         <div className='row my-2'>
           <div className='col-md-3'>
+            <PortfolioValueCard totalValue={totalValue} />
             <TopMovers />
           </div>
           <div className='col-md-3'>
             <DollarCostAveragingCalculator />
             <StockWatchlist />
+            <MuiCalendar />
           </div>
           <div className='col-md-3'>
             <OptionPremiumCalculator />
@@ -85,6 +95,7 @@ const HomePage = () => {
 
           <div className='col-md-3'>
             <PercentageDifferenceCalculator />
+            <Calculator />
           </div>
         </div>
 

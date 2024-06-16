@@ -1,0 +1,24 @@
+.MuiCalendarPicker-root {
+  
+}
+
+
+.dark  .MuiCalendarPicker-root {
+  background-color: var(--dark-background)!important;
+  border: 1px solid var(--card-border-dark)!important;
+  width:100%!important;
+  border-radius: var( --border-radius);
+}
+
+.css-bkrceb-MuiButtonBase-root-MuiPickersDay-root {
+  background-color: var(--card-background-dark)!important;
+}
+.css-bccull-MuiButtonBase-root-MuiPickersDay-root {
+  background-color: #f4f7f90d!important;
+}
+
+.Mui-selected {
+  color: rgba(0, 0, 0, 0.87);
+  background-color: rgb(144, 202, 249);
+  font-weight: 500;
+}
