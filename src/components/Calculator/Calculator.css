@@ -1,32 +1,34 @@
 .calculator {
-  background-color: var(--background-color-light)!important;
-  color: var(--text-color-light);
+  color: #fff;
   padding: 2rem;
   border-radius: 8px;
   width: 100%;
   margin: 0 auto;
+  border: 1px solid #3d3d3d;
+  background-color: var(--light-background);
+  color: var(--text-color-light);
   border: 1px solid var(--border-color);
 }
-
 
 .calculator-display {
-  background-color:var(--form-control-background-dark);
-  padding: 10px;
-  border-radius: 4px;
+  background-color: #1c1c1c;
+  padding: 20px;
+  border-radius: 8px;
   margin-bottom: 20px;
-  height: 113px;
-  border: 1px solid var(--border-color);
+  min-height: 90px;
+  font-size: 2rem;
+  display: flex;
+  color: #fff;
+  border: 1px solid #3d3d3d;
+  justify-content: flex-end;
+  align-items: end;
+  flex-direction: column;
 }
 
-.calculator-input {
-  font-size: 1.5em;
-  text-align: right;
-}
-
+.calculator-input,
 .calculator-result {
-  font-size: 2em;
+  font-size: 2rem;
   text-align: right;
-  margin-top: 10px;
 }
 
 .calculator-buttons {
@@ -36,46 +38,36 @@
 }
 
 .calculator-buttons button {
-  background-color: #2e2e2e;
-  color: var(--text-color-dark);
-  padding: 10px;
+  background-color: #505050;
+  color: #fff;
+  padding: 0.5rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 1.6em;
   cursor: pointer;
 }
 
 .calculator-buttons button:hover {
-  background-color: #3d3d3d;
+  background-color: #606060;
 }
 
 .calculator-buttons button:active {
-  background-color: #4e4e4e;
+  background-color: #707070;
 }
 
 .calculator-action {
-  background-color: var(--calculator-action-color)!important;
+  background-color: #ff9500 !important;
+  color: #fff !important;
 }
 
-
-.dark .calculator {
-  background-color: var(--dark-background)!important;
-  border: 1px solid var(--border-color-dark)!important;
+.calculator-action:hover {
+  background-color: #ffa726 !important;
 }
 
-.dark .calculator-display {
-  background-color: var(--form-control-background-dark);
-  border: 1px solid var(--border-color-dark);
-  color: var(--text-color-dark);
-
+.calculator-action:active {
+  background-color: #ffb74d !important;
 }
 
-.dark .calculator-buttons button {
-  background-color: var(--form-control-background-dark);
-  color: var(--text-color-dark);
-}
-
-
-.MuiButtonBase-root .MuiPickersDay-root .Mui-selected {
-  background-color: rgb(100, 141, 174)!important;
+.zero {
+  grid-column: span 2;
 }
