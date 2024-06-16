@@ -1,18 +1,15 @@
 .calculator {
   background-color: var(--background-color-light)!important;
   color: #ffffff;
-  padding: 20px;
+  padding: 2rem;
   border-radius: 8px;
   width: 100%;
   margin: 0 auto;
 }
 
-.dark .calculator {
-  background-color: var(--card-background-dark)!important;
-}
 
 .calculator-display {
-  background-color: #121212;
+  background-color:var(--form-control-background-dark);
   padding: 10px;
   border-radius: 4px;
   margin-bottom: 20px;
@@ -51,4 +48,18 @@
 
 .calculator-buttons button:active {
   background-color: #4e4e4e;
+}
+
+
+.dark .calculator {
+  background-color: var(--dark-background)!important;
+}
+
+.dark .calculator-buttons button {
+  background-color: #f4f7f90d;
+}
+
+
+.MuiButtonBase-root .MuiPickersDay-root .Mui-selected {
+  background-color: rgb(100, 141, 174)!important;
 }

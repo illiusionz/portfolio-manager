@@ -7,11 +7,6 @@
   margin: 0;
   font-size: .9rem;
 }
-
-.percentage-difference-calculator .card-body {
-  padding: 1rem 2rem;
-}
-
 .percentage-difference-calculator .form-control {
   width: 50%;
   flex: none;

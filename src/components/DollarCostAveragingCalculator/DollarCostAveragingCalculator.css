@@ -4,10 +4,6 @@
   color: #000;
 }
 
-.dca-calculator .card-body {
-  padding: 1rem 2rem;
-}
-
 .dca-calculator .form-row {
   display: flex;
   justify-content: space-between;

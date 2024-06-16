@@ -222,18 +222,18 @@ const OptionPremiumCalculator = () => {
               </button>
             </div>
             <div className='result'>
-              <h6>
+              <h7>
                 <strong>Total Premium Collected:</strong>+$
                 {formatNumberWithCommas(totalPremium.toFixed(2))}
-              </h6>
-              <h6>
+              </h7>
+              <h7>
                 <strong>Total Capital Used:</strong>$
                 {formatNumberWithCommas(totalCapital.toFixed(2))}
-              </h6>
-              <h6>
+              </h7>
+              <h7>
                 <strong>Average Return:</strong>+
                 {formatNumberWithCommas(percentageReturn.toFixed(2))}%
-              </h6>
+              </h7>
             </div>
           </form>
         </div>

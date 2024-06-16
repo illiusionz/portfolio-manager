@@ -64,7 +64,7 @@
 }
 
 .dark .news-item {
-  background-color: var(--card-background-dark);
+  background-color: var(--dark-background);
   border: 1px solid var(--card-border-dark);
 }
 

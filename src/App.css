@@ -1,57 +1,48 @@
-/* src/App.css */
-
-/* General styles */
+/* Root Variables */
 :root {
   --background-color-light: #f8f9fa;
-  /*--background-color-dark: #121212;*/
   --background-color-dark: #202634;
-  
-  --border-color-dark:#333;
+  --border-color-dark: #333;
+  --border-radius: 8px;
 
-  
   --text-color-light: #000000;
-  /*--text-color-dark: #ffffff;*/
-  --text-color-dark: #f4f7f9;
-
+  --text-color-dark: rgba(255, 255, 255, 0.7);
   
+
   --navbar-background-light: #ffffff;
   --navbar-background-dark: #1e222d;
   --navbar-border-dark: #ebebeb1a;
 
   --card-background-light: #ffffff;
-  --card-background-dark: #1e222d;
-  --card-background-dark: #293042;
+  --card-background-dark: rgb(21, 27, 36);
   --card-border-light: #e3e6f0;
   --card-border-dark: #ebebeb1a;
+  --card-padding:1rem 2rem;
 
 
   --btn-primary-light: #007bff;
   --btn-primary-dark: #0d6efd;
+
   --form-control-background-light: #ffffff;
-  /*--form-control-background-dark: #2a2e39;*/
-  --form-control-background-dark: #293042;
-
-
+  --form-control-background-dark: #f4f7f90d;
   --form-control-border-light: #ced4da;
-  /*--form-control-border-dark: #444444;*/
   --form-control-border-dark: #495057;
-
-
   --form-control-placeholder-light: #000000be;
   --form-control-placeholder-dark: #bbbbbb;
+
   --autosuggest-suggestion-highlighted-light: #ddd;
   --autosuggest-suggestion-highlighted-dark: #2a2e39;
+
   --dropdown-menu-background-dark: #1f1f1f;
   --headline-font-size: #495057;
 
-  
+  --dark-background: rgb(21, 27, 36); 
 }
 
+/* General Styles */
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
-  /*font-family: "Source Sans 3", sans-serif;*/
-
   background-color: var(--background-color-light);
   color: var(--text-color-light);
 }
@@ -60,8 +51,7 @@ body {
   font-weight: 500;
 }
 
-
-/* Hide the arrows from number inputs */
+/* Hide arrows from number inputs */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -79,6 +69,10 @@ input[type="number"] {
 
 .table th {
   font-weight: bold;
+}
+
+.table>:not(caption)>*>* {
+  padding: .5rem 0.3rem;
 }
 
 /* Wrapper */
@@ -111,8 +105,7 @@ input[type="number"] {
   color: white;
 }
 
-.list-group-item:hover,
-.list-group-item:focus {
+.list-group-item:hover, .list-group-item:focus {
   background-color: #495057;
   color: white;
 }
@@ -136,8 +129,10 @@ input[type="number"] {
 }
 
 .card-title {
-  font-size: .9rem;
-
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  text-align: center;
+  font-weight: 600;
 }
 
 .card-header {
@@ -145,6 +140,7 @@ input[type="number"] {
   background-color: var(--card-background-light);
   border-bottom: 1px solid var(--card-border-light);
 }
+
 .card-refresh {
   position: absolute;
   top: 0;
@@ -152,14 +148,13 @@ input[type="number"] {
   margin: auto;
   right: 1rem;
 }
-.card-title {
-  padding: 0.3rem 0;
-  text-align: center;
-  font-weight: 600;
-}
 
 .card-header-tabs {
   font-weight: 600;
+}
+
+.card-body {
+  padding: var(--card-padding);
 }
 
 /* Form styles */
@@ -290,30 +285,30 @@ form.d-flex .btn-outline-primary {
 }
 
 .dark .navbar {
-  background-color: var(--navbar-background-dark);
+  background-color: var(--dark-background);
   border-bottom: 1px solid var(--card-border-dark);
 }
 
 .dark .nav-link:focus, 
 .dark .nav-link:hover {
   color: var(--text-color-dark);
-  background-color: var(--navbar-background-dark);
+  background-color: var(--dark-background);
 }
 
 .dark .dropdown-item:focus, 
 .dark .dropdown-item:hover {
-  color: var(--navbar-background-dark);
+  color: var(--dark-background);
   background-color: #157347;
 }
 
 .dark .card {
-  background-color: var(--card-background-dark);
+  background-color: var(--dark-background);
   color: var(--text-color-dark);
   border: 1px solid var(--card-border-dark);
 }
 
 .dark .card-header {
-  background-color: var(--card-background-dark);
+  background-color: transparent;
   border-bottom: 1px solid var(--card-border-dark);
 }
 
@@ -323,6 +318,9 @@ form.d-flex .btn-outline-primary {
   border: 1px solid var(--card-border-dark);
 }
 
+.dark .card-title {
+  color: var(--text-color-dark);
+}
 
 .dark .btn-primary {
   background-color: var(--btn-primary-dark);
@@ -372,8 +370,8 @@ form.d-flex .btn-outline-primary {
 }
 
 .table-dark {
-  --bs-table-bg: #293042;
-  --bs-table-striped-bg:#f4f7f90d;
+  --bs-table-bg: var(--dark-background);
+  --bs-table-striped-bg: #f4f7f90d;
 }
 
 .dark .react-autosuggest__suggestions-container--open {

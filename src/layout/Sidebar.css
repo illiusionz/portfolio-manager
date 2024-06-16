@@ -1,6 +1,6 @@
 /* Sidebar.css */
 .sidebar {
-  background-color: #1e222d;
+  background-color: var(--dark-background);
   color: #ecf0f1;
   height: 100vh;
   position: relative;
