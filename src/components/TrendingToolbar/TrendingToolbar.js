@@ -13,6 +13,7 @@ const TrendingToolbar = () => {
   const [trendingStocks, setTrendingStocks] = useState([]);
   const [hoveredStock, setHoveredStock] = useState(null);
   const [hoverPosition, setHoverPosition] = useState({ top: 0, left: 0 });
+  const [showPercentChange, setShowPercentChange] = useState(true);
 
   const manualStocks = [
     'AAPL',
@@ -21,7 +22,7 @@ const TrendingToolbar = () => {
     'SHOP',
     'AFRM',
     'GME',
-    'BOIL',
+    'ADBE',
     'TSLA',
     'MSFT',
     'NVDA',
@@ -33,19 +34,19 @@ const TrendingToolbar = () => {
     'SNAP',
     'SPOT',
     'PINS',
-    'ZM',
+    'TSM',
     'UBER',
     'LYFT',
     'SQ',
     'ROKU',
     'CRWD',
     'DOCU',
-    'NET',
-    'FSLY',
-    'ZS',
+    'META',
+    'PLTR',
+    'AVGO',
     'OKTA',
-    'MDB',
-    'ESTC',
+    'RIVN',
+    'PDD',
     'DDOG',
     'AMC',
     'BA',
@@ -55,7 +56,7 @@ const TrendingToolbar = () => {
     'DIS',
     'F',
     'GE',
-    'GM',
+    'GME',
     'GS',
     'HD',
     'IBM',
@@ -64,18 +65,18 @@ const TrendingToolbar = () => {
     'JPM',
     'KO',
     'MCD',
-    'MMM',
-    'MRK',
-    'MS',
+    'SMCI',
+    'HOOD',
+    'OXY',
     'NKE',
     'PFE',
     'PG',
-    'TRV',
+    'MRVL',
     'UNH',
     'V',
     'VZ',
     'WBA',
-    'WMT',
+    'ARM',
     'XOM',
   ];
   const indexTickers = ['SPY', 'QQQ', 'IWM', 'DIA'];
@@ -125,8 +126,14 @@ const TrendingToolbar = () => {
         }}
         onMouseLeave={() => setHoveredStock(null)}>
         <span className='stock-symbol'>{stock.ticker}</span>
-        <FontAwesomeIcon icon={arrowIcon} />
-        <span className='stock-percent'>{changePercent}%</span>
+        {showPercentChange ? (
+          <>
+            <FontAwesomeIcon icon={arrowIcon} />
+            <span className='stock-percent'>{changePercent}%</span>
+          </>
+        ) : (
+          <span className='stock-price'>${stock.day.c.toFixed(2)}</span>
+        )}
       </div>
     );
   };
@@ -141,14 +148,32 @@ const TrendingToolbar = () => {
     return (
       <div key={ticker} className={`index-item ${changeClass}`}>
         <span className='stock-symbol'>{data.ticker}</span>
-        <FontAwesomeIcon icon={arrowIcon} />
-        <span className='stock-percent'>{changePercent}%</span>
+        {showPercentChange ? (
+          <>
+            <FontAwesomeIcon icon={arrowIcon} />
+            <span className='stock-percent'>{changePercent}%</span>
+          </>
+        ) : (
+          <span className='stock-price'>${data.day.c.toFixed(2)}</span>
+        )}
       </div>
     );
   };
 
   return (
     <div className='trending-toolbar'>
+      <div className='form-check form-switch'>
+        {/*<label className='form-check-label' htmlFor='toggleSwitch'>
+          {showPercentChange ? 'Percent' : 'Price'}
+        </label>*/}
+        <input
+          className='form-check-input'
+          type='checkbox'
+          id='toggleSwitch'
+          checked={showPercentChange}
+          onChange={() => setShowPercentChange(!showPercentChange)}
+        />
+      </div>
       <div className='index-data'>
         {indexTickers.map((ticker) => renderIndexData(ticker))}
         <span className='trending-label text-secondary'>

@@ -117,7 +117,7 @@ input[type="number"] {
 }
 
 .hero-section {
-  padding: 1rem 0; /* Ensure there's enough space below the navbar */
+  padding: .5rem 0; /* Ensure there's enough space below the navbar */
 }
 
 .hero-section .stock-data {
