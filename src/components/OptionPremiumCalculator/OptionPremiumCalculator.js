@@ -10,6 +10,8 @@ import {
   formatCurrency,
   parseCurrency,
 } from '../../utils/format';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 
 const OptionPremiumCalculator = () => {
   const symbol = useSelector((state) => state.user.symbol);
@@ -22,6 +24,8 @@ const OptionPremiumCalculator = () => {
   const [totalPremium, setTotalPremium] = useState(0);
   const [totalCapital, setTotalCapital] = useState(0);
   const [percentageReturn, setPercentageReturn] = useState(0);
+  const [isRotating, setIsRotating] = useState(false);
+
   const stockPrice = useSelector((state) => state.user.stockPrice);
   const dispatch = useDispatch();
 
@@ -129,6 +133,15 @@ const OptionPremiumCalculator = () => {
     setPercentageReturn(isNaN(percentage) ? 0 : percentage);
   };
 
+  const refreshCurrentPrice = () => {
+    if (symbol) {
+      dispatch(fetchStockPrice(symbol));
+      console.log('Refreshing current price...');
+      setIsRotating(true);
+      setTimeout(() => setIsRotating(false), 500); // Reset the rotation after animation
+    }
+  };
+
   const inputProps = {
     placeholder: 'Search for a stock',
     value: query,
@@ -140,6 +153,11 @@ const OptionPremiumCalculator = () => {
       <div className='card'>
         <div className='card-header'>
           <h5 className='card-title mb-0'>Option Premium Calculator</h5>
+          <FontAwesomeIcon
+            icon={faArrowsRotate}
+            className={`card-refresh ${isRotating ? 'rotating' : ''}`}
+            onClick={refreshCurrentPrice}
+          />
         </div>
         <div className='card-body'>
           <form className='' onSubmit={(e) => e.preventDefault()}>
@@ -222,18 +240,18 @@ const OptionPremiumCalculator = () => {
               </button>
             </div>
             <div className='result'>
-              <h7>
+              <h6>
                 <strong>Total Premium Collected:</strong>+$
                 {formatNumberWithCommas(totalPremium.toFixed(2))}
-              </h7>
-              <h7>
+              </h6>
+              <h6>
                 <strong>Total Capital Used:</strong>$
                 {formatNumberWithCommas(totalCapital.toFixed(2))}
-              </h7>
-              <h7>
+              </h6>
+              <h6>
                 <strong>Average Return:</strong>+
                 {formatNumberWithCommas(percentageReturn.toFixed(2))}%
-              </h7>
+              </h6>
             </div>
           </form>
         </div>

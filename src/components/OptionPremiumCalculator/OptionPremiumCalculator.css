@@ -23,14 +23,14 @@
   margin: 1rem 0 0;
 }
 
-.option-premium-calculator .result h7 {
+.option-premium-calculator .result h6 {
   display: flex;
   justify-content: space-between;
   padding: 0.2rem 0;
   font-size: .9rem;
 }
 
-.dark .option-premium-calculator .result h7 strong {
+.dark .option-premium-calculator .result h6 strong {
   color: var(--text-color-dark);
 }
 
