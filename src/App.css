@@ -131,6 +131,33 @@ input[type="number"] {
   margin-bottom: 1rem;
 }
 
+
+
+/* Card refresh animation */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+.card-refresh {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 20px;
+  bottom:0;
+  cursor: pointer;
+  transition: transform 0.5s;
+}
+
+.card-refresh.rotating {
+  animation: rotate 0.5s forwards;
+}
+
+
 .card-title {
   font-size: 1rem;
   padding: 0.5rem 0;
@@ -142,14 +169,6 @@ input[type="number"] {
   position: relative;
   background-color: var(--card-background-light);
   border-bottom: 1px solid var(--card-border-light);
-}
-
-.card-refresh {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  right: 1rem;
 }
 
 .card-header-tabs {
