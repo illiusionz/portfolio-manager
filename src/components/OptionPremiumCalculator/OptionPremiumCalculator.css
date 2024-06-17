@@ -17,11 +17,7 @@
   padding: 1rem 2rem;
 }
 
-.option-premium-calculator .result {
-  border-top: 1px solid var(--card-border-dark);
-  padding-top: 1rem;
-  margin: 1rem 0 0;
-}
+
 
 .option-premium-calculator .result h6 {
   display: flex;
@@ -33,6 +29,7 @@
 .dark .option-premium-calculator .result h6 strong {
   color: var(--text-color-dark);
 }
+
 
 .button-group {
   display: flex;

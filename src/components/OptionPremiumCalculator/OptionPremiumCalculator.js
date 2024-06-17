@@ -124,7 +124,7 @@ const OptionPremiumCalculator = () => {
 
   const calculateTotalPremium = () => {
     const strike = parseCurrency(strikePrice);
-    const premium = parseCurrency(premiumAmount);
+    const premium = parseCurrency(premiumAmount) * 100;
     const total = numberOfContracts * premium * amountOfWeeks;
     setTotalPremium(isNaN(total) ? 0 : total);
     const capitalUsed = numberOfContracts * strike * 100;

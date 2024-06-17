@@ -34,3 +34,14 @@
 .dca-calculator .form-label {
   margin-bottom: .25rem;
 }
+
+.dca-calculator .result .form-row .col {
+  flex: 1;
+  text-align: center;
+}
+
+
+.result .col h6 {
+  display: flex;
+  flex-direction: column;
+}

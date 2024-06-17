@@ -5,7 +5,11 @@ import axios from 'axios';
 import './PercentageDifferenceCalculator.css';
 import { fetchStockPrice } from '../../redux/actions/stockActions';
 import { setUserSymbol } from '../../redux/actions/userActions';
-import { formatNumberWithCommas } from '../../utils/format';
+import {
+  formatNumberWithCommas,
+  formatCurrency,
+  parseCurrency,
+} from '../../utils/format';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 
@@ -35,7 +39,7 @@ const PercentageDifferenceCalculator = () => {
 
   useEffect(() => {
     if (stockPrice) {
-      setCurrentPrice(`$${formatNumberWithCommas(stockPrice.toFixed(2))}`);
+      setCurrentPrice(formatCurrency(stockPrice.toFixed(2)));
     }
   }, [stockPrice]);
 
@@ -45,9 +49,8 @@ const PercentageDifferenceCalculator = () => {
       return;
     }
     const change =
-      ((parseFloat(targetPrice.replace(/[^0-9.-]+/g, '')) -
-        parseFloat(currentPrice.replace(/[^0-9.-]+/g, ''))) /
-        parseFloat(currentPrice.replace(/[^0-9.-]+/g, ''))) *
+      ((parseCurrency(targetPrice) - parseCurrency(currentPrice)) /
+        parseCurrency(currentPrice)) *
       100;
     setPercentageChange(isNaN(change) ? '0.00' : change.toFixed(2));
   };
@@ -100,17 +103,13 @@ const PercentageDifferenceCalculator = () => {
   };
 
   const handleTargetPriceChange = (event) => {
-    let inputValue = event.target.value.replace(/[^0-9.]/g, '');
-    if (!isNaN(inputValue) && inputValue.length <= 10) {
-      setTargetPrice(`$${formatNumberWithCommas(inputValue)}`);
-    }
+    const value = event.target.value.replace(/[^0-9.]/g, '');
+    setTargetPrice(formatCurrency(value));
   };
 
   const handleCurrentPriceChange = (event) => {
-    let inputValue = event.target.value.replace(/[^0-9.]/g, '');
-    if (!isNaN(inputValue) && inputValue.length <= 10) {
-      setCurrentPrice(`$${formatNumberWithCommas(inputValue)}`);
-    }
+    const value = event.target.value.replace(/[^0-9.]/g, '');
+    setCurrentPrice(formatCurrency(value));
   };
 
   const refreshCurrentPrice = async () => {
@@ -120,7 +119,7 @@ const PercentageDifferenceCalculator = () => {
           `https://api.polygon.io/v2/aggs/ticker/${symbol}/prev?apiKey=${apiKey}`
         );
         const currentPrice = response.data.results[0].c;
-        setCurrentPrice(`$${formatNumberWithCommas(currentPrice.toFixed(2))}`);
+        setCurrentPrice(formatCurrency(currentPrice.toFixed(2)));
         console.log('Refreshing current price...');
         setIsRotating(true);
         setTimeout(() => setIsRotating(false), 500);
@@ -206,9 +205,9 @@ const PercentageDifferenceCalculator = () => {
             </div>
           </form>
           <div className='result mt-3'>
-            <h5>
+            <h6>
               <strong>Percent Change:</strong> {percentageChange}%
-            </h5>
+            </h6>
           </div>
         </div>
       </div>
