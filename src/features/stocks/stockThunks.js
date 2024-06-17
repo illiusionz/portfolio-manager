@@ -1,6 +1,7 @@
+// src/features/stocks/stockThunks.js
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { setUserSymbol, setStockPrice } from './userActions';
+import { setStockPrice } from './stockSlice'; // Import the action
 
 const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 
@@ -23,16 +24,13 @@ export const fetchStocks = createAsyncThunk(
 export const fetchStockPrice = createAsyncThunk(
   'stocks/fetchStockPrice',
   async (symbol, { rejectWithValue, dispatch }) => {
-    console.log(`Fetching stock price for symbol: ${symbol}`);
     try {
       const response = await axios.get(
         `https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers/${symbol}?apiKey=${apiKey}`
       );
-      console.log('Stock price data:', response.data);
-      dispatch(setStockPrice(response.data.ticker.day.o)); // Assuming you want the opening price
+      dispatch(setStockPrice(response.data.ticker.prevDay.o)); // Assuming you want the opening price
       return response.data;
     } catch (error) {
-      console.error('Error fetching stock price:', error);
       if (error.response && error.response.status === 403) {
         return rejectWithValue(
           'Access forbidden: check API key and permissions.'

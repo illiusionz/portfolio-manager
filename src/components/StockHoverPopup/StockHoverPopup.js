@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
-import { addToWatchlist } from '../../redux/actions/watchlistActions';
+import { addToWatchlist } from '../../features/watchlist/watchlistSlice'; // Updated path
 import './StockHoverPopup.css';
 
 const StockHoverPopup = ({ stock, position }) => {

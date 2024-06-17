@@ -1,7 +1,7 @@
 import React, { useEffect, Suspense, lazy, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchStocks } from '../../redux/actions/stockActions';
-import { fetchNews } from '../../redux/actions/newsActions';
+import { fetchStocks } from '../../features/stocks/stockThunks'; // Updated path
+import { fetchNews } from '../../features/news/newsThunks'; // Updated path
 
 const CompoundInterestCalculator = lazy(() =>
   import(

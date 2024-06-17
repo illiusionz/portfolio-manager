@@ -1,13 +1,12 @@
+// src/App.js
 import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Provider } from 'react-redux';
-import store from './redux/store';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { fetchStocks, fetchStockPrice } from './redux/actions/stockActions';
-import { setUserSymbol } from './redux/actions/userActions';
-import { setTheme } from './redux/actions/themeActions';
+import { fetchStocks, fetchStockPrice } from './features/stocks/stockThunks';
+import { setUserSymbol } from './features/user/userSlice'; // Correct import
+import { setTheme } from './features/theme/themeSlice';
 
 // Lazy load the components
 const HomePage = lazy(() => import('./containers/HomePage/HomePage'));
@@ -28,8 +27,8 @@ const PercentageDifferenceCalculator = lazy(() =>
     './components/PercentageDifferenceCalculator/PercentageDifferenceCalculator'
   )
 );
-const Sidebar = lazy(() => import('./layout/Sidebar'));
-const Navbar = lazy(() => import('./layout/Navbar'));
+const SideBar = lazy(() => import('./components/SideBar/SideBar'));
+const NavBar = lazy(() => import('./components/NavBar/NavBar'));
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -62,47 +61,38 @@ function App() {
   };
 
   return (
-    <Provider store={store}>
-      <Router>
-        <div
-          className={`d-flex ${isSidebarOpen ? '' : 'toggled'}`}
-          id='wrapper'>
+    <div className={`d-flex ${isSidebarOpen ? '' : 'toggled'}`} id='wrapper'>
+      <Suspense fallback={<div>Loading...</div>}>
+        <SideBar />
+      </Suspense>
+      <div id='page-content-wrapper' className={theme}>
+        <Suspense fallback={<div>Loading...</div>}>
+          <NavBar
+            toggleSidebar={toggleSidebar}
+            handleSymbolSearch={handleSymbolSearch}
+            toggleTheme={toggleTheme}
+          />
+          <TrendingToolbar />
+        </Suspense>
+        <div className='container-fluid'>
           <Suspense fallback={<div>Loading...</div>}>
-            <Sidebar />
-          </Suspense>
-          <div id='page-content-wrapper' className={theme}>
-            <Suspense fallback={<div>Loading...</div>}>
-              <Navbar
-                toggleSidebar={toggleSidebar}
-                handleSymbolSearch={handleSymbolSearch}
-                toggleTheme={toggleTheme}
+            <Routes>
+              <Route path='/' element={<HomePage />} />
+              <Route path='/chart-analysis' element={<ChartAnalysisPage />} />
+              <Route
+                path='/compound-interest-calculator'
+                element={<CompoundInterestCalculator />}
               />
-              <TrendingToolbar />
-            </Suspense>
-            <div className='container-fluid'>
-              <Suspense fallback={<div>Loading...</div>}>
-                <Routes>
-                  <Route path='/' element={<HomePage />} />
-                  <Route
-                    path='/chart-analysis'
-                    element={<ChartAnalysisPage />}
-                  />
-                  <Route
-                    path='/compound-interest-calculator'
-                    element={<CompoundInterestCalculator />}
-                  />
-                  <Route
-                    path='/percentage-difference'
-                    element={<PercentageDifferenceCalculator />}
-                  />
-                  <Route path='/education' element={<EducationPage />} />
-                </Routes>
-              </Suspense>
-            </div>
-          </div>
+              <Route
+                path='/percentage-difference'
+                element={<PercentageDifferenceCalculator />}
+              />
+              <Route path='/education' element={<EducationPage />} />
+            </Routes>
+          </Suspense>
         </div>
-      </Router>
-    </Provider>
+      </div>
+    </div>
   );
 }
 

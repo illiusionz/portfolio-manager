@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 import axios from 'axios';
 import './OptionPremiumCalculator.css';
-import { fetchStockPrice } from '../../redux/actions/stockActions';
-import { setUserSymbol } from '../../redux/actions/userActions';
+import { fetchStockPrice } from '../../features/stocks/stockThunks';
+import { setUserSymbol } from '../../features/user/userSlice';
 import {
   formatNumberWithCommas,
   formatCurrency,
@@ -26,7 +26,7 @@ const OptionPremiumCalculator = () => {
   const [percentageReturn, setPercentageReturn] = useState(0);
   const [isRotating, setIsRotating] = useState(false);
 
-  const stockPrice = useSelector((state) => state.user.stockPrice);
+  const stockPrice = useSelector((state) => state.stocks.data); // Updated to use stocks.data
   const dispatch = useDispatch();
 
   const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
@@ -40,7 +40,7 @@ const OptionPremiumCalculator = () => {
 
   useEffect(() => {
     if (stockPrice) {
-      setStrikePrice(`$${formatNumberWithCommas(stockPrice.toFixed(2))}`);
+      setStrikePrice(formatCurrency(stockPrice.toFixed(2)));
     }
   }, [stockPrice]);
 

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/images/logo.png';
+import logo from '../../assets/images/logo.png';
 import {
   FaHome,
   FaChartLine,
@@ -24,7 +24,7 @@ import {
   faMoon,
   faSearch,
 } from '@fortawesome/free-solid-svg-icons';
-import './Sidebar.css';
+import './SideBar.css';
 
 const Sidebar = () => {
   return (

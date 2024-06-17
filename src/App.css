@@ -38,6 +38,8 @@
   --headline-font-size: #495057;
 
   --dark-background: #131722; 
+  --dark-background: #131722; 
+  --background-light: #fff;
 
   --calculator-action-color: #f4a119;
 }
@@ -89,6 +91,15 @@ input[type="number"] {
 #wrapper.toggled #sidebar-wrapper {
   margin-left: -250px;
 }
+
+.page-title {
+ color: var(--text-color-light);
+}
+
+.dark .page-title {
+  color: var(--text-color-dark);
+ }
+ 
 
 /* Sidebar */
 #sidebar-wrapper {
@@ -210,6 +221,25 @@ input[type="number"] {
 
 .btn {
   flex-shrink: 0;
+}
+
+
+
+.result {
+  border-top: 1px solid var(--card-border-light);
+  padding-top: 1rem;
+  margin: 1rem 0 0;
+}
+
+.dark .result {
+  border-top: 1px solid var(--card-border-dark);
+  padding-top: 1rem;
+  margin: 1rem 0 0;
+}
+
+
+.result h6 {
+  font-size: .9rem;
 }
 
 /* Search bar */

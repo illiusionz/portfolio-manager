@@ -7,8 +7,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import './TrendingToolbar.css';
 import StockHoverPopup from '../StockHoverPopup/StockHoverPopup';
+import { useDispatch } from 'react-redux';
+import { addToWatchlist } from '../../features/watchlist/watchlistSlice'; // Updated path
 
 const TrendingToolbar = () => {
+  const dispatch = useDispatch();
   const [indexData, setIndexData] = useState({});
   const [trendingStocks, setTrendingStocks] = useState([]);
   const [hoveredStock, setHoveredStock] = useState(null);
@@ -163,9 +166,6 @@ const TrendingToolbar = () => {
   return (
     <div className='trending-toolbar'>
       <div className='form-check form-switch'>
-        {/*<label className='form-check-label' htmlFor='toggleSwitch'>
-          {showPercentChange ? 'Percent' : 'Price'}
-        </label>*/}
         <input
           className='form-check-input'
           type='checkbox'

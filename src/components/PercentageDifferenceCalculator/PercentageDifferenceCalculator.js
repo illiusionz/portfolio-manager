@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 import axios from 'axios';
 import './PercentageDifferenceCalculator.css';
-import { fetchStockPrice } from '../../redux/actions/stockActions';
-import { setUserSymbol } from '../../redux/actions/userActions';
+import { fetchStockPrice } from '../../features/stocks/stockThunks'; // Updated path
+import { setUserSymbol } from '../../features/user/userSlice'; // Updated path
 import {
   formatNumberWithCommas,
   formatCurrency,
@@ -21,7 +21,7 @@ const PercentageDifferenceCalculator = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [percentageChange, setPercentageChange] = useState('0.00');
   const [isRotating, setIsRotating] = useState(false);
-  const stockPrice = useSelector((state) => state.user.stockPrice);
+  const stockPrice = useSelector((state) => state.stocks.data); // Updated to use stocks.data
   const dispatch = useDispatch();
 
   const apiKey = process.env.REACT_APP_POLYGON_API_KEY;

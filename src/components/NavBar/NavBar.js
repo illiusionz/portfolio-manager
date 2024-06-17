@@ -8,14 +8,15 @@ import {
   faMoon,
   faSearch,
 } from '@fortawesome/free-solid-svg-icons';
-import './Navbar.css';
-import flagIcons from '../utils/flagIcons';
-import exchangeType from '../utils/exchanges';
-import { fetchStockPrice } from '../redux/actions/stockActions';
-import { setUserSymbol } from '../redux/actions/userActions';
-import { addToWatchlist } from '../redux/actions/watchlistActions';
-import { setTheme } from '../redux/actions/themeActions';
-import profileImage from '../assets/images/user-image.jpg';
+import './NavBar.css';
+import flagIcons from '../../utils/flagIcons';
+import exchangeType from '../../utils/exchanges';
+
+import { fetchStockPrice } from '../../features/stocks/stockThunks'; // Updated path
+import { setUserSymbol } from '../../features/user/userSlice'; // Updated path
+import { addToWatchlist } from '../../features/watchlist/watchlistSlice'; // Corrected path
+import { setTheme } from '../../features/theme/themeSlice'; // Updated path
+import profileImage from '../../assets/images/user-image.jpg';
 
 const Navbar = ({ toggleSidebar, handleSymbolSearch, toggleTheme }) => {
   const symbol = useSelector((state) => state.user.symbol); // Get the selected symbol from the state

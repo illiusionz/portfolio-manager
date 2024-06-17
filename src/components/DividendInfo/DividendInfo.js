@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { formatNumberWithCommas } from '../../utils/format';
-import { setUserSymbol } from '../../redux/actions/userActions';
+import {
+  formatNumberWithCommas,
+  formatCurrency,
+  parseCurrency,
+} from '../../utils/format';
+import { setUserSymbol } from '../../features/user/userSlice'; // Updated path
+import { fetchStockPrice } from '../../features/stocks/stockThunks'; // Updated path
+
 import axios from 'axios';
 import Autosuggest from 'react-autosuggest';
 import './DividendInfo.css';
 
 const DividendInfo = () => {
   const symbol = useSelector((state) => state.user.symbol); // Get the selected symbol from the state
+  const watchlist = useSelector((state) => state.watchlist.symbols); // Get the watchlist from the state
   const [query, setQuery] = useState(symbol || '');
   const [dividends, setDividends] = useState([]);
   const [numberOfShares, setNumberOfShares] = useState('');
@@ -98,7 +105,8 @@ const DividendInfo = () => {
     );
     if (selectedDividend && numberOfShares) {
       const totalDividend =
-        parseFloat(selectedDividend.cash_amount) * parseInt(numberOfShares, 10);
+        parseFloat(selectedDividend.cash_amount) *
+        parseCurrency(numberOfShares);
       setCalculatedDividend(totalDividend.toFixed(2));
     }
   };
@@ -109,6 +117,25 @@ const DividendInfo = () => {
     setCalculatedDividend(null);
     setDividends([]);
     setSuggestions([]);
+  };
+
+  const handleNumberOfSharesChange = (e) => {
+    const value = e.target.value.replace(/,/g, '');
+    setNumberOfShares(formatNumberWithCommas(value));
+  };
+
+  const handleSelectChange = async (e) => {
+    const selectedSymbol = e.target.value;
+    setQuery(selectedSymbol);
+    dispatch(setUserSymbol(selectedSymbol));
+    try {
+      const response = await axios.get(
+        `https://api.polygon.io/v3/reference/dividends?ticker=${selectedSymbol}&apiKey=${apiKey}`
+      );
+      setDividends(response.data.results || []);
+    } catch (error) {
+      console.error('Error fetching dividend data:', error);
+    }
   };
 
   const inputProps = {
@@ -126,11 +153,11 @@ const DividendInfo = () => {
         <form className='form-inline my-2 my-lg-0' onSubmit={handleSearch}>
           <div className='form-group me-5'>
             <input
-              type='number'
+              type='text'
               className='form-control mx-2'
               placeholder='Number of Shares'
               value={numberOfShares}
-              onChange={(e) => setNumberOfShares(e.target.value)}
+              onChange={handleNumberOfSharesChange}
             />
             <button
               type='button'
@@ -138,6 +165,21 @@ const DividendInfo = () => {
               onClick={handleCalculate}>
               Calculate Dividend
             </button>
+          </div>
+          <div className='form-group me-5'>
+            <select
+              className='form-control'
+              value={query}
+              onChange={handleSelectChange}>
+              <option value='' disabled>
+                Select a Stock
+              </option>
+              {watchlist.map((ticker) => (
+                <option key={ticker} value={ticker}>
+                  {ticker}
+                </option>
+              ))}
+            </select>
           </div>
           <Autosuggest
             suggestions={suggestions}

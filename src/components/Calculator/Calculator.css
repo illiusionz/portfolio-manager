@@ -4,10 +4,15 @@
   border-radius: 8px;
   width: 100%;
   margin: 0 auto;
-  border: 1px solid #3d3d3d;
+  border: 1px solid var(--card-border-light);
   background-color: var(--light-background);
   color: var(--text-color-light);
-  border: 1px solid var(--border-color);
+}
+
+.dark .calculator {
+  background-color: var( --dark-background);
+  border: 1px solid var(--card-border-dark);
+
 }
 
 .calculator-display {
