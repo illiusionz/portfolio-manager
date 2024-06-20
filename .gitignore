@@ -19,7 +19,7 @@
 .env.production.local
 
 # Environment variable files
-.env
+
 
 # Logs
 npm-debug.log*
@@ -40,7 +40,6 @@ yarn-error.log*
 *.tgz
 
 # dotenv environment variable files
-.env.*.local
 
 # TypeScript cache
 *.tsbuildinfo
