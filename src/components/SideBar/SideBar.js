@@ -16,6 +16,7 @@ import {
   FaChartPie,
   FaChartArea,
   FaChalkboardTeacher,
+  FaCalendarDay,
 } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -49,8 +50,8 @@ const Sidebar = () => {
           </Link>
         </li>
         <li>
-          <Link to='/income-report'>
-            <FaFileInvoiceDollar className='icon' /> Income Earnings Report
+          <Link to='/earnings-calendar'>
+            <FaCalendarDay className='icon' /> Earnings Calendar
           </Link>
         </li>
         <li>
