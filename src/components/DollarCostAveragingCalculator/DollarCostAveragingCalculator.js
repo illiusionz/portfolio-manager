@@ -20,7 +20,7 @@ const DollarCostAveragingCalculator = () => {
   const handleInputChange = (index, field, value) => {
     const newInvestments = investments.slice();
     if (field === 'avgBuy') {
-      value = parseCurrency(value);
+      value = value.replace(/[^0-9.]/g, '');
     }
     newInvestments[index][field] = value;
 
@@ -109,9 +109,7 @@ const DollarCostAveragingCalculator = () => {
                   type='text'
                   className='form-control'
                   id='avgBuy'
-                  value={
-                    investment.avgBuy ? formatCurrency(investment.avgBuy) : ''
-                  }
+                  value={investment.avgBuy}
                   placeholder='$0.00'
                   onChange={(e) =>
                     handleInputChange(index, 'avgBuy', e.target.value)

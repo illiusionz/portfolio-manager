@@ -13,3 +13,10 @@
   margin-bottom: 1rem;
 }
 
+
+.percentage-difference-calculator .result h6 {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.2rem 0;
+  font-size: .9rem;
+}

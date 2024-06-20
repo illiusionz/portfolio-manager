@@ -8,7 +8,6 @@
 
   --text-color-light: #000000;
   --text-color-dark: #d1d4dc;
-  
 
   --navbar-background-light: #ffffff;
   --navbar-background-dark: #1e222d;
@@ -37,7 +36,6 @@
   --dropdown-menu-background-dark: #1f1f1f;
   --headline-font-size: #495057;
 
-  --dark-background: #131722; 
   --dark-background: #131722; 
   --background-light: #fff;
 
@@ -168,7 +166,6 @@ input[type="number"] {
   animation: rotate 0.5s forwards;
 }
 
-
 .card-title {
   font-size: 1rem;
   padding: 0.5rem 0;
@@ -207,7 +204,7 @@ input[type="number"] {
   margin-right: 0.5rem;
   margin-bottom: 0;
   font-size: .9rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .form-control {
@@ -223,12 +220,14 @@ input[type="number"] {
   flex-shrink: 0;
 }
 
-
-
 .result {
   border-top: 1px solid var(--card-border-light);
   padding-top: 1rem;
   margin: 1rem 0 0;
+}
+
+.result .col h6 strong {
+  margin-bottom:.2rem;
 }
 
 .dark .result {
@@ -236,7 +235,6 @@ input[type="number"] {
   padding-top: 1rem;
   margin: 1rem 0 0;
 }
-
 
 .result h6 {
   font-size: .9rem;

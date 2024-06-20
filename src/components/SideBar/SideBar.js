@@ -50,7 +50,7 @@ const Sidebar = () => {
         </li>
         <li>
           <Link to='/income-report'>
-            <FaFileInvoiceDollar className='icon' /> Income Earnings Report
+            <FaFileInvoiceDollar className='icon' /> Earnings Calendar
           </Link>
         </li>
         <li>
@@ -75,12 +75,7 @@ const Sidebar = () => {
         </li>
         <li>
           <Link to='/market-tools'>
-            <FaComments className='icon' /> Chat Room
-          </Link>
-        </li>
-        <li>
-          <Link to='/option-premium-calculator'>
-            <FaCalculator className='icon' /> Option Premium Calculator
+            <FaComments className='icon' /> Community Channels
           </Link>
         </li>
       </ul>

@@ -20,6 +20,8 @@ const PercentageDifferenceCalculator = () => {
   const [currentPrice, setCurrentPrice] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [percentageChange, setPercentageChange] = useState('0.00');
+  const [dollarChange, setDollarChange] = useState('0.00');
+
   const [isRotating, setIsRotating] = useState(false);
   const stockPrice = useSelector((state) => state.stocks.data); // Updated to use stocks.data
   const dispatch = useDispatch();
@@ -27,7 +29,7 @@ const PercentageDifferenceCalculator = () => {
   const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 
   useEffect(() => {
-    calculatePercentageChange();
+    calculatePercentageAndDollarChange();
   }, [targetPrice, currentPrice]);
 
   useEffect(() => {
@@ -43,16 +45,28 @@ const PercentageDifferenceCalculator = () => {
     }
   }, [stockPrice]);
 
-  const calculatePercentageChange = () => {
+  const calculatePercentageAndDollarChange = () => {
     if (!currentPrice || !targetPrice) {
       setPercentageChange('0.00');
+      setDollarChange('0.00');
       return;
     }
-    const change =
-      ((parseCurrency(targetPrice) - parseCurrency(currentPrice)) /
-        parseCurrency(currentPrice)) *
-      100;
-    setPercentageChange(isNaN(change) ? '0.00' : change.toFixed(2));
+    const current = parseCurrency(currentPrice);
+    const target = parseCurrency(targetPrice);
+    const percentageChange = ((target - current) / current) * 100;
+    const dollarChange = target - current;
+
+    setPercentageChange(
+      isNaN(percentageChange)
+        ? '0.00'
+        : (percentageChange >= 0 ? '+' : '') + percentageChange.toFixed(2)
+    );
+    setDollarChange(
+      isNaN(dollarChange)
+        ? '0.00'
+        : (dollarChange >= 0 ? '+' : '-') +
+            formatCurrency(Math.abs(dollarChange).toFixed(2))
+    );
   };
 
   const resetFields = () => {
@@ -60,6 +74,7 @@ const PercentageDifferenceCalculator = () => {
     setTargetPrice('');
     setCurrentPrice('');
     setPercentageChange('0.00');
+    setDollarChange('0.00');
     setSuggestions([]);
   };
 
@@ -100,6 +115,7 @@ const PercentageDifferenceCalculator = () => {
     setTargetPrice('');
     setCurrentPrice('');
     setPercentageChange('0.00');
+    setDollarChange('0.00');
   };
 
   const handleTargetPriceChange = (event) => {
@@ -193,7 +209,7 @@ const PercentageDifferenceCalculator = () => {
               <button
                 type='button'
                 className='btn btn-primary'
-                onClick={calculatePercentageChange}>
+                onClick={calculatePercentageAndDollarChange}>
                 Calculate
               </button>
               <button
@@ -207,6 +223,9 @@ const PercentageDifferenceCalculator = () => {
           <div className='result mt-3'>
             <h6>
               <strong>Percent Change:</strong> {percentageChange}%
+            </h6>
+            <h6>
+              <strong>Dollar Change:</strong> {dollarChange}
             </h6>
           </div>
         </div>

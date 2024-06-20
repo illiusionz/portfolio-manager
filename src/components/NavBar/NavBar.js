@@ -145,11 +145,6 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch, toggleTheme }) => {
       </button>
       <form className='form-inline my-2 my-lg-0' onSubmit={onSubmit}>
         <div className='input-group'>
-          <div className='input-group-prepend'>
-            <span className='input-group-text'>
-              <FontAwesomeIcon icon={faSearch} />
-            </span>
-          </div>
           <Autosuggest
             suggestions={suggestions}
             onSuggestionsFetchRequested={onSuggestionsFetchRequested}

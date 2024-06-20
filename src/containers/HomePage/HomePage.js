@@ -1,7 +1,7 @@
 import React, { useEffect, Suspense, lazy, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchStocks } from '../../features/stocks/stockThunks'; // Updated path
-import { fetchNews } from '../../features/news/newsThunks'; // Updated path
+import { fetchStocks } from '../../features/stocks/stockThunks';
+import { fetchNews } from '../../features/news/newsThunks';
 
 const CompoundInterestCalculator = lazy(() =>
   import(
@@ -49,7 +49,7 @@ const HomePage = () => {
   const { symbol } = useSelector((state) => state.user);
   const { error: newsError } = useSelector((state) => state.news);
 
-  const totalValue = 123456.78;
+  const totalValue = '12,3456,789'; // Placeholder for totalValue
   const [showWidget, setShowWidget] = useState(false);
 
   useEffect(() => {
@@ -95,12 +95,12 @@ const HomePage = () => {
         <div className='row my-2'>
           <div className='col-md-3'>
             <PortfolioValueCard totalValue={totalValue} />
-            <TopMovers />
+            <MuiCalendar />
+            <Calculator />
           </div>
           <div className='col-md-3'>
             <DollarCostAveragingCalculator />
             <StockWatchlist />
-            <MuiCalendar />
           </div>
           <div className='col-md-3'>
             <OptionPremiumCalculator />
@@ -108,14 +108,13 @@ const HomePage = () => {
 
           <div className='col-md-3'>
             <PercentageDifferenceCalculator />
-            <Calculator />
+            <TopMovers />
           </div>
-        </div>
-
-        <div className='row my-3'>
-          <div className='col-md-9'>
-            <DividendInfo />
-            <CompoundInterestCalculator />
+          <div className='row my-3'>
+            <div className='col-md-9'>
+              <DividendInfo />
+              <CompoundInterestCalculator />
+            </div>
           </div>
         </div>
 

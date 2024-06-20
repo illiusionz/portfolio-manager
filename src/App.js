@@ -16,6 +16,10 @@ const ChartAnalysisPage = lazy(() =>
 const EducationPage = lazy(() =>
   import('./containers/EducationPage/EducationPage')
 );
+const StockNewsPage = lazy(() =>
+  import('./containers/StockNewsPage/StockNewsPage')
+);
+
 const TrendingToolbar = lazy(() =>
   import('./components/TrendingToolbar/TrendingToolbar')
 );
@@ -32,9 +36,9 @@ const NavBar = lazy(() => import('./components/NavBar/NavBar'));
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const dispatch = useDispatch();
-  const theme = useSelector((state) => state.theme);
   const [symbol, setSymbol] = useState(localStorage.getItem('lastStock'));
+  const theme = useSelector((state) => state.theme);
+  const dispatch = useDispatch();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -88,6 +92,7 @@ function App() {
                 element={<PercentageDifferenceCalculator />}
               />
               <Route path='/education' element={<EducationPage />} />
+              <Route path='/stock-news' element={<StockNewsPage />} />
             </Routes>
           </Suspense>
         </div>
