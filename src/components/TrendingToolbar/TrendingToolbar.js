@@ -83,6 +83,7 @@ const TrendingToolbar = () => {
     'XOM',
   ];
   const indexTickers = ['SPY', 'QQQ', 'IWM', 'DIA'];
+
   const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 
   useEffect(() => {

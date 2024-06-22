@@ -29,9 +29,7 @@ const DollarCostAveragingCalculator = lazy(() =>
   )
 );
 const TopMovers = lazy(() => import('../../components/TopMovers/TopMovers'));
-const TrendingToolbar = lazy(() =>
-  import('../../components/TrendingToolbar/TrendingToolbar')
-);
+
 const DividendInfo = lazy(() =>
   import('../../components/DividendInfo/DividendInfo')
 );
