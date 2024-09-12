@@ -12,9 +12,11 @@
   flex-direction: column;
   justify-content: start;
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  background: #fff;
+  background: var(--background-light);
+  text-decoration: none;
+  position: relative;
 }
 
 .news-item img {
@@ -39,9 +41,16 @@
 .news-title {
   font-size: 1rem;
   margin-bottom: 10px;
-  color: #007bff;
+  color: var(--text-color-dark);
   text-decoration: none;
   font-weight: 500;
+  display: block;
+  width: 100%;  /* Ensures it takes the full width of the container */
+  white-space: nowrap;  /* Prevents the text from wrapping to the next line */
+  overflow: hidden;  /* Hides any overflow */
+  text-overflow: ellipsis;  /* Adds ellipsis (...) at the end of overflowing text */
+  max-width: 200px;  /* Adjust this value based on your card layout */
+
 }
 
 .news-title:hover {
@@ -57,6 +66,9 @@
   width: 100px!important;
   margin-top: 10px;
   align-self: flex-end;
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
 }
 
 .error {
@@ -64,7 +76,7 @@
 }
 
 .dark .news-item {
-  background-color: var(--dark-background);
+  background-color: var(--light-background);
   border: 1px solid var(--card-border-dark);
 }
 

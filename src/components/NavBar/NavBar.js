@@ -8,7 +8,7 @@ import {
   faMoon,
   faSearch,
 } from '@fortawesome/free-solid-svg-icons';
-import './NavBar.css';
+import './NavBar.scss';
 import flagIcons from '../../utils/flagIcons';
 import exchangeType from '../../utils/exchanges';
 

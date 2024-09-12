@@ -81,15 +81,17 @@
   border: none;
 }
 
-.custom-modal .modal-dialog {
-  max-width: 90vw;
-}
+.custom-modal {
 
-.custom-modal .modal-content {
-  background-color: transparent;
-  border: none;
-}
+  .modal-dialog {
+    max-width: 90vw;
+  }
+  .modal-content {
+    background-color: transparent;
+    border: none;
+  }
+  .modal-header {
+    border-bottom: none;
+  }
 
-.custom-modal .modal-header {
-  border-bottom: none;
 }

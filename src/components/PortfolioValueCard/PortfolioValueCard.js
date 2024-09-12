@@ -1,5 +1,5 @@
 import React from 'react';
-import './PortfolioValueCard.css';
+import './PortfolioValueCard.scss';
 
 const PortfolioValueCard = ({ totalValue }) => {
   return (

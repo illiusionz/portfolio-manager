@@ -1,6 +1,6 @@
 import React from 'react';
 import ChatAgent from '../../components/ChatAgent/ChatAgent';
-import './ChartAnalysisPage.css';
+import './ChartAnalysisPage.scss';
 
 const ChartAnalysisPage = () => {
   return (

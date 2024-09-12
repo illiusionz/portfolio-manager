@@ -5,7 +5,7 @@ import {
   faArrowDown,
   faCircleInfo,
 } from '@fortawesome/free-solid-svg-icons';
-import './TrendingToolbar.css';
+import './TrendingToolbar.scss';
 import StockHoverPopup from '../StockHoverPopup/StockHoverPopup';
 import { useDispatch } from 'react-redux';
 import { addToWatchlist } from '../../features/watchlist/watchlistSlice'; // Updated path

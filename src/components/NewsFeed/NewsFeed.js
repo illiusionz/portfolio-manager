@@ -41,7 +41,12 @@ const NewsFeed = () => {
   return (
     <div className='news-feed'>
       {news.map((article, index) => (
-        <div key={index} className='news-item'>
+        <a
+          key={index}
+          className='news-item'
+          href={article.article_url}
+          target='_blank'
+          rel='noopener noreferrer'>
           <img
             src={article.image_url}
             alt={article.title}
@@ -64,7 +69,7 @@ const NewsFeed = () => {
             alt={article.publisher.name}
             className='news-logo'
           />
-        </div>
+        </a>
       ))}
     </div>
   );

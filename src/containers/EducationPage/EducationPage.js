@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchYouTubeVideos } from '../../api/youtubeApi';
-import './EducationPage.css';
+import './EducationPage.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button, Spinner } from 'react-bootstrap';
 

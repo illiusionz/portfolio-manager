@@ -3,7 +3,7 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+import './App.scss';
 import { fetchStocks, fetchStockPrice } from './features/stocks/stockThunks';
 import { setUserSymbol } from './features/user/userSlice'; // Correct import
 import { setTheme } from './features/theme/themeSlice';
@@ -13,6 +13,11 @@ const HomePage = lazy(() => import('./containers/HomePage/HomePage'));
 const ChartAnalysisPage = lazy(() =>
   import('./containers/ChartAnalysisPage/ChartAnalysisPage')
 );
+
+const StockNewsPage = lazy(() =>
+  import('./containers/StockNewsPage/StockNewsPage')
+);
+
 const EducationPage = lazy(() =>
   import('./containers/EducationPage/EducationPage')
 );
@@ -87,6 +92,8 @@ function App() {
                 path='/percentage-difference'
                 element={<PercentageDifferenceCalculator />}
               />
+
+              <Route path='/stock-news' element={<StockNewsPage />} />
               <Route path='/education' element={<EducationPage />} />
             </Routes>
           </Suspense>

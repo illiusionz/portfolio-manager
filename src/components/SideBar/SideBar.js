@@ -6,10 +6,8 @@ import logo from '../../assets/images/logo.png';
 import {
   FaHome,
   FaChartLine,
-  FaFileInvoiceDollar,
+  FaCalendarAlt,
   FaNewspaper,
-  FaMoneyCheckAlt,
-  FaBook,
   FaTools,
   FaCalculator,
   FaComments,
@@ -17,14 +15,7 @@ import {
   FaChartArea,
   FaChalkboardTeacher,
 } from 'react-icons/fa';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faBars,
-  faSun,
-  faMoon,
-  faSearch,
-} from '@fortawesome/free-solid-svg-icons';
-import './SideBar.css';
+import './SideBar.scss';
 
 const Sidebar = () => {
   return (
@@ -49,8 +40,8 @@ const Sidebar = () => {
           </Link>
         </li>
         <li>
-          <Link to='/income-report'>
-            <FaFileInvoiceDollar className='icon' /> Income Earnings Report
+          <Link to='/calendar'>
+            <FaCalendarAlt className='icon' /> Calendar
           </Link>
         </li>
         <li>
