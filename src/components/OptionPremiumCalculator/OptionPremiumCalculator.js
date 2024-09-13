@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './_optionPremiumCalculator.scss';
 import { fetchStockPrice } from '../../features/stocks/stockThunks';
-import { setUserSymbol } from '../../features/user/userSlice';
 import {
   formatNumberWithCommas,
   formatCurrency,
@@ -10,10 +9,10 @@ import {
 } from '../../utils/format';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
-import SymbolAutoSuggest from '../shared/SymbolAutoSuggest'; // Importing the shared component
+import SymbolAutoSuggest from '../shared/SymbolAutoSuggest'; // Using the shared component
 
 const OptionPremiumCalculator = () => {
-  const symbol = useSelector((state) => state.user.symbol);
+  const symbol = useSelector((state) => state.user.symbol); // Get symbol from Redux
   const [strikePrice, setStrikePrice] = useState('');
   const [premiumAmount, setPremiumAmount] = useState('');
   const [numberOfContracts, setNumberOfContracts] = useState(1);
@@ -23,23 +22,23 @@ const OptionPremiumCalculator = () => {
   const [percentageReturn, setPercentageReturn] = useState(0);
   const [isRotating, setIsRotating] = useState(false);
 
-  const stockPrice = useSelector((state) => state.stocks.data);
+  const stockPrice = useSelector((state) => state.stocks.data); // Stock data from Redux
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (symbol) {
-      dispatch(fetchStockPrice(symbol));
+      dispatch(fetchStockPrice(symbol)); // Fetch stock price when symbol changes
     }
   }, [symbol, dispatch]);
 
   useEffect(() => {
     if (stockPrice) {
-      setStrikePrice(formatCurrency(stockPrice.toFixed(2)));
+      setStrikePrice(formatCurrency(stockPrice.toFixed(2))); // Set the strike price based on stock price
     }
   }, [stockPrice]);
 
   const resetFields = () => {
-    setStrikePrice('');
+    setStrikePrice(formatCurrency(stockPrice.toFixed(2)));
     setPremiumAmount('');
     setNumberOfContracts(1);
     setAmountOfWeeks(1);
@@ -106,7 +105,7 @@ const OptionPremiumCalculator = () => {
               <label className='form-label' htmlFor='stockName'>
                 Stock Name:
               </label>
-              {/* Replacing the Autosuggest logic with the shared component */}
+              {/* Using shared component for stock symbol suggestion */}
               <SymbolAutoSuggest />
             </div>
             <div className='form-group'>

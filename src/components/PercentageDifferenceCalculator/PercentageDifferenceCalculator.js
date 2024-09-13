@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Autosuggest from 'react-autosuggest';
-import axios from 'axios';
 import './_percentageDifferenceCalculator.scss';
-import { fetchStockPrice } from '../../features/stocks/stockThunks'; // Updated path
-import { setUserSymbol } from '../../features/user/userSlice'; // Updated path
+import { fetchStockPrice } from '../../features/stocks/stockThunks';
+import { setUserSymbol } from '../../features/user/userSlice';
 import {
   formatNumberWithCommas,
   formatCurrency,
@@ -12,19 +10,16 @@ import {
 } from '../../utils/format';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
+import SymbolAutoSuggest from '../shared/SymbolAutoSuggest'; // Using shared SymbolAutoSuggest component
 
 const PercentageDifferenceCalculator = () => {
-  const symbol = useSelector((state) => state.user.symbol);
-  const [query, setQuery] = useState(symbol || '');
+  const symbol = useSelector((state) => state.user.symbol); // Using symbol from Redux
   const [targetPrice, setTargetPrice] = useState('');
   const [currentPrice, setCurrentPrice] = useState('');
-  const [suggestions, setSuggestions] = useState([]);
   const [percentageChange, setPercentageChange] = useState('0.00');
   const [isRotating, setIsRotating] = useState(false);
-  const stockPrice = useSelector((state) => state.stocks.data); // Updated to use stocks.data
+  const stockPrice = useSelector((state) => state.stocks.data); // Get stock price from Redux
   const dispatch = useDispatch();
-
-  const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 
   useEffect(() => {
     calculatePercentageChange();
@@ -32,14 +27,13 @@ const PercentageDifferenceCalculator = () => {
 
   useEffect(() => {
     if (symbol) {
-      setQuery(symbol);
-      dispatch(fetchStockPrice(symbol));
+      dispatch(fetchStockPrice(symbol)); // Fetch stock price when symbol changes
     }
   }, [symbol, dispatch]);
 
   useEffect(() => {
     if (stockPrice) {
-      setCurrentPrice(formatCurrency(stockPrice.toFixed(2)));
+      setCurrentPrice(formatCurrency(stockPrice.toFixed(2))); // Set the strike price based on stock price
     }
   }, [stockPrice]);
 
@@ -56,50 +50,15 @@ const PercentageDifferenceCalculator = () => {
   };
 
   const resetFields = () => {
-    setQuery('');
     setTargetPrice('');
-    setCurrentPrice('');
+    setCurrentPrice(formatCurrency(stockPrice.toFixed(2)));
     setPercentageChange('0.00');
-    setSuggestions([]);
   };
 
-  const onSuggestionsFetchRequested = async ({ value }) => {
-    try {
-      const response = await axios.get(
-        `https://api.polygon.io/v3/reference/tickers?search=${value}&active=true&sort=ticker&order=asc&limit=10&apiKey=${apiKey}`
-      );
-      setSuggestions(response.data.results || []);
-    } catch (error) {
-      console.error('Error fetching suggestions:', error);
-      setSuggestions([]);
-    }
-  };
-
-  const onSuggestionsClearRequested = () => {
-    setSuggestions([]);
-  };
-
-  const getSuggestionValue = (suggestion) => suggestion.ticker;
-
-  const renderSuggestion = (suggestion) => (
-    <div className='suggestion-item'>
-      <span className='suggestion-ticker'>{suggestion.ticker}</span>
-      <span className='suggestion-name'>{suggestion.name}</span>
-    </div>
-  );
-
-  const onChange = (event, { newValue }) => {
-    setQuery(newValue);
-  };
-
-  const onSuggestionSelected = (event, { suggestion }) => {
-    const selectedSymbol = suggestion.ticker;
-    dispatch(setUserSymbol(selectedSymbol));
-    dispatch(fetchStockPrice(selectedSymbol));
-    setQuery(selectedSymbol);
-    setTargetPrice('');
-    setCurrentPrice('');
-    setPercentageChange('0.00');
+  const onSymbolSelected = (selectedSymbol) => {
+    dispatch(setUserSymbol(selectedSymbol)); // Update symbol in Redux
+    dispatch(fetchStockPrice(selectedSymbol)); // Fetch new stock price
+    resetFields();
   };
 
   const handleTargetPriceChange = (event) => {
@@ -107,32 +66,27 @@ const PercentageDifferenceCalculator = () => {
     setTargetPrice(formatCurrency(value));
   };
 
-  const handleCurrentPriceChange = (event) => {
-    const value = event.target.value.replace(/[^0-9.]/g, '');
-    setCurrentPrice(formatCurrency(value));
-  };
-
-  const refreshCurrentPrice = async () => {
+  const refreshCurrentPrice = () => {
     if (symbol) {
-      try {
-        const response = await axios.get(
-          `https://api.polygon.io/v2/aggs/ticker/${symbol}/prev?apiKey=${apiKey}`
-        );
-        const currentPrice = response.data.results[0].c;
-        setCurrentPrice(formatCurrency(currentPrice.toFixed(2)));
-        console.log('Refreshing current price...');
-        setIsRotating(true);
-        setTimeout(() => setIsRotating(false), 500);
-      } catch (error) {
-        console.error('Error refreshing current price:', error);
-      }
+      dispatch(fetchStockPrice(symbol))
+        .unwrap()
+        .then((result) => {
+          if (result.day && result.day.c) {
+            const stockPrice = result.day.c;
+            setCurrentPrice(formatCurrency(stockPrice.toFixed(2)));
+          } else {
+            console.warn('No price data available');
+            setCurrentPrice('$0.00');
+          }
+          setIsRotating(true);
+          setTimeout(() => setIsRotating(false), 500);
+        })
+        .catch((error) => {
+          console.error('Error refreshing stock price:', error);
+        });
+    } else {
+      console.warn('No symbol selected for refresh');
     }
-  };
-
-  const inputProps = {
-    placeholder: 'Search for a stock',
-    value: query,
-    onChange: onChange,
   };
 
   return (
@@ -152,15 +106,7 @@ const PercentageDifferenceCalculator = () => {
               <label className='form-label' htmlFor='stockName'>
                 Stock Name:
               </label>
-              <Autosuggest
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-                onSuggestionsClearRequested={onSuggestionsClearRequested}
-                getSuggestionValue={getSuggestionValue}
-                renderSuggestion={renderSuggestion}
-                inputProps={inputProps}
-                onSuggestionSelected={onSuggestionSelected}
-              />
+              <SymbolAutoSuggest onSymbolSelected={onSymbolSelected} />
             </div>
             <div className='form-group'>
               <label className='form-label' htmlFor='currentPrice'>
@@ -171,7 +117,7 @@ const PercentageDifferenceCalculator = () => {
                 id='currentPrice'
                 className='form-control'
                 value={currentPrice}
-                onChange={handleCurrentPriceChange}
+                readOnly
                 placeholder='$0.00'
               />
             </div>
