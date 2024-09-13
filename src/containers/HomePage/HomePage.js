@@ -2,7 +2,6 @@ import React, { useEffect, Suspense, lazy, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSymbolAndFetchData } from '../../features/user/userThunks'; // Unified thunk to handle symbol changes and fetching data
 import { fetchStocks } from '../../features/stocks/stockThunks'; // Fetch stock prices
-import { selectUserSymbol } from '../../features/user/userSelectors'; // Selectors for symbol and user-related data
 import {
   selectStockData,
   selectStockError,
@@ -46,11 +45,10 @@ const PortfolioValueCard = lazy(() =>
 );
 
 const HomePage = () => {
-  const dispatch = useDispatch();
-  const stockData = useSelector(selectStockData); // Use stock data selector
-  const stockError = useSelector(selectStockError); // Use stock error selector
-  const symbol = useSelector(selectUserSymbol); // Use symbol selector from user state
+  const symbol = useSelector((state) => state.user.symbol); // Fetch directly from userSlice
   const newsError = useSelector(selectNewsError); // Use news error selector
+  const stockError = useSelector(selectStockError); // Use stock error selector
+  const dispatch = useDispatch();
 
   const totalValue = 123456.78; // Example total portfolio value
   const [showWidget, setShowWidget] = useState(false);

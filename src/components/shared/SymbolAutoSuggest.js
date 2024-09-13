@@ -1,24 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Autosuggest from 'react-autosuggest';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { setUserSymbol } from '../../features/user/userSlice';
-import { fetchStockPrice } from '../../features/stocks/stockThunks';
+import { setSymbolAndFetchData } from '../../features/user/userThunks';
 
 const SymbolAutoSuggest = () => {
-  const [query, setQuery] = useState('');
+  const dispatch = useDispatch();
+  const selectedSymbol = useSelector((state) => state.user.symbol); // Redux state for the selected symbol
+  const [query, setQuery] = useState(''); // Local state for the input value
   const [suggestions, setSuggestions] = useState([]);
   const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 
-  const dispatch = useDispatch();
-  const selectedSymbol = useSelector((state) => state.user.symbol);
+  // Sync the local query state with the Redux selectedSymbol on mount and whenever selectedSymbol changes
+  useEffect(() => {
+    if (selectedSymbol) {
+      setQuery(selectedSymbol);
+    }
+  }, [selectedSymbol]);
 
+  // Fetch suggestions based on the current input value
   const onSuggestionsFetchRequested = async ({ value }) => {
     if (value.length < 1) {
       setSuggestions([]);
       return;
     }
-
     try {
       const response = await axios.get(
         `https://api.polygon.io/v3/reference/tickers?search=${value}&active=true&sort=ticker&order=asc&limit=10&apiKey=${apiKey}`
@@ -30,33 +35,21 @@ const SymbolAutoSuggest = () => {
     }
   };
 
-  const onSuggestionsClearRequested = () => {
-    setSuggestions([]);
-  };
+  const onSuggestionsClearRequested = () => setSuggestions([]);
 
-  const getSuggestionValue = (suggestion) => suggestion.ticker;
-
-  const renderSuggestion = (suggestion) => (
-    <div className='suggestion-item'>
-      <span className='suggestion-ticker'>{suggestion.ticker}</span>
-      <span className='suggestion-name'>{suggestion.name}</span>
-    </div>
-  );
-
-  const onChange = (event, { newValue }) => {
-    setQuery(newValue);
-  };
-
+  // Handle when a suggestion is selected from the dropdown
   const onSuggestionSelected = (event, { suggestion }) => {
-    const symbol = suggestion.ticker;
-    dispatch(setUserSymbol(symbol)); // Update the global state with selected symbol
-    dispatch(fetchStockPrice(symbol)); // Fetch stock price using the new symbol
+    const selectedSymbol = suggestion.ticker;
+    setQuery(selectedSymbol); // Update the input field to show the selected symbol
+    dispatch(setSymbolAndFetchData(selectedSymbol)); // Dispatch to update Redux with the new symbol
   };
 
   const inputProps = {
     placeholder: 'Search for a stock',
-    value: query || selectedSymbol,
-    onChange: onChange,
+    value: query, // Sync the input field with the local query state
+    onChange: (event, { newValue }) => {
+      setQuery(newValue); // Update the local input state only when typing
+    },
   };
 
   return (
@@ -65,10 +58,15 @@ const SymbolAutoSuggest = () => {
         suggestions={suggestions}
         onSuggestionsFetchRequested={onSuggestionsFetchRequested}
         onSuggestionsClearRequested={onSuggestionsClearRequested}
-        getSuggestionValue={getSuggestionValue}
-        renderSuggestion={renderSuggestion}
+        getSuggestionValue={(suggestion) => suggestion.ticker}
+        renderSuggestion={(suggestion) => (
+          <div className='suggestion-item'>
+            <span className='suggestion-ticker'>{suggestion.ticker}</span>
+            <span className='suggestion-name'>{suggestion.name}</span>
+          </div>
+        )}
         inputProps={inputProps}
-        onSuggestionSelected={onSuggestionSelected}
+        onSuggestionSelected={onSuggestionSelected} // Dispatch to Redux only on suggestion selection
       />
     </div>
   );

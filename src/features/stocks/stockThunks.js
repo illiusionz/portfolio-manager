@@ -42,3 +42,23 @@ export const fetchStockPrice = createAsyncThunk(
     }
   }, 300) // Throttle API requests to avoid overloading the server
 );
+
+export const fetchDividends = createAsyncThunk(
+  'stocks/fetchDividends',
+  async (symbol, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `https://api.polygon.io/v3/reference/dividends?ticker=${symbol}&apiKey=${apiKey}`
+      );
+      return response.data.results;
+    } catch (error) {
+      if (error.response && error.response.status === 403) {
+        return rejectWithValue(
+          'Access forbidden: check API key and permissions.'
+        );
+      } else {
+        return rejectWithValue('Error fetching dividend data');
+      }
+    }
+  }
+);

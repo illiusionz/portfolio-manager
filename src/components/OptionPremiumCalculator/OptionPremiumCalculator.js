@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './_optionPremiumCalculator.scss';
-import { fetchStockPrice } from '../../features/stocks/stockThunks';
+import { setSymbolAndFetchData } from '../../features/user/userThunks'; // Unified action
+
 import {
   formatNumberWithCommas,
   formatCurrency,
@@ -13,6 +14,9 @@ import SymbolAutoSuggest from '../shared/SymbolAutoSuggest'; // Using the shared
 
 const OptionPremiumCalculator = () => {
   const symbol = useSelector((state) => state.user.symbol); // Get symbol from Redux
+  const stockPrice = useSelector((state) => state.stocks.data); // Stock data from Redux
+  const dispatch = useDispatch();
+
   const [strikePrice, setStrikePrice] = useState('');
   const [premiumAmount, setPremiumAmount] = useState('');
   const [numberOfContracts, setNumberOfContracts] = useState(1);
@@ -22,12 +26,9 @@ const OptionPremiumCalculator = () => {
   const [percentageReturn, setPercentageReturn] = useState(0);
   const [isRotating, setIsRotating] = useState(false);
 
-  const stockPrice = useSelector((state) => state.stocks.data); // Stock data from Redux
-  const dispatch = useDispatch();
-
   useEffect(() => {
     if (symbol) {
-      dispatch(fetchStockPrice(symbol)); // Fetch stock price when symbol changes
+      dispatch(setSymbolAndFetchData(symbol)); // Fetch stock price when symbol changes
     }
   }, [symbol, dispatch]);
 
@@ -45,6 +46,10 @@ const OptionPremiumCalculator = () => {
     setTotalPremium(0);
     setTotalCapital(0);
     setPercentageReturn(0);
+  };
+
+  const onSymbolSelected = (selectedSymbol) => {
+    dispatch(setSymbolAndFetchData(selectedSymbol)); // Use the unified action
   };
 
   const handleStrikePriceChange = (event) => {
@@ -82,7 +87,7 @@ const OptionPremiumCalculator = () => {
 
   const refreshCurrentPrice = () => {
     if (symbol) {
-      dispatch(fetchStockPrice(symbol));
+      dispatch(setSymbolAndFetchData(symbol));
       setIsRotating(true);
       setTimeout(() => setIsRotating(false), 500);
     }
@@ -106,7 +111,7 @@ const OptionPremiumCalculator = () => {
                 Stock Name:
               </label>
               {/* Using shared component for stock symbol suggestion */}
-              <SymbolAutoSuggest />
+              <SymbolAutoSuggest onSuggestionSelected={onSymbolSelected} />
             </div>
             <div className='form-group'>
               <label className='form-label' htmlFor='strikePrice'>

@@ -11,15 +11,17 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 import SymbolAutoSuggest from '../shared/SymbolAutoSuggest'; // Using shared SymbolAutoSuggest component
+import { setSymbolAndFetchData } from '../../features/user/userThunks'; // Unified action
 
 const PercentageDifferenceCalculator = () => {
   const symbol = useSelector((state) => state.user.symbol); // Using symbol from Redux
+  const stockPrice = useSelector((state) => state.stocks.data); // Get stock price from Redux
+  const dispatch = useDispatch();
+
   const [targetPrice, setTargetPrice] = useState('');
   const [currentPrice, setCurrentPrice] = useState('');
   const [percentageChange, setPercentageChange] = useState('0.00');
   const [isRotating, setIsRotating] = useState(false);
-  const stockPrice = useSelector((state) => state.stocks.data); // Get stock price from Redux
-  const dispatch = useDispatch();
 
   useEffect(() => {
     calculatePercentageChange();
@@ -27,7 +29,7 @@ const PercentageDifferenceCalculator = () => {
 
   useEffect(() => {
     if (symbol) {
-      dispatch(fetchStockPrice(symbol)); // Fetch stock price when symbol changes
+      dispatch(setSymbolAndFetchData(symbol)); // Use the unified action
     }
   }, [symbol, dispatch]);
 
@@ -56,8 +58,7 @@ const PercentageDifferenceCalculator = () => {
   };
 
   const onSymbolSelected = (selectedSymbol) => {
-    dispatch(setUserSymbol(selectedSymbol)); // Update symbol in Redux
-    dispatch(fetchStockPrice(selectedSymbol)); // Fetch new stock price
+    dispatch(setSymbolAndFetchData(symbol)); // Use the unified action
     resetFields();
   };
 
@@ -106,7 +107,7 @@ const PercentageDifferenceCalculator = () => {
               <label className='form-label' htmlFor='stockName'>
                 Stock Name:
               </label>
-              <SymbolAutoSuggest onSymbolSelected={onSymbolSelected} />
+              <SymbolAutoSuggest onSuggestionSelected={onSymbolSelected} />
             </div>
             <div className='form-group'>
               <label className='form-label' htmlFor='currentPrice'>
