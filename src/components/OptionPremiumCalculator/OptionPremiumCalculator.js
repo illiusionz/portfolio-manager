@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Autosuggest from 'react-autosuggest';
-import axios from 'axios';
 import './_optionPremiumCalculator.scss';
 import { fetchStockPrice } from '../../features/stocks/stockThunks';
 import { setUserSymbol } from '../../features/user/userSlice';
@@ -12,28 +10,24 @@ import {
 } from '../../utils/format';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
+import SymbolAutoSuggest from '../shared/SymbolAutoSuggest'; // Importing the shared component
 
 const OptionPremiumCalculator = () => {
   const symbol = useSelector((state) => state.user.symbol);
-  const [query, setQuery] = useState(symbol || '');
   const [strikePrice, setStrikePrice] = useState('');
   const [premiumAmount, setPremiumAmount] = useState('');
   const [numberOfContracts, setNumberOfContracts] = useState(1);
   const [amountOfWeeks, setAmountOfWeeks] = useState(1);
-  const [suggestions, setSuggestions] = useState([]);
   const [totalPremium, setTotalPremium] = useState(0);
   const [totalCapital, setTotalCapital] = useState(0);
   const [percentageReturn, setPercentageReturn] = useState(0);
   const [isRotating, setIsRotating] = useState(false);
 
-  const stockPrice = useSelector((state) => state.stocks.data); // Updated to use stocks.data
+  const stockPrice = useSelector((state) => state.stocks.data);
   const dispatch = useDispatch();
-
-  const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 
   useEffect(() => {
     if (symbol) {
-      setQuery(symbol);
       dispatch(fetchStockPrice(symbol));
     }
   }, [symbol, dispatch]);
@@ -45,7 +39,6 @@ const OptionPremiumCalculator = () => {
   }, [stockPrice]);
 
   const resetFields = () => {
-    setQuery('');
     setStrikePrice('');
     setPremiumAmount('');
     setNumberOfContracts(1);
@@ -53,49 +46,6 @@ const OptionPremiumCalculator = () => {
     setTotalPremium(0);
     setTotalCapital(0);
     setPercentageReturn(0);
-    setSuggestions([]);
-  };
-
-  const onSuggestionsFetchRequested = async ({ value }) => {
-    try {
-      const response = await axios.get(
-        `https://api.polygon.io/v3/reference/tickers?search=${value}&active=true&sort=ticker&order=asc&limit=10&apiKey=${apiKey}`
-      );
-      setSuggestions(response.data.results || []);
-    } catch (error) {
-      console.error('Error fetching suggestions:', error);
-      setSuggestions([]);
-    }
-  };
-
-  const onSuggestionsClearRequested = () => {
-    setSuggestions([]);
-  };
-
-  const getSuggestionValue = (suggestion) => suggestion.ticker;
-
-  const renderSuggestion = (suggestion) => (
-    <div className='suggestion-item'>
-      <span className='suggestion-ticker'>{suggestion.ticker}</span>
-      <span className='suggestion-name'>{suggestion.name}</span>
-    </div>
-  );
-
-  const onChange = (event, { newValue }) => {
-    setQuery(newValue);
-  };
-
-  const onSuggestionSelected = async (event, { suggestion }) => {
-    const selectedSymbol = suggestion.ticker;
-    try {
-      setStrikePrice('');
-      setPremiumAmount('');
-      dispatch(setUserSymbol(selectedSymbol));
-      dispatch(fetchStockPrice(selectedSymbol));
-      setQuery(selectedSymbol);
-    } catch (error) {
-      console.error('Error fetching price data:', error);
-    }
   };
 
   const handleStrikePriceChange = (event) => {
@@ -109,13 +59,11 @@ const OptionPremiumCalculator = () => {
   };
 
   const handleNumberOfContractsChange = (event) => {
-    const value = event.target.value;
-    setNumberOfContracts(value);
+    setNumberOfContracts(event.target.value);
   };
 
   const handleAmountOfWeeksChange = (event) => {
-    const value = event.target.value;
-    setAmountOfWeeks(value);
+    setAmountOfWeeks(event.target.value);
   };
 
   useEffect(() => {
@@ -136,16 +84,9 @@ const OptionPremiumCalculator = () => {
   const refreshCurrentPrice = () => {
     if (symbol) {
       dispatch(fetchStockPrice(symbol));
-      console.log('Refreshing current price...');
       setIsRotating(true);
-      setTimeout(() => setIsRotating(false), 500); // Reset the rotation after animation
+      setTimeout(() => setIsRotating(false), 500);
     }
-  };
-
-  const inputProps = {
-    placeholder: 'Search for a stock',
-    value: query,
-    onChange: onChange,
   };
 
   return (
@@ -165,15 +106,8 @@ const OptionPremiumCalculator = () => {
               <label className='form-label' htmlFor='stockName'>
                 Stock Name:
               </label>
-              <Autosuggest
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-                onSuggestionsClearRequested={onSuggestionsClearRequested}
-                getSuggestionValue={getSuggestionValue}
-                renderSuggestion={renderSuggestion}
-                inputProps={inputProps}
-                onSuggestionSelected={onSuggestionSelected}
-              />
+              {/* Replacing the Autosuggest logic with the shared component */}
+              <SymbolAutoSuggest />
             </div>
             <div className='form-group'>
               <label className='form-label' htmlFor='strikePrice'>
