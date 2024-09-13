@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 import axios from 'axios';
-import './PercentageDifferenceCalculator.scss';
+import './_percentageDifferenceCalculator.scss';
 import { fetchStockPrice } from '../../features/stocks/stockThunks'; // Updated path
 import { setUserSymbol } from '../../features/user/userSlice'; // Updated path
 import {

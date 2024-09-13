@@ -10,7 +10,7 @@ import { fetchStockPrice } from '../../features/stocks/stockThunks'; // Updated 
 
 import axios from 'axios';
 import Autosuggest from 'react-autosuggest';
-import './DividendInfo.scss';
+import './_dividendInfo.scss';
 
 const DividendInfo = () => {
   const symbol = useSelector((state) => state.user.symbol); // Get the selected symbol from the state

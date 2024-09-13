@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchGoogleSheetData } from '../../utils/googleSheetsAPI';
-import './TradePositions.scss';
+import './_tradePositions.scss';
 
 const sheetId = process.env.REACT_APP_SHEET_ID;
 const range = 'Sheet1!A1:M20';

@@ -15,7 +15,7 @@ import {
   FaChartArea,
   FaChalkboardTeacher,
 } from 'react-icons/fa';
-import './SideBar.scss';
+import './_sideBar.scss';
 
 const Sidebar = () => {
   return (

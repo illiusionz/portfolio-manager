@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './DollarCostAveragingCalculator.scss';
+import './_dollarCostAveragingCalculator.scss';
 import {
   formatNumberWithCommas,
   formatCurrency,

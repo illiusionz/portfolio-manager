@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Autosuggest from 'react-autosuggest';
 import axios from 'axios';
-import './OptionPremiumCalculator.scss';
+import './_optionPremiumCalculator.scss';
 import { fetchStockPrice } from '../../features/stocks/stockThunks';
 import { setUserSymbol } from '../../features/user/userSlice';
 import {

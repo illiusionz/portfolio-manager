@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperclip, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import './ChatAgent.scss';
+import './_chatAgent.scss';
 import {
   testOpenAI,
   uploadChartForAnalysis,

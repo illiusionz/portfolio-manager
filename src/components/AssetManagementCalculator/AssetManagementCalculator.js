@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { formatNumberWithCommas } from '../../utils/format';
-import './AssetManagementCalculator.scss';
+import './_assetManagementCalculator.scss';
 
 const AssetManagementCalculator = () => {
   const [capital, setCapital] = useState('');
