@@ -1,4 +1,5 @@
 // src/features/stocks/stockThunks.js
+import { debounce } from 'lodash';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { setStockPrice } from './stockSlice'; // Import the action
@@ -23,12 +24,12 @@ export const fetchStocks = createAsyncThunk(
 
 export const fetchStockPrice = createAsyncThunk(
   'stocks/fetchStockPrice',
-  async (symbol, { rejectWithValue, dispatch }) => {
+  debounce(async (symbol, { rejectWithValue, dispatch }) => {
     try {
       const response = await axios.get(
         `https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers/${symbol}?apiKey=${apiKey}`
       );
-      dispatch(setStockPrice(response.data.ticker.prevDay.o)); // Assuming you want the opening price
+      dispatch(setStockPrice(response.data.ticker.prevDay.o));
       return response.data;
     } catch (error) {
       if (error.response && error.response.status === 403) {
@@ -39,5 +40,5 @@ export const fetchStockPrice = createAsyncThunk(
         return rejectWithValue('Error fetching stock price');
       }
     }
-  }
+  }, 300) // Throttle API requests to avoid overloading the server
 );

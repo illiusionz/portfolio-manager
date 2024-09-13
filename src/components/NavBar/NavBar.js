@@ -34,6 +34,11 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch, toggleTheme }) => {
     }
   }, [dispatch]);
 
+  useEffect(() => {
+    // Update the query whenever the symbol in the Redux store changes
+    setQuery(symbol || '');
+  }, [symbol]);
+
   const fetchBrandingAndLocale = async (ticker) => {
     try {
       const response = await fetch(

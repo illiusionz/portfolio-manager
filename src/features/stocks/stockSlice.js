@@ -16,7 +16,7 @@ const stockSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchStockPrice.fulfilled, (state, action) => {
-        state.data = action.payload.ticker.prevDay.o; // Updated to correctly set the opening price
+        state.data = action.payload?.ticker.prevDay.o; // Updated to correctly set the opening price
         state.error = null;
       })
       .addCase(fetchStockPrice.rejected, (state, action) => {

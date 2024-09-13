@@ -1,4 +1,3 @@
-// src/features/watchlist/watchlistSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchWatchlistData } from './watchlistThunks';
 
@@ -7,6 +6,8 @@ const watchlistSlice = createSlice({
   initialState: {
     symbols: [],
     data: [],
+    error: null,
+    loading: false,
   },
   reducers: {
     addToWatchlist: (state, action) => {
@@ -19,9 +20,20 @@ const watchlistSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchWatchlistData.fulfilled, (state, action) => {
-      state.data = action.payload;
-    });
+    builder
+      .addCase(fetchWatchlistData.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchWatchlistData.fulfilled, (state, action) => {
+        state.loading = false;
+        state.data = action.payload;
+        state.error = null;
+      })
+      .addCase(fetchWatchlistData.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 

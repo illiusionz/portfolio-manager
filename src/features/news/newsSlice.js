@@ -1,4 +1,3 @@
-// src/features/news/newsSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchNews } from './newsThunks';
 

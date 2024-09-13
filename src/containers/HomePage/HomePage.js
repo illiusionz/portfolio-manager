@@ -1,8 +1,15 @@
 import React, { useEffect, Suspense, lazy, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchStocks } from '../../features/stocks/stockThunks'; // Updated path
-import { fetchNews } from '../../features/news/newsThunks'; // Updated path
+import { setSymbolAndFetchData } from '../../features/user/userThunks'; // Unified thunk to handle symbol changes and fetching data
+import { fetchStocks } from '../../features/stocks/stockThunks'; // Fetch stock prices
+import { selectUserSymbol } from '../../features/user/userSelectors'; // Selectors for symbol and user-related data
+import {
+  selectStockData,
+  selectStockError,
+} from '../../features/stocks/stockSelectors'; // Stock selectors
+import { selectNewsError } from '../../features/news/newsSelectors'; // News selectors
 
+// Lazy loading components
 const CompoundInterestCalculator = lazy(() =>
   import(
     '../../components/CompoundInterestCalculator/CompoundInterestCalculator'
@@ -29,7 +36,6 @@ const DollarCostAveragingCalculator = lazy(() =>
   )
 );
 const TopMovers = lazy(() => import('../../components/TopMovers/TopMovers'));
-
 const DividendInfo = lazy(() =>
   import('../../components/DividendInfo/DividendInfo')
 );
@@ -41,30 +47,30 @@ const PortfolioValueCard = lazy(() =>
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  const { data: stockData, error: stockError } = useSelector(
-    (state) => state.stocks
-  );
-  const { symbol } = useSelector((state) => state.user);
-  const { error: newsError } = useSelector((state) => state.news);
+  const stockData = useSelector(selectStockData); // Use stock data selector
+  const stockError = useSelector(selectStockError); // Use stock error selector
+  const symbol = useSelector(selectUserSymbol); // Use symbol selector from user state
+  const newsError = useSelector(selectNewsError); // Use news error selector
 
-  const totalValue = 123456.78;
+  const totalValue = 123456.78; // Example total portfolio value
   const [showWidget, setShowWidget] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchStocks());
+    dispatch(fetchStocks()); // Fetch stock data on page load
+  }, [dispatch]);
+
+  useEffect(() => {
     if (symbol) {
-      dispatch(fetchNews(symbol));
+      dispatch(setSymbolAndFetchData(symbol)); // Unified thunk for symbol and related data fetching
     }
   }, [dispatch, symbol]);
 
   useEffect(() => {
     if (!symbol) return;
-
     const timer = setTimeout(() => {
       setShowWidget(true);
       console.log('Symbol and theme set, showing widget:', symbol);
     }, 100);
-
     return () => clearTimeout(timer);
   }, [symbol]);
 
@@ -103,7 +109,6 @@ const HomePage = () => {
           <div className='col-md-3'>
             <OptionPremiumCalculator />
           </div>
-
           <div className='col-md-3'>
             <PercentageDifferenceCalculator />
             <Calculator />
