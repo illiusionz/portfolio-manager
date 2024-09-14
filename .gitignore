@@ -54,3 +54,6 @@ coverage/
 # Open AI Backend
 /openai-backend/node_modules
 /openai-backend/node_modules/env
+
+
+/backend/node_modules

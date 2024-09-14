@@ -11,11 +11,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "apollo-server-express": "^3.13.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
+    "express-graphql": "^0.12.0",
     "express-session": "^1.18.0",
-    "mongoose": "^8.4.1",
+    "graphql": "^15.9.0",
+    "mongodb": "^6.9.0",
+    "mongoose": "^8.6.2",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0"
   }
