@@ -3,6 +3,7 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 import './App.scss';
 import { fetchStocks, fetchStockPrice } from './features/stocks/stockThunks';
 import { setUserSymbol } from './features/user/userSlice'; // Correct import
