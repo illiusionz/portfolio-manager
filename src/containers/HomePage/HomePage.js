@@ -2,6 +2,8 @@ import React, { useEffect, Suspense, lazy, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSymbolAndFetchData } from '../../features/user/userThunks'; // Unified thunk to handle symbol changes and fetching data
 import { fetchStocks } from '../../features/stocks/stockThunks'; // Fetch stock prices
+import { Textarea } from '@headlessui/react';
+
 import {
   selectStockData,
   selectStockError,
@@ -44,10 +46,14 @@ const PortfolioValueCard = lazy(() =>
   import('../../components/PortfolioValueCard/PortfolioValueCard')
 );
 
+const PortfolioTable = lazy(() => import('../../components/PortfolioTable'));
+
 const HomePage = () => {
   const symbol = useSelector((state) => state.user.symbol); // Fetch directly from userSlice
   const newsError = useSelector(selectNewsError); // Use news error selector
   const stockError = useSelector(selectStockError); // Use stock error selector
+  const holdings = useSelector((state) => state.portfolio.holdings); // Ensure portfolio is correctly set up in Redux
+
   const dispatch = useDispatch();
 
   const totalValue = 123456.78; // Example total portfolio value
@@ -68,7 +74,7 @@ const HomePage = () => {
     const timer = setTimeout(() => {
       setShowWidget(true);
       console.log('Symbol and theme set, showing widget:', symbol);
-    }, 100);
+    }, 1000);
     return () => clearTimeout(timer);
   }, [symbol]);
 
@@ -115,6 +121,10 @@ const HomePage = () => {
 
         <div className='row my-3'>
           <div className='col-md-9'>
+            <Suspense fallback={<div>Loading portfolio table...</div>}>
+              <PortfolioTable holdings={holdings} />
+            </Suspense>
+
             <DividendInfo />
             <CompoundInterestCalculator />
           </div>

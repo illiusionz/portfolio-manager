@@ -39,6 +39,12 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
     localStorage.setItem('theme', newTheme);
   };
 
+  // Example: Toggle dark mode
+  const toggleTheme = () => {
+    const body = document.body;
+    body.classList.toggle('dark');
+  };
+
   return (
     <nav className='navbar navbar-expand-lg'>
       <button className='btn btn-primary' onClick={toggleSidebar}>
@@ -55,7 +61,7 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
       <button
         className='btn btn-light ms-auto my-2 my-sm-0 theme-toggle'
         type='button'
-        onClick={handleToggleTheme}>
+        onClick={toggleTheme}>
         <FontAwesomeIcon icon={theme === 'dark' ? faSun : faMoon} />
       </button>
       <ul className='navbar-nav navbar-align'>

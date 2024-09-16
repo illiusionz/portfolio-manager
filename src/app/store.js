@@ -5,6 +5,7 @@ import newsReducer from '../features/news/newsSlice';
 import userReducer from '../features/user/userSlice';
 import watchlistReducer from '../features/watchlist/watchlistSlice';
 import themeReducer from '../features/theme/themeSlice';
+import portfolioReducer from '../features/portfolio/portfolioSlice'; // Import your portfolio reducer
 
 const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
     user: userReducer,
     watchlist: watchlistReducer,
     theme: themeReducer,
+    portfolio: portfolioReducer,
   },
 });
 
