@@ -1,12 +1,12 @@
 // src/features/stocks/stockSlice.js
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchStocks, fetchStockPrice } from './stockThunks';
+import { fetchStockPrice } from './stockThunks';
 
 const stockSlice = createSlice({
   name: 'stocks',
   initialState: {
-    data: null,
-    error: null,
+    data: null, // Stock price data
+    error: null, // Error state
   },
   reducers: {
     setStockPrice(state, action) {
@@ -16,12 +16,12 @@ const stockSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchStockPrice.fulfilled, (state, action) => {
-        state.data = action.payload?.ticker.prevDay.o; // Updated to correctly set the opening price
+        state.data = action.payload?.ticker.prevDay.o; // Stock opening price
         state.error = null;
       })
       .addCase(fetchStockPrice.rejected, (state, action) => {
         state.data = null;
-        state.error = action.payload;
+        state.error = action.payload || 'Failed to fetch stock data.';
       });
   },
 });
