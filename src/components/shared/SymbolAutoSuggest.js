@@ -13,10 +13,16 @@ const SymbolAutoSuggest = () => {
 
   // Sync the local query state with the Redux selectedSymbol on mount and whenever selectedSymbol changes
   useEffect(() => {
-    if (selectedSymbol) {
-      setQuery(selectedSymbol);
+    // Check localStorage for a saved stock symbol and update Redux
+    const savedSymbol = localStorage.getItem('selectedStockSymbol');
+    if (savedSymbol && !selectedSymbol) {
+      dispatch(setSymbolAndFetchData(savedSymbol)); // Update Redux with the saved symbol
     }
-  }, [selectedSymbol]);
+
+    if (selectedSymbol) {
+      setQuery(selectedSymbol); // Update local input if Redux has the symbol
+    }
+  }, [selectedSymbol, dispatch]);
 
   // Fetch suggestions based on the current input value
   const onSuggestionsFetchRequested = async ({ value }) => {
@@ -42,6 +48,9 @@ const SymbolAutoSuggest = () => {
     const selectedSymbol = suggestion.ticker;
     setQuery(selectedSymbol); // Update the input field to show the selected symbol
     dispatch(setSymbolAndFetchData(selectedSymbol)); // Dispatch to update Redux with the new symbol
+
+    // Save the selected symbol to localStorage for persistence
+    localStorage.setItem('selectedStockSymbol', selectedSymbol);
   };
 
   const inputProps = {
@@ -66,7 +75,7 @@ const SymbolAutoSuggest = () => {
           </div>
         )}
         inputProps={inputProps}
-        onSuggestionSelected={onSuggestionSelected} // Dispatch to Redux only on suggestion selection
+        onSuggestionSelected={onSuggestionSelected} // Dispatch to Redux and persist to localStorage on suggestion selection
       />
     </div>
   );
