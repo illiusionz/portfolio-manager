@@ -3,25 +3,20 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import './App.scss';
 import { fetchStocks, fetchStockPrice } from './features/stocks/stockThunks';
 import { setUserSymbol } from './features/user/userSlice'; // Correct import
 import { setTheme } from './features/theme/themeSlice';
 
 // Lazy load the components
-const HomePage = lazy(() => import('./containers/HomePage/HomePage'));
+const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
 const ChartAnalysisPage = lazy(() =>
-  import('./containers/ChartAnalysisPage/ChartAnalysisPage')
+  import('./pages/ChartAnalysisPage/ChartAnalysisPage')
 );
 
-const StockNewsPage = lazy(() =>
-  import('./containers/StockNewsPage/StockNewsPage')
-);
+const StockNewsPage = lazy(() => import('./pages/StockNewsPage/StockNewsPage'));
 
-const EducationPage = lazy(() =>
-  import('./containers/EducationPage/EducationPage')
-);
+const EducationPage = lazy(() => import('./pages/EducationPage/EducationPage'));
 const TrendingToolbar = lazy(() =>
   import('./components/TrendingToolbar/TrendingToolbar')
 );
