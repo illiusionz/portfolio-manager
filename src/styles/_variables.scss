@@ -6,6 +6,8 @@
   --text-color: #333;
   --background-color: #fff;
   --border-color: #eaeaea;
+    --border-color:#ddd;
+  --border-radius:8px;
 
   --body-background:#f8f9fa;
 
@@ -18,8 +20,7 @@
   --card-border-color:#e3e6f0;
   --card-padding:1rem 2rem;
 
-  --border-color:#ddd;
-  --border-radius:8px;
+
 
   --autosuggest-suggestion-highlighted:#ddd;
 
@@ -29,7 +30,7 @@
 
   --success-color: #28a745;
   --danger-color: #dc3545;
-  
+
   --dark-background: #131722; 
 
 }
@@ -56,36 +57,7 @@
   --form-label-color:#fff;
 }
 
-$primary-color: #007bff;
-$secondary-color: #6c757d;
-$success-color: #28a745;
-$danger-color: #dc3545;
-$warning-color: #ffc107;
-$info-color: #17a2b8;
-$light-color: #f8f9fa;
-$dark-color: #343a40;
 
-$background-color-light:#f8f9fa;
-$background-color-dark:#202634;
-
-$border-color-light:#ddd;
-$border-radius:8px;
-
-
-$navbar-background-light: #ffffff;
-$navbar-background-dark: #1e222d;
-$navbar-border-dark: #ebebeb1a;
-
-
-$card-background-light: #ffffff;
-$card-background-dark: rgb(21, 27, 36);
-$card-border-light: #e3e6f0;
-$card-border-dark: #ebebeb1a;
-$card-padding:1rem 2rem;
-
-
-$text-color-dark: #202634;
-$text-color-light: #d1d4dc;
 
 
 // Typography
