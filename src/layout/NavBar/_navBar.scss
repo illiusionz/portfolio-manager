@@ -3,21 +3,18 @@
   position: sticky;
   top: 0;
   z-index: 1000; /* Ensure the navbar stays above other content */
-  background-color: white; /* Or any other background color you prefer */
-  border-bottom: 1px solid #ddd; /* Optional, for a border at the bottom */
+  background-color: var(--background-color); /* Or any other background color you prefer */
+  border-bottom: 1px solid var(--border-color);; /* Optional, for a border at the bottom */
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 1.25rem;
-
-  .symbol-auto-suggest {
-    width:100%;
-  }
 }
 
 .nav-tabs .nav-link,
 .navbar .btn-primary {
   font-size: 0.9rem;
+
 }
 
 .navbar form {
@@ -36,11 +33,6 @@
 
 /* Navbar.css */
 
-.suggestion-item {
-  display: flex;
-  align-items: center;
-  padding: 5px;
-}
 
 .stock-icon,
 .flag-icon {
@@ -50,32 +42,7 @@
   margin-top: -3px;
 }
 
-.suggestion-ticker {
-  font-weight: bold;
-  width: 100px;
-}
 
-.suggestion-name {
-  margin-right: 10px;
-  text-transform: uppercase;
-}
-
-.suggestion-exchange {
-  margin-right: 20px;
-  position: absolute;
-  right: 0;
-}
-
-.react-autosuggest__suggestions-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.react-autosuggest__suggestion {
-  border: 0.5px solid #00000007;
-  padding: 0;
-}
 
 .navbar-nav {
   display: flex;

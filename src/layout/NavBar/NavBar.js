@@ -33,6 +33,10 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
     }
   };
 
+  useEffect(() => {
+    document.body.className = theme === 'dark' ? 'theme-dark' : 'theme-light';
+  }, [theme]);
+
   const handleToggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     dispatch(setTheme(newTheme)); // Toggle theme and persist in local storage
