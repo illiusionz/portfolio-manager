@@ -11,10 +11,12 @@
 
   --input-background-color:#f8f9fa;
 
+
   --card-background-color:#fff;
   --card-title-color:#000;
   --card-text-color:#000;
   --card-border-color:#e3e6f0;
+  --card-padding:1rem 2rem;
 
   --border-color:#ddd;
   --border-radius:8px;
@@ -24,6 +26,12 @@
   --form-control-placeholder:#000000be;
   --form-control-background:#fff;
   --form-label-color:#000;
+
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  
+  --dark-background: #131722; 
+
 }
 
 .theme-dark {

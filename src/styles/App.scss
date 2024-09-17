@@ -1,43 +1,5 @@
 /* Root Variables */
 :root {
-  --background-color-light: #f8f9fa;
-  --background-color-dark: #202634;
-  --border-color-dark: #333;
-  --border-radius: 8px;
-  --border-color: #ddd;
-
-  --text-color-dark: #202634;
-  --text-color-light: #d1d4dc;
-  
-  --navbar-background-light: #ffffff;
-  --navbar-background-dark: #1e222d;
-  --navbar-border-dark: #ebebeb1a;
-
-  --card-background-light: #ffffff;
-  --card-background-dark: #151b24;
-  --card-border-light: #e3e6f0;
-  --card-border-dark: #ebebeb1a;
-  --card-padding:1rem 2rem;
-
-
-  --btn-primary-light: #007bff;
-  --btn-primary-dark: #0d6efd;
-
-  --form-control-background-light: #ffffff;
-  --form-control-background-dark: #f4f7f90d;
-  --form-control-border-light: #ced4da;
-  --form-control-border-dark: #495057;
-  --form-control-placeholder-light: #000000be;
-  --form-control-placeholder-dark: #bbbbbb;
-
-
-  --dropdown-menu-background-dark: #1f1f1f;
-  --headline-font-size: #495057;
-
-  --dark-background: #131722; 
-  --background-light: #fff;
-
-  --calculator-action-color: #f4a119;
 }
 
 /* General Styles */
@@ -98,8 +60,6 @@ input[type="number"] {
  color: var(--text-color);
 }
 
-
-
 .button-group {
   display: flex;
   justify-content: flex-end;
@@ -108,9 +68,6 @@ input[type="number"] {
 .button-group .btn {
   margin-left: 0.5rem;
 }
-
-
-
 
 
 
@@ -154,6 +111,7 @@ input[type="number"] {
 .card {
   background-color: var(--card-background-color);
   margin-bottom: 1rem;
+  color: var(--text-color);
 }
 
 .card-title {
@@ -161,11 +119,11 @@ input[type="number"] {
   padding: 0.5rem 0;
   text-align: center;
   font-weight: 600;
-  color: var(--card-title-color);
 }
 
 .card-header {
   border-bottom: 1px solid var(--border-color);
+  position: relative;
 }
 
 .card-header-tabs {
@@ -174,7 +132,6 @@ input[type="number"] {
 
 .card-body {
   padding: var(--card-padding);
-  color: var(--card-text-color);
 }
 
 .card-header-tabs .nav-link.active {
@@ -216,8 +173,6 @@ input[type="number"] {
 }
 
 
-
-
 /* Form styles */
 .form-inline {
   display: flex;
@@ -233,7 +188,6 @@ input[type="number"] {
 
 .form-label {
   margin-right: 0.5rem;
-  margin-bottom: 0;
   font-size: .9rem;
   font-weight: 500;
   color: var(--form-label-color);
@@ -242,6 +196,7 @@ input[type="number"] {
 .form-control {
   flex: 1;
   font-weight: 500;
+  color: var(--text-color);
 }
 
 .form-control::placeholder {
