@@ -1,4 +1,8 @@
 /* General styles for the calculator */
+.percentage-difference-calculator label {
+  width: 120px;
+}
+
 .percentage-difference-calculator .result h6 {
   text-align: center;
 }
@@ -12,4 +16,3 @@
   justify-content: space-between;
   margin-bottom: 1rem;
 }
-
