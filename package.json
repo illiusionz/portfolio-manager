@@ -55,6 +55,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy" : "npm run build",
+    "deploy" : "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -80,6 +82,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "css-loader": "^7.1.2",
+    "gh-pages": "^6.1.1",
     "sass-loader": "^16.0.1",
     "style-loader": "^4.0.0"
   },
