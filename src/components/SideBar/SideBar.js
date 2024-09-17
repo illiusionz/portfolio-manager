@@ -1,8 +1,8 @@
-// src/layout/Sidebar.js
-
+// src/components/SideBar/SideBar.js
 import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
+import './_sideBar.scss';
 import {
   FaHome,
   FaChartLine,
@@ -15,68 +15,41 @@ import {
   FaChartArea,
   FaChalkboardTeacher,
 } from 'react-icons/fa';
-import './_sideBar.scss';
 
-const Sidebar = () => {
+const navigationItems = [
+  { to: '/', icon: FaHome, label: 'Dashboard' },
+  { to: '/trade-positions', icon: FaChartLine, label: 'Stock Portfolio' },
+  { to: '/chart-analysis', icon: FaChartArea, label: 'A.I. Chart Analysis' },
+  { to: '/calendar', icon: FaCalendarAlt, label: 'Calendar' },
+  { to: '/stock-news', icon: FaNewspaper, label: 'Stock News' },
+  { to: '/asset-management', icon: FaChartPie, label: 'Asset Management' },
+  { to: '/education', icon: FaChalkboardTeacher, label: 'Education' },
+  { to: '/market-tools', icon: FaTools, label: 'Market Tools' },
+  { to: '/chat-room', icon: FaComments, label: 'Chat Room' },
+  {
+    to: '/option-premium-calculator',
+    icon: FaCalculator,
+    label: 'Option Premium Calculator',
+  },
+];
+
+const SideBar = () => {
   return (
     <nav className='sidebar'>
       <div className='sidebar-header'>
         <img src={logo} alt='Logo' className='logo' />
       </div>
       <ul>
-        <li>
-          <Link to='/'>
-            <FaHome className='icon' /> Dashboard
-          </Link>
-        </li>
-        <li>
-          <Link to='/trade-positions'>
-            <FaChartLine className='icon' /> Stock Portolio
-          </Link>
-        </li>
-        <li>
-          <Link to='/chart-analysis'>
-            <FaChartArea className='icon' /> A.I. Chart Analysis
-          </Link>
-        </li>
-        <li>
-          <Link to='/calendar'>
-            <FaCalendarAlt className='icon' /> Calendar
-          </Link>
-        </li>
-        <li>
-          <Link to='/stock-news'>
-            <FaNewspaper className='icon' /> Stock News
-          </Link>
-        </li>
-        <li>
-          <Link to='/asset-management'>
-            <FaChartPie className='icon' /> Asset Management
-          </Link>
-        </li>
-        <li>
-          <Link to='/education'>
-            <FaChalkboardTeacher className='icon' /> Education
-          </Link>
-        </li>
-        <li>
-          <Link to='/market-tools'>
-            <FaTools className='icon' /> Market Tools
-          </Link>
-        </li>
-        <li>
-          <Link to='/market-tools'>
-            <FaComments className='icon' /> Chat Room
-          </Link>
-        </li>
-        <li>
-          <Link to='/option-premium-calculator'>
-            <FaCalculator className='icon' /> Option Premium Calculator
-          </Link>
-        </li>
+        {navigationItems.map(({ to, icon: Icon, label }) => (
+          <li key={to}>
+            <Link to={to}>
+              <Icon className='icon' /> {label}
+            </Link>
+          </li>
+        ))}
       </ul>
     </nav>
   );
 };
 
-export default Sidebar;
+export default SideBar;
