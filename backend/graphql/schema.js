@@ -1,17 +1,32 @@
-const { gql } = require('apollo-server-express');
+const { makeExecutableSchema } = require('@graphql-tools/schema');
+const { mergeTypeDefs, mergeResolvers } = require('@graphql-tools/merge');
 
-// GraphQL Schema Definition
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`;
+// Import your type definitions
+const portfolioTypeDefs = require('./typeDefs/portfolioTypeDefs');
+const watchlistTypeDefs = require('./typeDefs/watchlistTypeDefs');
+const userTypeDefs = require('./typeDefs/userTypeDefs');
 
-// Resolvers for the schema
-const resolvers = {
-  Query: {
-    hello: () => 'Hello world!',
-  },
-};
+// Import your resolvers
+const portfolioResolvers = require('./resolvers/portfolioResolvers');
+const watchlistResolvers = require('./resolvers/watchlistResolvers');
+const userResolvers = require('./resolvers/userResolvers');
 
-module.exports = { typeDefs, resolvers };
+// Merge type definitions and resolvers
+const typeDefs = mergeTypeDefs([
+  portfolioTypeDefs,
+  watchlistTypeDefs,
+  userTypeDefs,
+]);
+const resolvers = mergeResolvers([
+  portfolioResolvers,
+  watchlistResolvers,
+  userResolvers,
+]);
+
+// Create the executable schema
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+});
+
+module.exports = schema;
