@@ -127,7 +127,7 @@ const HomePage = () => {
 
         <div className='row my-3'>
           <div className='col-md-12'>
-            <h3>Related News</h3>
+            <h3 className='text-center news-headline'>Related News</h3>
             {newsError && (
               <div className='alert alert-danger'>{newsError.message}</div>
             )}

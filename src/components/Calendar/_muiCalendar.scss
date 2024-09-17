@@ -1,6 +1,6 @@
 .MuiBox-root {
-  background-color: var(--card-background-light)!important;
-  border: 1px solid var(--card-border-light)!important;
+  background-color: var(--card-background-color)!important;
+  border: 1px solid var(--border-color)!important;
   width:100%!important;
   border-radius: var( --border-radius);
 }
@@ -9,9 +9,13 @@
   width:100%!important;
 }
 
+.MuiPickersCalendarHeader-label  {
+  color: var(--card-title-color);
+}
+
 .MuiCalendarPicker-root div[role="row"]{
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 .MuiCalendarPicker-root div[role="grid"] {
@@ -23,35 +27,18 @@
 }
 
 .MuiPickersDay-root {
-  background-color: #ffffff;
-}
-
-
-.dark .MuiBox-root { 
-  border: 1px solid var(--card-border-dark)!important;
-  background-color: var(--dark-background)!important;
-  }
-
-.dark .MuiCalendarPicker-root {
-  background-color: var(--dark-background)!important;
-  border: 1px solid var(--card-border-dark)!important;
-  width:100%!important;
-  border-radius: var( --border-radius);
-}
-
-.dark .css-bkrceb-MuiButtonBase-root-MuiPickersDay-root {
-  background-color: var(--card-background-dark)!important;
-}
-.dark .css-bccull-MuiButtonBase-root-MuiPickersDay-root {
-  background-color: #f4f7f900!important;
-}
-
-.dark .Mui-selected {
-  color: rgba(0, 0, 0, 0.87)!important;
-  background-color: rgb(144, 202, 249)!important;
+  background-color: var(--body-background)!important;
+  color:var(--text-color)!important;
   font-weight: 500!important;
+  font-size: 14px!important;
 }
 
-.dark .MuiPickersDay-root {
+.MuiPickersArrowSwitcher-button svg {
+  color: var(--text-color)!important;
+}
+
+.Mui-selected {
+  background-color: var(--primary-color)!important;
   color: #fff!important;
 }
+

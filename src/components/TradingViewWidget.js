@@ -56,7 +56,7 @@ function TradingViewWidget({ symbol }) {
 
     setTimeout(() => {
       initializeWidget(); // Add a delay to ensure the DOM is ready
-    }, 500); // Reduce the delay to 500ms or adjust as needed
+    }, 100); // Reduce the delay to 500ms or adjust as needed
 
     return () => {
       if (container.current) {

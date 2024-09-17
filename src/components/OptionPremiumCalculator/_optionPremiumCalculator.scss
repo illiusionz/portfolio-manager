@@ -1,6 +1,7 @@
 /* src/components/OptionPremiumCalculator/OptionPremiumCalculator.css */
 .option-premium-calculator .form-label {
   display: block;
+  width: 130px;
 }
 
 .option-premium-calculator .form-control {
@@ -18,7 +19,6 @@
 }
 
 
-
 .option-premium-calculator .result h6 {
   display: flex;
   justify-content: space-between;
@@ -26,16 +26,3 @@
   font-size: .9rem;
 }
 
-.dark .option-premium-calculator .result h6 strong {
-  color: var(--text-color-dark);
-}
-
-
-.button-group {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.button-group .btn {
-  margin-left: 0.5rem;
-}
