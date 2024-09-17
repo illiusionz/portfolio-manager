@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/429.fd9ccbbb.chunk.css","mappings":"AAAA,gBACE,cAGF,2BACE","sources":["components/PortfolioValueCard/_portfolioValueCard.scss"],"sourcesContent":[".portfolio-card {\n  margin: 0 auto;\n}\n\n.portfolio-card .card-body{\n  text-align: center;\n}"],"names":[],"sourceRoot":""}
