@@ -1,7 +1,3 @@
-/* Root Variables */
-:root {
-}
-
 /* General Styles */
 body {
   margin: 0;
@@ -102,10 +98,10 @@ input[type="number"] {
 
 .hero-section {
   padding: .5rem 0; /* Ensure there's enough space below the navbar */
+  .stock-data {
+  height: 550px;
 }
 
-.hero-section .stock-data {
-  height: 550px;
 }
 
 .card {
@@ -144,6 +140,10 @@ input[type="number"] {
   border-top: 1px solid var(--border-color);
   padding-top: 1rem;
   margin: 1rem 0 0;
+
+  h6 {
+    font-size: .9rem;
+  }
 }
 
 
@@ -210,11 +210,6 @@ input[type="number"] {
 
 
 
-.result h6 {
-  font-size: .9rem;
-}
-
-
 
 form.d-flex {
   display: flex;
@@ -236,13 +231,12 @@ form.d-flex .react-autosuggest__input {
 }
 
 
-
-
-
-
-
-
 .table-dark {
   --bs-table-bg: var(--dark-background);
   --bs-table-striped-bg: #f4f7f90d;
+}
+
+
+.news-headline {
+  color: var(--text-color);
 }
