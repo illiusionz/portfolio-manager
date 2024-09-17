@@ -32,8 +32,6 @@ const TrendingToolbar = () => {
     'AMD',
     'PYPL',
     'NFLX',
-    'FB',
-    'TWTR',
     'SNAP',
     'SPOT',
     'PINS',
