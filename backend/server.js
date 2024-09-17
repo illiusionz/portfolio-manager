@@ -1,39 +1,47 @@
 const express = require('express');
+const connectDB = require('./config/db'); // Path to your db.js
 const { ApolloServer } = require('apollo-server-express');
-const { typeDefs, resolvers } = require('./graphql/schema'); // Import GraphQL schema and resolvers
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-dotenv.config();
+const schema = require('./graphql/schema'); // Your combined GraphQL schema
+require('dotenv').config(); // Automatically loads the .env file from the root
 
 const app = express();
-const port = process.env.PORT || 5001;
 
 // Connect to MongoDB
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('Connected to MongoDB'))
-  .then(() => console.log(process.env.MONGO_URI))
-  .catch((err) => console.log(err));
+connectDB();
 
-// Add this line to check if the environment variable is loaded correctly
+// Store the apolloServer instance in a variable
+let apolloServer;
 
-// GraphQL ApolloServer setup
-async function startServer() {
-  const server = new ApolloServer({ typeDefs, resolvers });
-  await server.start();
-  server.applyMiddleware({ app });
-}
+// Apollo Server Setup Function
+const setupApolloServer = async () => {
+  try {
+    apolloServer = new ApolloServer({
+      schema,
+      context: ({ req }) => {
+        // Add any authentication or other context here
+      },
+    });
 
-startServer();
+    await apolloServer.start();
+    apolloServer.applyMiddleware({ app });
+    console.log(`Apollo Server running at /graphql`);
+  } catch (err) {
+    console.error('Apollo Server Error:', err.message);
+    process.exit(1); // Exit process with failure
+  }
+};
 
-// Example endpoint
-app.get('/', (req, res) => {
-  res.send('GraphQL server is running!');
-});
+// Middleware: Consider adding logging here (e.g., morgan)
+app.use(express.json()); // For parsing application/json
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+// Start Apollo Server
+setupApolloServer();
+
+// Start Express Server
+const PORT = process.env.PORT || 5001;
+
+app.listen(PORT, () => {
+  console.log(
+    `Server running on http://localhost:${PORT}${apolloServer.graphqlPath}`
+  );
 });
