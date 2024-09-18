@@ -6,7 +6,7 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const AWS = require('aws-sdk');
-require('dotenv').config();
+require('dotenv').config({ path: '../.env' });
 
 const app = express();
 app.use(bodyParser.json());
@@ -15,7 +15,7 @@ app.use(cors());
 const upload = multer({ dest: 'uploads/' });
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, // This is also the default, can be omitted
+  apiKey: process.env.REACT_APP_OPENAI_API_KEY, // This is also the default, can be omitted
 });
 
 // Set up AWS Rekognition client
@@ -146,7 +146,7 @@ app.post('/api/upload-image', upload.single('file'), async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5001;
+const PORT = 5003;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

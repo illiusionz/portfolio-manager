@@ -7,7 +7,7 @@ const PortfolioPage = () => {
   const testUserId = 'testUserId123'; // Replace with your test user ID
 
   return (
-    <div className='container'>
+    <div className='container mt-4'>
       <Portfolio userId={testUserId} />
       <p>Built with Express.js, MongoDB, GraphQL, Apollo Server</p>
     </div>
