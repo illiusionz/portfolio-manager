@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-require('dotenv').config(); // Automatically loads the .env file from the root
+require('dotenv').config({ path: '../.env' });
 
 // MongoDB URI fallback for local development
 const MONGO_URI = process.env.MONGO_URI;
@@ -8,6 +8,7 @@ const connectDB = async () => {
   try {
     // Connect to MongoDB
     const conn = await mongoose.connect(MONGO_URI);
+    console.log('MONGO_URI from env:', process.env.MONGO_URI);
 
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {

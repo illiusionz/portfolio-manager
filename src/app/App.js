@@ -10,6 +10,9 @@ import { setTheme } from '../features/theme/themeSlice';
 
 // Lazy load the components
 const HomePage = lazy(() => import('../pages/HomePage/HomePage'));
+
+const PortfolioPage = lazy(() => import('../pages/PortfolioPage'));
+
 const ChartAnalysisPage = lazy(() =>
   import('../pages/ChartAnalysisPage/ChartAnalysisPage')
 );
@@ -83,6 +86,7 @@ function App() {
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
               <Route path='/' element={<HomePage />} />
+              <Route path='/stock-portfolio' element={<PortfolioPage />} />
               <Route path='/chart-analysis' element={<ChartAnalysisPage />} />
               <Route
                 path='/compound-interest-calculator'
