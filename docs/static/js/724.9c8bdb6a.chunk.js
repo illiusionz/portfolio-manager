@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkfinance_app=self.webpackChunkfinance_app||[]).push([[724],{1724:(e,n,s)=>{s.r(n),s.d(n,{default:()=>a});s(5043);var r=s(579);const a=()=>{const e=(new Date).getFullYear();return(0,r.jsx)("footer",{children:(0,r.jsxs)("p",{children:["\xa9 ",e," All Rights Reserved | By Jeffrey Liu"]})})}}}]);
+//# sourceMappingURL=724.9c8bdb6a.chunk.js.map
