@@ -17,6 +17,8 @@ const ChartAnalysisPage = lazy(() =>
   import('../pages/ChartAnalysisPage/ChartAnalysisPage')
 );
 
+const CalendarPage = lazy(() => import('../pages/CalendarPage/CalendarPage'));
+
 const StockNewsPage = lazy(() =>
   import('../pages/StockNewsPage/StockNewsPage')
 );
@@ -87,6 +89,9 @@ function App() {
             <Routes>
               <Route path='/' element={<HomePage />} />
               <Route path='/stock-portfolio' element={<PortfolioPage />} />
+
+              <Route path='/calendar' element={<CalendarPage />} />
+
               <Route path='/chart-analysis' element={<ChartAnalysisPage />} />
               <Route
                 path='/compound-interest-calculator'
