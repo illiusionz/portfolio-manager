@@ -26,11 +26,6 @@ const navigationItems = [
   { to: '/education', icon: FaChalkboardTeacher, label: 'Education' },
   { to: '/market-tools', icon: FaTools, label: 'Market Tools' },
   { to: '/chat-room', icon: FaComments, label: 'Chat Room' },
-  {
-    to: '/option-premium-calculator',
-    icon: FaCalculator,
-    label: 'Option Premium Calculator',
-  },
 ];
 
 const SideBar = () => {
