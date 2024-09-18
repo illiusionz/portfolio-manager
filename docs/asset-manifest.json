@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/portfolio-manager/static/css/main.63e9ca14.css",
-    "main.js": "/portfolio-manager/static/js/main.ce581229.js",
+    "main.js": "/portfolio-manager/static/js/main.af35c9ef.js",
     "static/js/602.592b73a8.chunk.js": "/portfolio-manager/static/js/602.592b73a8.chunk.js",
     "static/js/72.0be5922f.chunk.js": "/portfolio-manager/static/js/72.0be5922f.chunk.js",
     "static/css/854.f652a4b0.chunk.css": "/portfolio-manager/static/css/854.f652a4b0.chunk.css",
@@ -32,7 +32,7 @@
     "static/css/826.935a9d77.chunk.css": "/portfolio-manager/static/css/826.935a9d77.chunk.css",
     "static/js/826.659cb700.chunk.js": "/portfolio-manager/static/js/826.659cb700.chunk.js",
     "static/css/388.82e7a78d.chunk.css": "/portfolio-manager/static/css/388.82e7a78d.chunk.css",
-    "static/js/388.a3289747.chunk.js": "/portfolio-manager/static/js/388.a3289747.chunk.js",
+    "static/js/388.92ad70b2.chunk.js": "/portfolio-manager/static/js/388.92ad70b2.chunk.js",
     "static/css/476.2486c149.chunk.css": "/portfolio-manager/static/css/476.2486c149.chunk.css",
     "static/js/476.686f6f08.chunk.js": "/portfolio-manager/static/js/476.686f6f08.chunk.js",
     "static/css/892.d5129efd.chunk.css": "/portfolio-manager/static/css/892.d5129efd.chunk.css",
@@ -53,7 +53,7 @@
     "static/media/logo.png": "/portfolio-manager/static/media/logo.6110fdfdd05685b42944.png",
     "index.html": "/portfolio-manager/index.html",
     "main.63e9ca14.css.map": "/portfolio-manager/static/css/main.63e9ca14.css.map",
-    "main.ce581229.js.map": "/portfolio-manager/static/js/main.ce581229.js.map",
+    "main.af35c9ef.js.map": "/portfolio-manager/static/js/main.af35c9ef.js.map",
     "602.592b73a8.chunk.js.map": "/portfolio-manager/static/js/602.592b73a8.chunk.js.map",
     "72.0be5922f.chunk.js.map": "/portfolio-manager/static/js/72.0be5922f.chunk.js.map",
     "854.f652a4b0.chunk.css.map": "/portfolio-manager/static/css/854.f652a4b0.chunk.css.map",
@@ -84,7 +84,7 @@
     "826.935a9d77.chunk.css.map": "/portfolio-manager/static/css/826.935a9d77.chunk.css.map",
     "826.659cb700.chunk.js.map": "/portfolio-manager/static/js/826.659cb700.chunk.js.map",
     "388.82e7a78d.chunk.css.map": "/portfolio-manager/static/css/388.82e7a78d.chunk.css.map",
-    "388.a3289747.chunk.js.map": "/portfolio-manager/static/js/388.a3289747.chunk.js.map",
+    "388.92ad70b2.chunk.js.map": "/portfolio-manager/static/js/388.92ad70b2.chunk.js.map",
     "476.2486c149.chunk.css.map": "/portfolio-manager/static/css/476.2486c149.chunk.css.map",
     "476.686f6f08.chunk.js.map": "/portfolio-manager/static/js/476.686f6f08.chunk.js.map",
     "892.d5129efd.chunk.css.map": "/portfolio-manager/static/css/892.d5129efd.chunk.css.map",
@@ -105,6 +105,6 @@
   },
   "entrypoints": [
     "static/css/main.63e9ca14.css",
-    "static/js/main.ce581229.js"
+    "static/js/main.af35c9ef.js"
   ]
 }
