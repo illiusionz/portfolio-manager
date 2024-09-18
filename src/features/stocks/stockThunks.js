@@ -18,6 +18,7 @@ export const fetchStocks = createAsyncThunk(
       throw new Error('Failed to fetch stock data');
     }
     const data = await response.json();
+    console.log(`fetchStocks ${data}`);
     return data.results;
   }
 );
@@ -58,6 +59,27 @@ export const fetchDividends = createAsyncThunk(
         );
       } else {
         return rejectWithValue('Error fetching dividend data');
+      }
+    }
+  }
+);
+
+// Fetch full stock data from Polygon API
+export const fetchStockDetails = createAsyncThunk(
+  'stocks/fetchStockDetails',
+  async (symbol, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `https://api.polygon.io/v3/reference/tickers/${symbol}?apiKey=${apiKey}`
+      );
+      return response.data.results; // Return the full results object
+    } catch (error) {
+      if (error.response && error.response.status === 403) {
+        return rejectWithValue(
+          'Access forbidden: check API key and permissions.'
+        );
+      } else {
+        return rejectWithValue('Error fetching stock details');
       }
     }
   }
