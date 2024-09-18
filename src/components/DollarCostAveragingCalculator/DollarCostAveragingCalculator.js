@@ -17,13 +17,16 @@ const DollarCostAveragingCalculator = () => {
     totalCost: 0,
   });
 
+  // Handles the change in any input field (shares, avgBuy) and recalculates totalCost
   const handleInputChange = (index, field, value) => {
     const newInvestments = investments.slice();
-    if (field === 'avgBuy') {
-      value = parseCurrency(value);
+    if (field === 'avgBuy' || field === 'shares') {
+      value = value.replace(/[^0-9.]/g, ''); // Ensure only numbers and decimals
     }
+
     newInvestments[index][field] = value;
 
+    // Recalculate totalCost whenever shares or avgBuy are changed
     if (field === 'shares' || field === 'avgBuy') {
       const shares = parseFloat(newInvestments[index].shares || 0);
       const avgBuy = parseFloat(newInvestments[index].avgBuy || 0);
@@ -94,13 +97,14 @@ const DollarCostAveragingCalculator = () => {
               <div className='col'>
                 <label className='form-label'>Shares</label>
                 <input
-                  type='number'
+                  type='text'
                   className='form-control'
                   id='shares'
                   value={investment.shares}
                   onChange={(e) =>
                     handleInputChange(index, 'shares', e.target.value)
                   }
+                  placeholder='0.00'
                 />
               </div>
               <div className='col'>
