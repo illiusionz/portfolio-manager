@@ -1,8 +1,5 @@
 // _typography.scss
 
-@import 'variables';
-
-// Base typography styles
 body {
   font-family: $font-family-primary;
   font-size: 16px;
@@ -12,7 +9,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
-  color: $heading-color;
+  color: var(--heading-color);
 }
 
 h1 {
@@ -36,7 +33,7 @@ h6 {
 
 p {
   font-size: 1rem;
-  color: $text-color-secondary;
+  color: var(--text-color);
 }
 
 a {

@@ -7,6 +7,7 @@ module.exports = {
         additionalData: `
           @import "src/styles/_variables";
           @import "src/styles/_mixins";
+          @import "src/styles/_typography";
         `,
       },
     },

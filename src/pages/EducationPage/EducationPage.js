@@ -38,7 +38,7 @@ const EducationPage = () => {
   };
 
   return (
-    <div className='education-container'>
+    <div className='container education-container'>
       <h1 className='education-title page-title'>Education Page</h1>
       {loading ? (
         <Spinner animation='border' variant='primary' />

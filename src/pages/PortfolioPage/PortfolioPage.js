@@ -1,7 +1,7 @@
 // src/pages/PortfolioPage.js
 
 import React from 'react';
-import Portfolio from '../components/Portfolio';
+import Portfolio from '../../components/Portfolio';
 
 const PortfolioPage = () => {
   const testUserId = 'testUserId123'; // Replace with your test user ID

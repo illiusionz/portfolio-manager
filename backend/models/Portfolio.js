@@ -10,7 +10,7 @@ const portfolioSchema = new Schema({
       symbol: { type: String, required: true },
       shares: { type: Number, required: true },
       buyPrice: { type: Number, required: true },
-      currentPrice: { type: Number, required: false }, // optional for test data
+      currentPrice: { type: Number, required: false },
     },
   ],
   totalValue: { type: Number },

@@ -15,7 +15,8 @@
 }
 
 .video-card {
-  background-color: #202020;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color);
   border-radius: 8px;
   overflow: hidden;
   width: calc(25% - 20px); /* 4 cards per row */
