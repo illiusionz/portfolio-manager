@@ -11,7 +11,9 @@ import { setTheme } from '../features/theme/themeSlice';
 // Lazy load the components
 const HomePage = lazy(() => import('../pages/HomePage/HomePage'));
 
-const PortfolioPage = lazy(() => import('../pages/PortfolioPage'));
+const PortfolioPage = lazy(() =>
+  import('../pages/PortfolioPage/PortfolioPage')
+);
 
 const ChartAnalysisPage = lazy(() =>
   import('../pages/ChartAnalysisPage/ChartAnalysisPage')
@@ -39,6 +41,7 @@ const PercentageDifferenceCalculator = lazy(() =>
 );
 const SideBar = lazy(() => import('../layout/SideBar/SideBar'));
 const NavBar = lazy(() => import('../layout/NavBar/NavBar'));
+const Footer = lazy(() => import('../layout/Footer/Footer'));
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -107,6 +110,9 @@ function App() {
             </Routes>
           </Suspense>
         </div>
+        <Suspense>
+          <Footer />
+        </Suspense>
       </div>
     </div>
   );
