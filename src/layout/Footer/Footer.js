@@ -2,11 +2,15 @@ import React from 'react';
 import './_footer.scss';
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear(); // Get the current year dynamically
+  const currentYear = new Date().getFullYear();
 
   return (
-    <footer>
-      <p>&copy; {currentYear} All Rights Reserved | By Jeffrey Liu</p>
+    <footer className='footer mt-auto py-3 bg-light'>
+      <div className='container'>
+        <p className='text-center mb-0'>
+          &copy; {currentYear} All Rights Reserved | By Jeffrey Liu
+        </p>
+      </div>
     </footer>
   );
 };

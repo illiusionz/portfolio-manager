@@ -28,7 +28,7 @@ const CalendarPage = () => {
   const [events, setEvents] = useState(myEventsList);
 
   return (
-    <div style={{ height: '80vh', margin: '50px' }}>
+    <div className='container' style={{ height: '100vh' }}>
       <h2>My Calendar</h2>
       <Calendar
         localizer={localizer}
