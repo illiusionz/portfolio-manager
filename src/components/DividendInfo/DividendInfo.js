@@ -1,3 +1,4 @@
+// src/components/DividendInfo/DividendInfo.js
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -7,19 +8,16 @@ import {
 } from '../../utils/format';
 import { setUserSymbol } from '../../features/user/userSlice'; // Updated path
 import { fetchStockSnapshot } from '../../features/stocks/stockThunks'; // Updated path
-
 import axios from 'axios';
-import Autosuggest from 'react-autosuggest';
-import './_dividendInfo.scss';
+import SymbolAutoSuggest from '../shared/SymbolAutoSuggest'; // Import the shared SymbolAutoSuggest component
+import './DividendInfo.scss';
 
 const DividendInfo = () => {
   const symbol = useSelector((state) => state.user.symbol); // Get the selected symbol from the state
   const watchlist = useSelector((state) => state.watchlist.symbols); // Get the watchlist from the state
-  const [query, setQuery] = useState(symbol || '');
   const [dividends, setDividends] = useState([]);
   const [numberOfShares, setNumberOfShares] = useState('');
   const [calculatedDividend, setCalculatedDividend] = useState(null);
-  const [suggestions, setSuggestions] = useState([]);
   const theme = useSelector((state) => state.theme);
   const dispatch = useDispatch();
 
@@ -38,62 +36,23 @@ const DividendInfo = () => {
     };
 
     if (symbol) {
-      setQuery(symbol);
       fetchDividends();
     }
   }, [symbol]);
 
-  const onSuggestionsFetchRequested = async ({ value }) => {
-    try {
-      const response = await axios.get(
-        `https://api.polygon.io/v3/reference/tickers?search=${value}&active=true&sort=ticker&order=asc&limit=10&apiKey=${apiKey}`
-      );
-      setSuggestions(response.data.results || []);
-    } catch (error) {
-      console.error('Error fetching suggestions:', error);
-      setSuggestions([]);
-    }
+  // Handle the selection of a new stock symbol
+  const handleSymbolSelection = (selectedSymbol) => {
+    dispatch(setUserSymbol(selectedSymbol));
+    fetchDividends(selectedSymbol);
   };
 
-  const onSuggestionsClearRequested = () => {
-    setSuggestions([]);
-  };
-
-  const getSuggestionValue = (suggestion) => suggestion.ticker;
-
-  const renderSuggestion = (suggestion) => (
-    <div className='suggestion-item'>
-      <span className='suggestion-ticker'>{suggestion.ticker}</span>
-      <span className='suggestion-name'>{suggestion.name}</span>
-    </div>
-  );
-
-  const onChange = (event, { newValue }) => {
-    setQuery(newValue);
-  };
-
-  const onSuggestionSelected = async (event, { suggestion }) => {
-    const selectedSymbol = suggestion.ticker;
+  const fetchDividends = async (selectedSymbol) => {
     try {
       const response = await axios.get(
         `https://api.polygon.io/v3/reference/dividends?ticker=${selectedSymbol}&apiKey=${apiKey}`
       );
-      dispatch(setUserSymbol(selectedSymbol));
       setDividends(response.data.results || []);
-      setQuery(selectedSymbol);
-    } catch (error) {
-      console.error('Error fetching dividend data:', error);
-    }
-  };
-
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    const searchSymbol = query.split(' - ')[0];
-    try {
-      const response = await axios.get(
-        `https://api.polygon.io/v3/reference/dividends?ticker=${searchSymbol}&apiKey=${apiKey}`
-      );
-      setDividends(response.data.results || []);
+      setCalculatedDividend(null); // Reset the calculated dividend when symbol changes
     } catch (error) {
       console.error('Error fetching dividend data:', error);
     }
@@ -101,7 +60,7 @@ const DividendInfo = () => {
 
   const handleCalculate = () => {
     const selectedDividend = dividends.find(
-      (dividend) => dividend.ticker === query.toUpperCase()
+      (dividend) => dividend.ticker === symbol.toUpperCase()
     );
     if (selectedDividend && numberOfShares) {
       const totalDividend =
@@ -112,11 +71,9 @@ const DividendInfo = () => {
   };
 
   const handleReset = () => {
-    setQuery('');
     setNumberOfShares('');
     setCalculatedDividend(null);
     setDividends([]);
-    setSuggestions([]);
   };
 
   const handleNumberOfSharesChange = (e) => {
@@ -124,24 +81,10 @@ const DividendInfo = () => {
     setNumberOfShares(formatNumberWithCommas(value));
   };
 
-  const handleSelectChange = async (e) => {
+  const handleWatchlistSelectChange = async (e) => {
     const selectedSymbol = e.target.value;
-    setQuery(selectedSymbol);
-    dispatch(setUserSymbol(selectedSymbol));
-    try {
-      const response = await axios.get(
-        `https://api.polygon.io/v3/reference/dividends?ticker=${selectedSymbol}&apiKey=${apiKey}`
-      );
-      setDividends(response.data.results || []);
-    } catch (error) {
-      console.error('Error fetching dividend data:', error);
-    }
-  };
-
-  const inputProps = {
-    placeholder: 'Search for a stock',
-    value: query,
-    onChange: onChange,
+    setUserSymbol(selectedSymbol);
+    handleSymbolSelection(selectedSymbol);
   };
 
   return (
@@ -150,8 +93,29 @@ const DividendInfo = () => {
         <h5 className='card-title mb-0'>Stock Dividend Information</h5>
       </div>
       <div className='card-body'>
-        <form className='form-inline my-2 my-lg-0' onSubmit={handleSearch}>
-          <div className='form-group me-5'>
+        <form className='form-inline my-2 my-lg-0'>
+          <div className='form-group me-2'>
+            <label htmlFor='symbol'>Stock Symbol: </label>
+            <SymbolAutoSuggest onSymbolSelect={handleSymbolSelection} />
+          </div>
+          <div className='form-group me-2'>
+            <label htmlFor='watchlist'>Watchlist: </label>
+            <select
+              className='form-control'
+              value={symbol || ''}
+              onChange={handleWatchlistSelectChange}>
+              <option value='' disabled>
+                Select a Stock from Watchlist
+              </option>
+              {watchlist.map((ticker) => (
+                <option key={ticker} value={ticker}>
+                  {ticker}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className='form-group me-2'>
+            <label htmlFor='numberOfShares'>Number of Shares: </label>
             <input
               type='text'
               className='form-control mx-2'
@@ -163,38 +127,9 @@ const DividendInfo = () => {
               type='button'
               className='btn btn-primary my-2 my-sm-0 ml-2'
               onClick={handleCalculate}>
-              Calculate Dividend
+              Calculate
             </button>
           </div>
-          <div className='form-group me-5'>
-            <select
-              className='form-control'
-              value={query}
-              onChange={handleSelectChange}>
-              <option value='' disabled>
-                Select a Stock
-              </option>
-              {watchlist.map((ticker) => (
-                <option key={ticker} value={ticker}>
-                  {ticker}
-                </option>
-              ))}
-            </select>
-          </div>
-          <Autosuggest
-            suggestions={suggestions}
-            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-            onSuggestionsClearRequested={onSuggestionsClearRequested}
-            getSuggestionValue={getSuggestionValue}
-            renderSuggestion={renderSuggestion}
-            inputProps={inputProps}
-            onSuggestionSelected={onSuggestionSelected}
-          />
-          <button
-            className='btn btn-primary my-2 my-sm-0 ms-3 mx-3'
-            type='submit'>
-            Search
-          </button>
           <button
             type='button'
             className='btn btn-danger my-2 my-sm-0 ml-2'
