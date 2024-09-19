@@ -4,7 +4,10 @@ import { Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/App.scss';
-import { fetchStocks, fetchStockPrice } from '../features/stocks/stockThunks';
+import {
+  fetchStocks,
+  fetchStockSnapshot,
+} from '../features/stocks/stockThunks';
 import { setUserSymbol } from '../features/user/userSlice'; // Correct import
 import { setTheme } from '../features/theme/themeSlice';
 
@@ -62,7 +65,7 @@ function App() {
   useEffect(() => {
     dispatch(setUserSymbol(symbol));
     dispatch(fetchStocks(symbol));
-    dispatch(fetchStockPrice(symbol));
+    dispatch(fetchStockSnapshot(symbol));
   }, [dispatch, symbol]);
 
   const handleSymbolSearch = (query) => {
@@ -70,7 +73,7 @@ function App() {
     localStorage.setItem('lastStock', query);
     dispatch(setUserSymbol(query));
     dispatch(fetchStocks(query));
-    dispatch(fetchStockPrice(query));
+    dispatch(fetchStockSnapshot(query));
   };
 
   return (

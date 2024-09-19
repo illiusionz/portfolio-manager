@@ -1,0 +1,150 @@
+.stock-hover-popup {
+  position: absolute; // Ensure the popup is positioned absolutely within its relative parent
+  z-index: 999999; // Ensure it's above other elements
+  background: #1f1f1f; // Background color
+  color: #fff; // Text color
+  padding: 15px; // Padding inside the popup
+  border-radius: 8px; // Rounded corners
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); // Box shadow for popup
+  min-width: 300px; // Maximum width for popup
+  width: fit-content; // Fit the content inside
+  font-family: Arial, sans-serif; // Font family
+  pointer-events: auto;
+  visibility: visible;
+  // Use transform for fine-tuning positioning
+  transform: translateX(-120%) translateY(-40%); // Adjust the position horizontally and vertically as needed
+  top: 0; // Position at the top of the hovered element
+  left: 0; // Center horizontally relative to the parent
+
+  // Other CSS properties remain the same
+  .popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+
+    .popup-ticker {
+      display: flex;
+      flex-direction: column;
+
+      .stock-symbol {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #fff;
+      }
+
+      .stock-name {
+        font-size: 0.9rem;
+        color: #bbb;
+      }
+    }
+
+    .watch-button {
+      background-color: #007bff;
+      color: #fff;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+
+  .popup-price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+
+    .stock-price {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #4caf50;
+    }
+
+    .price-change {
+      font-size: 1rem;
+      font-weight: bold;
+
+      &.positive {
+        color: #4caf50;
+      }
+
+      &.negative {
+        color: #f44336;
+      }
+
+      svg {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .popup-chart {
+    height: 50px;
+    background-color: #2f2f2f;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #bbb;
+
+    .line-chart {
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        45deg,
+        #333,
+        #333 10px,
+        #2f2f2f 10px,
+        #2f2f2f 20px
+      );
+      border-radius: 4px;
+    }
+  }
+
+  .popup-description {
+    font-size: 0.9rem;
+    color: #ddd;
+    margin-bottom: 0;
+    line-height: 1.4;
+  }
+
+  // Address section styling if needed
+  .popup-address {
+    font-size: 0.9rem;
+    color: #aaa;
+    line-height: 1.4;
+    display: flex;
+    justify-content: space-between;
+
+    .address-label {
+      font-weight: bold;
+      margin-right: 5px;
+    }
+
+    .address-value {
+      text-align: right;
+    }
+  }
+
+  // Styling for icon and logo
+  .stock-icon,
+  .stock-logo {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+  }
+}

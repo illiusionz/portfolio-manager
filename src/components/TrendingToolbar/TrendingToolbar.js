@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowUp,
@@ -8,16 +8,22 @@ import {
 import './TrendingToolbar.scss';
 import StockHoverPopup from '../StockHoverPopup/StockHoverPopup';
 import { useDispatch } from 'react-redux';
-import { addToWatchlist } from '../../features/watchlist/watchlistSlice'; // Updated path
 
 const TrendingToolbar = () => {
   const dispatch = useDispatch();
   const [indexData, setIndexData] = useState({});
   const [trendingStocks, setTrendingStocks] = useState([]);
   const [hoveredStock, setHoveredStock] = useState(null);
-  const [hoverPosition, setHoverPosition] = useState({ top: 0, left: 0 });
+  const [hoverPosition, setHoverPosition] = useState({
+    top: 0,
+    left: 0,
+    height: 0,
+  });
   const [showPercentChange, setShowPercentChange] = useState(true);
+  const [isPaused, setIsPaused] = useState(false); // State to control animation pause
 
+  let hoverTimeout = null;
+  const toolbarRef = useRef(null);
   const manualStocks = [
     'AAPL',
     'AMZN',
@@ -112,6 +118,38 @@ const TrendingToolbar = () => {
     fetchTrendingStocks();
   }, [apiKey]);
 
+  const handleMouseEnter = (stock, event) => {
+    if (hoverTimeout) clearTimeout(hoverTimeout);
+    const stockItemRect = event.currentTarget.getBoundingClientRect();
+    setHoveredStock(stock);
+    setHoverPosition({
+      top: stockItemRect.top + window.scrollY,
+      left: stockItemRect.left + window.scrollX,
+      height: stockItemRect.height,
+    });
+    setIsPaused(true); // Pause the animation
+  };
+
+  const handleMouseLeave = () => {
+    if (hoverTimeout) clearTimeout(hoverTimeout);
+    hoverTimeout = setTimeout(() => {
+      setHoveredStock(null);
+      setIsPaused(false); // Resume the animation
+    }, 200);
+  };
+
+  const handlePopupMouseEnter = () => {
+    if (hoverTimeout) clearTimeout(hoverTimeout);
+    setIsPaused(true); // Pause the animation
+  };
+
+  const handlePopupMouseLeave = () => {
+    hoverTimeout = setTimeout(() => {
+      setHoveredStock(null);
+      setIsPaused(false); // Resume the animation
+    }, 200);
+  };
+
   const renderStock = (stock, index) => {
     if (!stock) return null;
     const changePercent = stock.todaysChangePerc.toFixed(2);
@@ -122,11 +160,8 @@ const TrendingToolbar = () => {
       <div
         key={`${stock.ticker}-${index}`}
         className={`stock-item ${changeClass}`}
-        onMouseEnter={(e) => {
-          setHoveredStock(stock);
-          setHoverPosition({ top: e.clientY, left: e.clientX });
-        }}
-        onMouseLeave={() => setHoveredStock(null)}>
+        onMouseEnter={(e) => handleMouseEnter(stock, e)}
+        onMouseLeave={handleMouseLeave}>
         <span className='stock-symbol'>{stock.ticker}</span>
         {showPercentChange ? (
           <>
@@ -163,7 +198,9 @@ const TrendingToolbar = () => {
   };
 
   return (
-    <div className='trending-toolbar'>
+    <div
+      className={`trending-toolbar ${isPaused ? 'paused' : ''}`}
+      ref={toolbarRef}>
       <div className='form-check form-switch'>
         <input
           className='form-check-input'
@@ -185,7 +222,12 @@ const TrendingToolbar = () => {
         </div>
       </div>
       {hoveredStock && (
-        <StockHoverPopup stock={hoveredStock} position={hoverPosition} />
+        <StockHoverPopup
+          stock={hoveredStock}
+          position={hoverPosition}
+          onMouseEnter={handlePopupMouseEnter}
+          onMouseLeave={handlePopupMouseLeave}
+        />
       )}
     </div>
   );

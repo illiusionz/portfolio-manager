@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
-import { addToWatchlist } from '../../features/watchlist/watchlistSlice'; // Updated path
-import './_stockHoverPopup.scss';
+import { addToWatchlist } from '../../features/watchlist/watchlistSlice';
+import './StockHoverPopup.scss';
 
-const StockHoverPopup = ({ stock, position }) => {
+const StockHoverPopup = ({ stock, position, onMouseEnter, onMouseLeave }) => {
   const dispatch = useDispatch();
+  const popupRef = useRef(null);
+
+  useEffect(() => {
+    const popupElement = popupRef.current;
+    if (popupElement && position) {
+      // Set the position of the popup dynamically below the hovered stock item
+      popupElement.style.top = `${position.top + position.height + 10}px`; // Place it below the stock item with some margin
+      popupElement.style.left = `${position.left}px`; // Align with the left edge of the stock item
+    }
+  }, [position]);
 
   if (!stock) return null;
 
@@ -19,14 +29,12 @@ const StockHoverPopup = ({ stock, position }) => {
     console.log(`Added ${stock.ticker} to watchlist`);
   };
 
-  console.log('Displaying popup for stock:', stock);
-
   return (
     <div
+      ref={popupRef}
       className='stock-hover-popup'
-      style={{ top: position.top + 10, left: position.left + 10 }}
-      onMouseEnter={() => console.log('Mouse enter popup')}
-      onMouseLeave={() => console.log('Mouse leave popup')}>
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}>
       <div className='popup-header'>
         <div className='popup-ticker'>
           <span className='stock-symbol'>{stock.ticker}</span>

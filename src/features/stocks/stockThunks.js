@@ -23,8 +23,8 @@ export const fetchStocks = createAsyncThunk(
   }
 );
 
-export const fetchStockPrice = createAsyncThunk(
-  'stocks/fetchStockPrice',
+export const fetchStockSnapshot = createAsyncThunk(
+  'stocks/fetchStockSnapshot',
   debounce(async (symbol, { rejectWithValue, dispatch }) => {
     try {
       const response = await axios.get(

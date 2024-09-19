@@ -6,7 +6,7 @@ import {
   parseCurrency,
 } from '../../utils/format';
 import { setUserSymbol } from '../../features/user/userSlice'; // Updated path
-import { fetchStockPrice } from '../../features/stocks/stockThunks'; // Updated path
+import { fetchStockSnapshot } from '../../features/stocks/stockThunks'; // Updated path
 
 import axios from 'axios';
 import Autosuggest from 'react-autosuggest';

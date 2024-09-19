@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './_percentageDifferenceCalculator.scss';
-import { fetchStockPrice } from '../../features/stocks/stockThunks';
+import { fetchStockSnapshot } from '../../features/stocks/stockThunks';
 import { setUserSymbol } from '../../features/user/userSlice';
 import {
   formatNumberWithCommas,
@@ -69,7 +69,7 @@ const PercentageDifferenceCalculator = () => {
 
   const refreshCurrentPrice = () => {
     if (symbol) {
-      dispatch(fetchStockPrice(symbol))
+      dispatch(fetchStockSnapshot(symbol))
         .unwrap()
         .then((result) => {
           if (result.day && result.day.c) {
