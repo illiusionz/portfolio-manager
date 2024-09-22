@@ -10,6 +10,9 @@ const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 export const fetchStockSnapshot = createAsyncThunk(
   'stocks/fetchStockSnapshot',
   async (symbol, { rejectWithValue }) => {
+    if (!symbol) {
+      return rejectWithValue('Symbol is required to fetch stock snapshot');
+    }
     try {
       const response = await axios.get(
         `https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers/${symbol}?apiKey=${apiKey}`
@@ -19,23 +22,14 @@ export const fetchStockSnapshot = createAsyncThunk(
 
       // Check if 'ticker' object exists
       if (!ticker) {
-        console.error('Invalid response structure:', response.data);
         return rejectWithValue('Ticker data is missing in the response.');
       }
-
-      console.log('Fetched stock snapshot data:', ticker);
-
       // Return the 'ticker' object and the 'symbol' to the reducer
       return { ticker: symbol, data: ticker };
     } catch (error) {
-      console.error('Error fetching stock data:', error);
-      if (error.response && error.response.status === 403) {
-        return rejectWithValue(
-          'Access forbidden: check API key and permissions.'
-        );
-      } else {
-        return rejectWithValue('Error fetching stock snapshot');
-      }
+      return rejectWithValue(
+        error.response?.data || 'Error fetching stock snapshot'
+      );
     }
   }
 );
@@ -44,19 +38,18 @@ export const fetchStockSnapshot = createAsyncThunk(
 export const fetchStockDetails = createAsyncThunk(
   'stocks/fetchStockDetails',
   async (symbol, { rejectWithValue }) => {
+    if (!symbol) {
+      return rejectWithValue('Symbol is required to fetch stock details');
+    }
     try {
       const response = await axios.get(
         `https://api.polygon.io/v3/reference/tickers/${symbol}?apiKey=${apiKey}`
       );
-      return response.data.results; // Return the full results object
+      return response.data.results;
     } catch (error) {
-      if (error.response && error.response.status === 403) {
-        return rejectWithValue(
-          'Access forbidden: check API key and permissions.'
-        );
-      } else {
-        return rejectWithValue('Error fetching stock details');
-      }
+      return rejectWithValue(
+        error.response?.data || 'Error fetching stock details'
+      );
     }
   }
 );
@@ -64,9 +57,10 @@ export const fetchStockDetails = createAsyncThunk(
 // Thunk to fetch historical stock data
 export const fetchStocks = createAsyncThunk(
   'stocks/fetchStocks',
-  async (_, { getState, rejectWithValue }) => {
-    const state = getState();
-    const symbol = state.user.symbol;
+  async (symbol, { rejectWithValue }) => {
+    if (!symbol) {
+      return rejectWithValue('Symbol is required to fetch stock data');
+    }
     const url = `https://api.polygon.io/v2/aggs/ticker/${symbol}/range/1/day/2023-01-01/2023-12-31?apiKey=${apiKey}`;
 
     try {
@@ -82,19 +76,19 @@ export const fetchStocks = createAsyncThunk(
 export const fetchDividends = createAsyncThunk(
   'stocks/fetchDividends',
   async (symbol, { rejectWithValue }) => {
+    if (!symbol) {
+      return rejectWithValue('Symbol is required to fetch dividend data');
+    }
+
     try {
       const response = await axios.get(
         `https://api.polygon.io/v3/reference/dividends?ticker=${symbol}&apiKey=${apiKey}`
       );
       return response.data.results;
     } catch (error) {
-      if (error.response && error.response.status === 403) {
-        return rejectWithValue(
-          'Access forbidden: check API key and permissions.'
-        );
-      } else {
-        return rejectWithValue('Error fetching dividend data');
-      }
+      return rejectWithValue(
+        error.response?.data || 'Error fetching dividend data'
+      );
     }
   }
 );

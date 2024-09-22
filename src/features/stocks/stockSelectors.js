@@ -10,7 +10,7 @@ export const selectStockDetails = (state, symbol) =>
 
 // Selector to get stock snapshot data for a given ticker
 export const selectStockSnapshot = (state, ticker) =>
-  state.stocks.stockTickerData[ticker];
+  state.stocks.stockTickerData[ticker] || {};
 
 // Selector to get stock price
 export const selectStockPrice = createSelector(

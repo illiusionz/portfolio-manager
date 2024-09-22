@@ -70,11 +70,7 @@ const OptionPremiumCalculator = () => {
     setTotalPremium(0);
     setTotalCapital(0);
     setPercentageReturn(0);
-    if (currentPrice) {
-      setStrikePrice(formatCurrency(currentPrice.toFixed(2)));
-    } else {
-      setStrikePrice('$0.00');
-    }
+    setStrikePrice(currentPrice ? formatCurrency(currentPrice) : '$0.00');
   };
 
   // Handle selection of a new symbol
@@ -107,24 +103,34 @@ const OptionPremiumCalculator = () => {
 
   // Handle refreshing the current price
   const refreshCurrentPrice = () => {
-    if (symbol) {
-      dispatch(fetchStockSnapshot(symbol))
-        .unwrap()
-        .then((result) => {
-          if (result?.day?.c) {
-            setStrikePrice(formatCurrency(result.day.c.toFixed(2)));
-          } else {
-            setStrikePrice('$0.00');
-          }
-          setIsRotating(true);
-          setTimeout(() => setIsRotating(false), 500);
-        })
-        .catch((error) => {
-          console.error('Error refreshing stock price:', error);
-        });
-    } else {
+    if (!symbol) {
       console.warn('No symbol selected for refresh');
+      return;
     }
+
+    dispatch(fetchStockSnapshot(symbol))
+      .unwrap()
+      .then((result) => {
+        if (result?.prevDay?.c) {
+          const price = result.prevDay.c;
+          setStrikePrice(formatCurrency(price.toFixed(2))); // Correctly set the price
+        } else {
+          console.warn('Stock snapshot did not contain expected data.', result);
+          setStrikePrice(
+            currentPrice ? formatCurrency(currentPrice.toFixed(2)) : '$0.00'
+          );
+        }
+      })
+      .catch((error) => {
+        console.error('Error refreshing stock price:', error);
+        setStrikePrice(
+          currentPrice ? formatCurrency(currentPrice.toFixed(2)) : '$0.00'
+        );
+      })
+      .finally(() => {
+        setIsRotating(true);
+        setTimeout(() => setIsRotating(false), 500);
+      });
   };
 
   return (

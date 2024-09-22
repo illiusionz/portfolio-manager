@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './PercentageDifferenceCalculator.scss';
 import { fetchStockSnapshot } from '../../features/stocks/stockThunks';
-import { selectStockSnapshot } from '../../features/stocks/stockSelectors';
+import { selectStockPrice } from '../../features/stocks/stockSelectors'; // Updated selector
 import { setUserSymbol } from '../../features/user/userSlice';
 import { formatCurrency, parseCurrency } from '../../utils/format';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,9 +15,7 @@ const PercentageDifferenceCalculator = () => {
 
   // State selectors
   const symbol = useSelector((state) => state.user.symbol); // User selected symbol
-  const stockSnapshot = useSelector((state) =>
-    selectStockSnapshot(state, symbol)
-  ); // Fetch stock snapshot data
+  const stockPrice = useSelector((state) => selectStockPrice(state, symbol));
 
   // Local state management
   const [targetPrice, setTargetPrice] = useState('');
@@ -32,11 +30,11 @@ const PercentageDifferenceCalculator = () => {
   }, [symbol, dispatch]);
 
   useEffect(() => {
-    if (stockSnapshot?.prevDay?.c) {
-      const formattedPrice = formatCurrency(stockSnapshot.prevDay.c.toFixed(2));
+    if (stockPrice) {
+      const formattedPrice = formatCurrency(stockPrice.toFixed(2));
       setCurrentPrice(formattedPrice);
     }
-  }, [stockSnapshot]);
+  }, [stockPrice]);
 
   useEffect(() => {
     calculatePercentageChange();
@@ -58,8 +56,8 @@ const PercentageDifferenceCalculator = () => {
   const resetFields = () => {
     setTargetPrice('');
     setPercentageChange('0.00');
-    if (stockSnapshot?.prevDay?.c) {
-      setCurrentPrice(formatCurrency(stockSnapshot.prevDay.c.toFixed(2)));
+    if (stockPrice) {
+      setCurrentPrice(formatCurrency(stockPrice.toFixed(2)));
     } else {
       setCurrentPrice('$0.00');
     }
@@ -76,24 +74,34 @@ const PercentageDifferenceCalculator = () => {
   };
 
   const refreshCurrentPrice = () => {
-    if (symbol) {
-      dispatch(fetchStockSnapshot(symbol))
-        .unwrap()
-        .then((result) => {
-          if (result?.day?.c) {
-            setCurrentPrice(formatCurrency(result.day.c.toFixed(2)));
-          } else {
-            setCurrentPrice('$0.00');
-          }
-          setIsRotating(true);
-          setTimeout(() => setIsRotating(false), 500);
-        })
-        .catch((error) => {
-          console.error('Error refreshing stock price:', error);
-        });
-    } else {
+    if (!symbol) {
       console.warn('No symbol selected for refresh');
+      return;
     }
+
+    dispatch(fetchStockSnapshot(symbol))
+      .unwrap()
+      .then((result) => {
+        if (result?.prevDay?.c) {
+          const price = result.prevDay.c;
+          setCurrentPrice(formatCurrency(price.toFixed(2))); // Correctly set the price
+        } else {
+          console.warn('Stock snapshot did not contain expected data.', result);
+          setCurrentPrice(
+            stockPrice ? formatCurrency(stockPrice.toFixed(2)) : '$0.00'
+          );
+        }
+      })
+      .catch((error) => {
+        console.error('Error refreshing stock price:', error);
+        setCurrentPrice(
+          stockPrice ? formatCurrency(stockPrice.toFixed(2)) : '$0.00'
+        );
+      })
+      .finally(() => {
+        setIsRotating(true);
+        setTimeout(() => setIsRotating(false), 500);
+      });
   };
 
   return (

@@ -25,15 +25,10 @@ const stockSlice = createSlice({
     builder
       .addCase(fetchStockSnapshot.fulfilled, (state, action) => {
         const { ticker, data } = action.payload;
-
-        // Ensure 'ticker' and 'data' are defined
         if (!ticker || !data) {
-          console.error('Invalid payload received:', action.payload);
           state.error = 'Invalid payload structure.';
           return;
         }
-
-        // Store the data in the state
         state.stockTickerData[ticker] = data;
         state.error = null;
       })
