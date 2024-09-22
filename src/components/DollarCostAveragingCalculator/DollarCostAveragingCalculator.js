@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './_dollarCostAveragingCalculator.scss';
+import './DollarCostAveragingCalculator.scss';
 import {
   formatNumberWithCommas,
   formatCurrency,
@@ -141,11 +141,11 @@ const DollarCostAveragingCalculator = () => {
           </div>
         ))}
         <div className='button-group max-auto mb-3'>
-          <button
+          {/* <button
             className='btn btn-primary'
             onClick={() => calculateResult(investments)}>
             Calculate
-          </button>
+          </button>*/}
           <button className='btn btn-success me-2' onClick={handleAddRow}>
             Add
           </button>

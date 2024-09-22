@@ -43,7 +43,11 @@ const StockDetails = ({ symbol }) => {
   return (
     <div className='stock-details-card'>
       <div className='stock-header'>
-        <img src={logo_url} alt={`${name} logo`} className='stock-logo' />
+        <img
+          src={`https://assets.parqet.com/logos/symbol/${symbol}`}
+          alt={`${name} logo`}
+          className='stock-logo'
+        />
         <h2>{name}</h2>
       </div>
       <div className='stock-body'>

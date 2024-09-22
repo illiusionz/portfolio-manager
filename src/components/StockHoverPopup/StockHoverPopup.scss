@@ -1,8 +1,8 @@
 .stock-hover-popup {
   position: absolute; // Ensure the popup is positioned absolutely within its relative parent
   z-index: 999999; // Ensure it's above other elements
-  background: #1f1f1f; // Background color
-  color: #fff; // Text color
+  background: var(--background-color); // Background color
+  color: var(--text-color); // Text color
   padding: 15px; // Padding inside the popup
   border-radius: 8px; // Rounded corners
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); // Box shadow for popup
@@ -30,12 +30,12 @@
       .stock-symbol {
         font-size: 1.2rem;
         font-weight: bold;
-        color: #fff;
+        color: var(--text-color); // Text color
       }
 
       .stock-name {
         font-size: 0.9rem;
-        color: #bbb;
+        color: var(--text-color); // Text color
       }
     }
 
@@ -87,7 +87,7 @@
 
   .popup-chart {
     height: 50px;
-    background-color: #2f2f2f;
+    background-color: var(--background-color);
     border-radius: 4px;
     margin-bottom: 15px;
     display: flex;
@@ -111,7 +111,7 @@
 
   .popup-description {
     font-size: 0.9rem;
-    color: #ddd;
+    color: var(--text-color);
     margin-bottom: 0;
     line-height: 1.4;
   }

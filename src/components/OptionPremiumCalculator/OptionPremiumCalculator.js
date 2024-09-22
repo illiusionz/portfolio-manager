@@ -1,8 +1,10 @@
+// src/components/OptionPremiumCalculator.js
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './_optionPremiumCalculator.scss';
-import { setSymbolAndFetchData } from '../../features/user/userThunks'; // Unified action
-
+import { fetchStockSnapshot } from '../../features/stocks/stockThunks'; // Redux thunk for fetching stock data
+import { selectStockPrice } from '../../features/stocks/stockSelectors'; // Selector for stock price
+import { setUserSymbol } from '../../features/user/userSlice'; // Action for setting user symbol
 import {
   formatNumberWithCommas,
   formatCurrency,
@@ -10,13 +12,16 @@ import {
 } from '../../utils/format';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
-import SymbolAutoSuggest from '../shared/SymbolAutoSuggest'; // Using the shared component
+import SymbolAutoSuggest from '../shared/SymbolAutoSuggest'; // Shared component for symbol suggestion
 
 const OptionPremiumCalculator = () => {
-  const symbol = useSelector((state) => state.user.symbol); // Get symbol from Redux
-  const stockPrice = useSelector((state) => state.stocks.data); // Stock data from Redux
   const dispatch = useDispatch();
 
+  // State selectors
+  const symbol = useSelector((state) => state.user.symbol); // Selected symbol
+  const currentPrice = useSelector((state) => selectStockPrice(state, symbol)); // Fetch stock price
+
+  // Local state management
   const [strikePrice, setStrikePrice] = useState('');
   const [premiumAmount, setPremiumAmount] = useState('');
   const [numberOfContracts, setNumberOfContracts] = useState(1);
@@ -26,54 +31,26 @@ const OptionPremiumCalculator = () => {
   const [percentageReturn, setPercentageReturn] = useState(0);
   const [isRotating, setIsRotating] = useState(false);
 
+  // Fetch stock data when the symbol changes
   useEffect(() => {
     if (symbol) {
-      dispatch(setSymbolAndFetchData(symbol)); // Fetch stock price when symbol changes
+      dispatch(fetchStockSnapshot(symbol));
     }
   }, [symbol, dispatch]);
 
+  // Set the initial strike price based on current stock price
   useEffect(() => {
-    if (stockPrice) {
-      setStrikePrice(formatCurrency(stockPrice.toFixed(2))); // Set the strike price based on stock price
+    if (currentPrice) {
+      setStrikePrice(formatCurrency(currentPrice.toFixed(2)));
     }
-  }, [stockPrice]);
+  }, [currentPrice]);
 
-  const resetFields = () => {
-    setStrikePrice(formatCurrency(stockPrice.toFixed(2)));
-    setPremiumAmount('');
-    setNumberOfContracts(1);
-    setAmountOfWeeks(1);
-    setTotalPremium(0);
-    setTotalCapital(0);
-    setPercentageReturn(0);
-  };
-
-  const onSymbolSelected = (selectedSymbol) => {
-    dispatch(setSymbolAndFetchData(selectedSymbol)); // Use the unified action
-  };
-
-  const handleStrikePriceChange = (event) => {
-    const value = event.target.value.replace(/[^0-9.]/g, '');
-    setStrikePrice(formatCurrency(value));
-  };
-
-  const handlePremiumAmountChange = (event) => {
-    const value = event.target.value.replace(/[^0-9.]/g, '');
-    setPremiumAmount(formatCurrency(value));
-  };
-
-  const handleNumberOfContractsChange = (event) => {
-    setNumberOfContracts(event.target.value);
-  };
-
-  const handleAmountOfWeeksChange = (event) => {
-    setAmountOfWeeks(event.target.value);
-  };
-
+  // Recalculate total premium and return when input values change
   useEffect(() => {
     calculateTotalPremium();
   }, [strikePrice, premiumAmount, numberOfContracts, amountOfWeeks]);
 
+  // Helper function to calculate the total premium and return
   const calculateTotalPremium = () => {
     const strike = parseCurrency(strikePrice);
     const premium = parseCurrency(premiumAmount) * 100;
@@ -85,11 +62,68 @@ const OptionPremiumCalculator = () => {
     setPercentageReturn(isNaN(percentage) ? 0 : percentage);
   };
 
+  // Handle resetting of fields
+  const resetFields = () => {
+    setPremiumAmount('');
+    setNumberOfContracts(1);
+    setAmountOfWeeks(1);
+    setTotalPremium(0);
+    setTotalCapital(0);
+    setPercentageReturn(0);
+    if (currentPrice) {
+      setStrikePrice(formatCurrency(currentPrice.toFixed(2)));
+    } else {
+      setStrikePrice('$0.00');
+    }
+  };
+
+  // Handle selection of a new symbol
+  const onSymbolSelected = (selectedSymbol) => {
+    dispatch(setUserSymbol(selectedSymbol));
+    resetFields();
+  };
+
+  // Handle changes in strike price input
+  const handleStrikePriceChange = (event) => {
+    const value = event.target.value.replace(/[^0-9.]/g, '');
+    setStrikePrice(formatCurrency(value));
+  };
+
+  // Handle changes in premium amount input
+  const handlePremiumAmountChange = (event) => {
+    const value = event.target.value.replace(/[^0-9.]/g, '');
+    setPremiumAmount(formatCurrency(value));
+  };
+
+  // Handle changes in number of contracts input
+  const handleNumberOfContractsChange = (event) => {
+    setNumberOfContracts(Number(event.target.value));
+  };
+
+  // Handle changes in amount of weeks input
+  const handleAmountOfWeeksChange = (event) => {
+    setAmountOfWeeks(Number(event.target.value));
+  };
+
+  // Handle refreshing the current price
   const refreshCurrentPrice = () => {
     if (symbol) {
-      dispatch(setSymbolAndFetchData(symbol));
-      setIsRotating(true);
-      setTimeout(() => setIsRotating(false), 500);
+      dispatch(fetchStockSnapshot(symbol))
+        .unwrap()
+        .then((result) => {
+          if (result?.day?.c) {
+            setStrikePrice(formatCurrency(result.day.c.toFixed(2)));
+          } else {
+            setStrikePrice('$0.00');
+          }
+          setIsRotating(true);
+          setTimeout(() => setIsRotating(false), 500);
+        })
+        .catch((error) => {
+          console.error('Error refreshing stock price:', error);
+        });
+    } else {
+      console.warn('No symbol selected for refresh');
     }
   };
 
@@ -105,12 +139,11 @@ const OptionPremiumCalculator = () => {
           />
         </div>
         <div className='card-body'>
-          <form className='' onSubmit={(e) => e.preventDefault()}>
+          <form onSubmit={(e) => e.preventDefault()}>
             <div className='form-group'>
               <label className='form-label' htmlFor='stockName'>
                 Stock Name:
               </label>
-              {/* Using shared component for stock symbol suggestion */}
               <SymbolAutoSuggest onSuggestionSelected={onSymbolSelected} />
             </div>
             <div className='form-group'>
@@ -177,17 +210,17 @@ const OptionPremiumCalculator = () => {
                 Reset
               </button>
             </div>
-            <div className='result'>
+            <div className='result mt-3'>
               <h6>
-                <strong>Total Premium Collected:</strong>+$
+                <strong>Total Premium Collected:</strong> +$
                 {formatNumberWithCommas(totalPremium.toFixed(2))}
               </h6>
               <h6>
-                <strong>Total Capital Used:</strong>$
+                <strong>Total Capital Used:</strong> $
                 {formatNumberWithCommas(totalCapital.toFixed(2))}
               </h6>
               <h6>
-                <strong>Average Return:</strong>+
+                <strong>Average Return:</strong> +
                 {formatNumberWithCommas(percentageReturn.toFixed(2))}%
               </h6>
             </div>
