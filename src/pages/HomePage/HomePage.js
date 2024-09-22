@@ -1,13 +1,14 @@
-import React, { useEffect, Suspense, lazy, useState } from 'react';
+// src/pages/HomePage.js
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setSymbolAndFetchData } from '../../features/user/userThunks'; // Unified thunk to handle symbol changes and fetching data
-import { fetchStocks } from '../../features/stocks/stockThunks'; // Fetch stock prices
 import {
-  selectStockData,
-  selectStockError,
-} from '../../features/stocks/stockSelectors'; // Stock selectors
-import { selectNewsError } from '../../features/news/newsSelectors'; // News selectors
-import TradingViewWidget from '../../components/TradingViewWidget'; // Remove lazy loading temporarily
+  fetchStocks,
+  fetchStockSnapshot,
+} from '../../features/stocks/stockThunks';
+import { setSymbolAndFetchData } from '../../features/user/userThunks';
+import { selectStockError } from '../../features/stocks/stockSelectors';
+import { selectNewsError } from '../../features/news/newsSelectors';
+import TradingViewWidget from '../../components/TradingViewWidget';
 
 // Lazy loading components
 const CompoundInterestCalculator = lazy(() =>
@@ -44,24 +45,21 @@ const PortfolioValueCard = lazy(() =>
 );
 
 const HomePage = () => {
-  const symbol = useSelector((state) => state.user.symbol); // Using symbol from Redux
-  const newsError = useSelector(selectNewsError); // Use news error selector
-  const stockError = useSelector(selectStockError); // Use stock error selector
+  const symbol = useSelector((state) => state.user.symbol);
+  const newsError = useSelector(selectNewsError);
+  const stockError = useSelector(selectStockError); // Error Selector
   const dispatch = useDispatch();
-
-  const totalValue = 123456.78; // Example total portfolio value
-
+  const totalValue = 123456.78;
   const [showWidget, setShowWidget] = useState(false);
   const [isSymbolValid, setIsSymbolValid] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchStocks()); // Fetch stock data on page load
+    dispatch(fetchStocks());
   }, [dispatch]);
 
   useEffect(() => {
     if (symbol) {
-      console.log('Dispatching setSymbolAndFetchData for symbol:', symbol);
-      dispatch(setSymbolAndFetchData(symbol)); // No need for a delay if Redux ensures readiness
+      dispatch(setSymbolAndFetchData(symbol));
       setIsSymbolValid(true);
     } else {
       setIsSymbolValid(false);
@@ -69,21 +67,20 @@ const HomePage = () => {
   }, [dispatch, symbol]);
 
   useEffect(() => {
-    if (isSymbolValid) {
-      setShowWidget(true);
-    } else {
-      setShowWidget(false);
-    }
+    setShowWidget(isSymbolValid);
   }, [isSymbolValid]);
 
   return (
     <div className='container-fluid'>
       <div className='hero-section'>
         {stockError && (
-          <div className='alert alert-danger'>{stockError.message}</div>
+          <div className='alert alert-danger'>
+            {typeof stockError === 'string'
+              ? stockError
+              : 'An unknown error occurred'}
+          </div>
         )}
         <div className='stock-data' style={{ height: '600px' }}>
-          {/* Test with a defined height */}
           {isSymbolValid ? (
             <Suspense fallback={<div>Loading...</div>}>
               {showWidget ? (
@@ -128,9 +125,7 @@ const HomePage = () => {
         <div className='row my-3'>
           <div className='col-md-12'>
             <h3 className='text-center news-headline'>Related News</h3>
-            {newsError && (
-              <div className='alert alert-danger'>{newsError.message}</div>
-            )}
+            {newsError && <div className='alert alert-danger'>{newsError}</div>}
             <NewsFeed />
           </div>
         </div>
