@@ -2,10 +2,7 @@ import React, { useEffect, Suspense, lazy, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSymbolAndFetchData } from '../../features/user/userThunks'; // Unified thunk to handle symbol changes and fetching data
 import { fetchStocks } from '../../features/stocks/stockThunks'; // Fetch stock prices
-import {
-  selectStockData,
-  selectStockError,
-} from '../../features/stocks/stockSelectors'; // Stock selectors
+import { selectStockError } from '../../features/stocks/stockSelectors'; // Stock selectors
 import { selectNewsError } from '../../features/news/newsSelectors'; // News selectors
 import TradingViewWidget from '../../components/TradingViewWidget'; // Remove lazy loading temporarily
 
@@ -89,7 +86,9 @@ const HomePage = () => {
               {showWidget ? (
                 <TradingViewWidget symbol={symbol} />
               ) : (
-                <div>Loading widget...</div>
+                <div className='spinner-border' role='status'>
+                  <span className='visually-hidden'>Loading...</span>
+                </div>
               )}
             </Suspense>
           ) : (

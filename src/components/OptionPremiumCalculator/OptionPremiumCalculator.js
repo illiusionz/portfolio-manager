@@ -1,7 +1,7 @@
 // src/components/OptionPremiumCalculator.js
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import './_optionPremiumCalculator.scss';
+import './OptionPremiumCalculator.scss';
 import { fetchStockSnapshot } from '../../features/stocks/stockThunks'; // Redux thunk for fetching stock data
 import { selectStockPrice } from '../../features/stocks/stockSelectors'; // Selector for stock price
 import { setUserSymbol } from '../../features/user/userSlice'; // Action for setting user symbol

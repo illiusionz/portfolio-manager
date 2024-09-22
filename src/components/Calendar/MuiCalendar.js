@@ -4,7 +4,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { CalendarPicker } from '@mui/x-date-pickers';
 import { Box, Typography, TextField } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import './_muiCalendar.scss';
+import './MuiCalendar.scss';
 
 const darkTheme = createTheme({
   palette: {

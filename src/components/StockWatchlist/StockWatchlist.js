@@ -4,7 +4,7 @@ import { removeFromWatchlist } from '../../features/watchlist/watchlistSlice'; /
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import './_stockWatchlist.scss';
+import './StockWatchlist.scss';
 
 const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 

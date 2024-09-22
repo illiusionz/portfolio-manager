@@ -3,7 +3,7 @@ import Autosuggest from 'react-autosuggest';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { setSymbolAndFetchData } from '../../features/user/userThunks';
-import './_symbolAutoSuggest.scss';
+import './SymbolAutoSuggest.scss';
 
 const SymbolAutoSuggest = () => {
   const dispatch = useDispatch();
