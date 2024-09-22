@@ -50,7 +50,11 @@ function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme);
-  const [symbol, setSymbol] = useState(localStorage.getItem('lastStock'));
+  const reduxSymbol = useSelector((state) => state.user.symbol); // Get the symbol from Redux state
+
+  const [symbol, setSymbol] = useState(
+    localStorage.getItem('lastStock') || 'AAPL'
+  ); // Initialize with localStorage or default to AAPL
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -63,7 +67,15 @@ function App() {
   };
 
   useEffect(() => {
-    dispatch(setUserSymbol(symbol));
+    // Check if there's a symbol in Redux state or localStorage
+    if (!reduxSymbol) {
+      // Dispatch the default symbol if not present
+      console.log('Setting default symbol: AAPL');
+      dispatch(setUserSymbol(symbol));
+    }
+
+    console.log('Fetching data for symbol:', symbol);
+
     dispatch(fetchStocks(symbol));
     dispatch(fetchStockSnapshot(symbol));
   }, [dispatch, symbol]);
