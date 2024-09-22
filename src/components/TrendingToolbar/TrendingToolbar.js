@@ -1,3 +1,4 @@
+// src/components/TrendingToolbar.js
 import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -7,12 +8,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import './TrendingToolbar.scss';
 import StockHoverPopup from '../StockHoverPopup/StockHoverPopup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchBatchStockSnapshots } from '../../features/stocks/stockThunks';
+import { selectStockSnapshot } from '../../features/stocks/stockSelectors';
 
 const TrendingToolbar = () => {
   const dispatch = useDispatch();
-  const [indexData, setIndexData] = useState({});
-  const [trendingStocks, setTrendingStocks] = useState([]);
   const [hoveredStock, setHoveredStock] = useState(null);
   const [hoverPosition, setHoverPosition] = useState({
     top: 0,
@@ -20,10 +21,11 @@ const TrendingToolbar = () => {
     height: 0,
   });
   const [showPercentChange, setShowPercentChange] = useState(true);
-  const [isPaused, setIsPaused] = useState(false); // State to control animation pause
+  const [isPaused, setIsPaused] = useState(false);
 
   let hoverTimeout = null;
   const toolbarRef = useRef(null);
+
   const manualStocks = [
     'AAPL',
     'AMZN',
@@ -88,36 +90,23 @@ const TrendingToolbar = () => {
   ];
   const indexTickers = ['SPY', 'QQQ', 'IWM', 'DIA'];
 
-  const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
+  // Combine both index and manual stock tickers
+  const allTickers = [...indexTickers, ...manualStocks];
 
+  // Select stock data from Redux store
+  const stockData = useSelector((state) => {
+    return allTickers.reduce((acc, symbol) => {
+      acc[symbol] = selectStockSnapshot(state, symbol);
+      return acc;
+    }, {});
+  });
+
+  // Fetch batched stock data on component mount
   useEffect(() => {
-    const fetchData = async (ticker, isIndex = false) => {
-      try {
-        const response = await fetch(
-          `https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers/${ticker}?apiKey=${apiKey}`
-        );
-        const data = await response.json();
-        if (isIndex) {
-          setIndexData((prevData) => ({ ...prevData, [ticker]: data.ticker }));
-        } else {
-          return data.ticker;
-        }
-      } catch (error) {
-        console.error(`Error fetching data for ${ticker}:`, error);
-        return null;
-      }
-    };
+    dispatch(fetchBatchStockSnapshots(allTickers));
+  }, [dispatch, allTickers]);
 
-    const fetchTrendingStocks = async () => {
-      const stockDataPromises = manualStocks.map((ticker) => fetchData(ticker));
-      const stockData = await Promise.all(stockDataPromises);
-      setTrendingStocks(stockData.filter((stock) => stock !== null));
-    };
-
-    indexTickers.forEach((ticker) => fetchData(ticker, true));
-    fetchTrendingStocks();
-  }, [apiKey]);
-
+  // Handle mouse enter event for stock items
   const handleMouseEnter = (stock, event) => {
     if (hoverTimeout) clearTimeout(hoverTimeout);
     const stockItemRect = event.currentTarget.getBoundingClientRect();
@@ -140,6 +129,7 @@ const TrendingToolbar = () => {
 
   const handlePopupMouseEnter = () => {
     if (hoverTimeout) clearTimeout(hoverTimeout);
+    setHoveredStock(null);
     setIsPaused(true); // Pause the animation
   };
 
@@ -150,9 +140,10 @@ const TrendingToolbar = () => {
     }, 200);
   };
 
-  const renderStock = (stock, index) => {
+  // Render each stock item with proper styling and data
+  const renderTrendingStock = (stock, index) => {
     if (!stock) return null;
-    const changePercent = stock.todaysChangePerc.toFixed(2);
+    const changePercent = stock?.todaysChangePerc?.toFixed(2);
     const changeClass = changePercent >= 0 ? 'positive' : 'negative';
     const arrowIcon = changePercent >= 0 ? faArrowUp : faArrowDown;
 
@@ -169,29 +160,31 @@ const TrendingToolbar = () => {
             <span className='stock-percent'>{changePercent}%</span>
           </>
         ) : (
-          <span className='stock-price'>${stock.day.c.toFixed(2)}</span>
+          <span className='stock-price'>${stock?.day?.c?.toFixed(2)}</span>
         )}
       </div>
     );
   };
 
-  const renderIndexData = (ticker) => {
-    const data = indexData[ticker];
-    if (!data) return null;
-    const changePercent = data.todaysChangePerc.toFixed(2);
+  const renderIndexStock = (stock, index) => {
+    if (!stock) return null;
+    const price = stock?.day?.c?.toFixed(2);
+    const changePercent = stock?.todaysChangePerc?.toFixed(2);
     const changeClass = changePercent >= 0 ? 'positive' : 'negative';
     const arrowIcon = changePercent >= 0 ? faArrowUp : faArrowDown;
 
     return (
-      <div key={ticker} className={`index-item ${changeClass}`}>
-        <span className='stock-symbol'>{data.ticker}</span>
+      <div
+        key={`${stock.ticker}-${index}`}
+        className={`stock-item ${changeClass}`}>
+        <span className='stock-symbol'>{stock.ticker}</span>
         {showPercentChange ? (
           <>
             <FontAwesomeIcon icon={arrowIcon} />
             <span className='stock-percent'>{changePercent}%</span>
           </>
         ) : (
-          <span className='stock-price'>${data.day.c.toFixed(2)}</span>
+          <span className='stock-price'>${price}</span>
         )}
       </div>
     );
@@ -211,14 +204,18 @@ const TrendingToolbar = () => {
         />
       </div>
       <div className='index-data'>
-        {indexTickers.map((ticker) => renderIndexData(ticker))}
+        {indexTickers.map((symbol) =>
+          renderIndexStock(stockData[symbol], symbol)
+        )}
         <span className='trending-label text-secondary'>
           Trending <FontAwesomeIcon icon={faCircleInfo} />
         </span>
       </div>
       <div className='trending-stocks'>
         <div className='scroll-container'>
-          {[...trendingStocks, ...trendingStocks].map(renderStock)}
+          {manualStocks.map((symbol) =>
+            renderTrendingStock(stockData[symbol], symbol)
+          )}
         </div>
       </div>
       {hoveredStock && (

@@ -92,3 +92,31 @@ export const fetchDividends = createAsyncThunk(
     }
   }
 );
+
+// Thunk to fetch data for multiple stocks in a single request
+export const fetchBatchStockSnapshots = createAsyncThunk(
+  'stocks/fetchBatchStockSnapshots',
+  async (symbols, { rejectWithValue }) => {
+    if (!symbols || symbols.length === 0) {
+      return rejectWithValue('Symbols are required to fetch stock snapshots');
+    }
+    const tickers = symbols.join(',');
+    try {
+      const response = await axios.get(
+        `https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers?tickers=${tickers}&apiKey=${apiKey}`
+      );
+      if (!response.data || !response.data.tickers) {
+        return rejectWithValue('Invalid response data');
+      }
+      // Returns an object with all tickers' data
+      return response.data.tickers.reduce((acc, ticker) => {
+        acc[ticker.ticker] = ticker;
+        return acc;
+      }, {});
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || 'Error fetching stock snapshots'
+      );
+    }
+  }
+);

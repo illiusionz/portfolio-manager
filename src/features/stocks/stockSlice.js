@@ -1,6 +1,10 @@
 // src/features/stocks/stockSlice.js
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchStockDetails, fetchStockSnapshot } from './stockThunks';
+import {
+  fetchStockDetails,
+  fetchStockSnapshot,
+  fetchBatchStockSnapshots,
+} from './stockThunks';
 
 const initialState = {
   stockTickerData: {}, // Store full response data for each stock ticker
@@ -42,6 +46,17 @@ const stockSlice = createSlice({
       })
       .addCase(fetchStockDetails.rejected, (state, action) => {
         state.stockDetails[action.meta.arg] = null;
+        state.error = action.payload;
+      })
+      .addCase(fetchBatchStockSnapshots.fulfilled, (state, action) => {
+        const stockData = action.payload;
+        state.stockTickerData = {
+          ...state.stockTickerData,
+          ...stockData,
+        };
+        state.error = null;
+      })
+      .addCase(fetchBatchStockSnapshots.rejected, (state, action) => {
         state.error = action.payload;
       });
   },
