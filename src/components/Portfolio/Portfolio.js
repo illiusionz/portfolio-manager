@@ -41,10 +41,10 @@ const Portfolio = ({ userId }) => {
 
   return (
     <div className='container mt-4'>
-      <h2 className='mb-4'>Stock Portfolio</h2>
       <table className='table table-striped table-hover'>
         <thead className='thead-dark'>
           <tr>
+            <th scope='col'>Logo</th> {/* Added column for Logo */}
             <th scope='col'>Holding</th>
             <th scope='col'>Shares</th>
             <th scope='col'>Cost per share</th>
@@ -54,7 +54,6 @@ const Portfolio = ({ userId }) => {
             <th scope='col'>Dividend yield</th>
             <th scope='col'>Total profit</th>
             <th scope='col'>Daily</th>
-            <th scope='col'>Logo</th> {/* Added column for Logo */}
           </tr>
         </thead>
         <tbody>
@@ -62,6 +61,16 @@ const Portfolio = ({ userId }) => {
             const details = stockDetails[stock.symbol]; // Access the details from state
             return (
               <tr key={index}>
+                {/* Display logo if available */}
+                <td>
+                  {details?.branding?.logo_url && (
+                    <img
+                      src={`https://assets.parqet.com/logos/symbol/${stock.symbol}`}
+                      alt={`${details.name} logo`}
+                      style={{ width: '50px' }}
+                    />
+                  )}
+                </td>
                 <td>{stock.symbol}</td>
                 <td>{stock.shares}</td>
                 <td>${stock.buyPrice}</td>
@@ -88,16 +97,6 @@ const Portfolio = ({ userId }) => {
                       : 'text-danger'
                   }>
                   ${(stock.currentPrice - stock.buyPrice).toFixed(2)}
-                </td>
-                {/* Display logo if available */}
-                <td>
-                  {details?.branding?.logo_url && (
-                    <img
-                      src={details.branding.logo_url}
-                      alt={`${details.name} logo`}
-                      style={{ width: '50px' }}
-                    />
-                  )}
                 </td>
               </tr>
             );

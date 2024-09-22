@@ -1,7 +1,9 @@
+// src/components/PercentageDifferenceCalculator.js
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './_percentageDifferenceCalculator.scss';
 import { fetchStockSnapshot } from '../../features/stocks/stockThunks';
+import { selectStockSnapshot } from '../../features/stocks/stockSelectors';
 import { setUserSymbol } from '../../features/user/userSlice';
 import {
   formatNumberWithCommas,
@@ -10,35 +12,41 @@ import {
 } from '../../utils/format';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
-import SymbolAutoSuggest from '../shared/SymbolAutoSuggest'; // Using shared SymbolAutoSuggest component
-import { setSymbolAndFetchData } from '../../features/user/userThunks'; // Unified action
+import SymbolAutoSuggest from '../shared/SymbolAutoSuggest';
 
 const PercentageDifferenceCalculator = () => {
-  const symbol = useSelector((state) => state.user.symbol); // Using symbol from Redux
-  const stockPrice = useSelector((state) => state.stocks.data); // Get stock price from Redux
   const dispatch = useDispatch();
 
+  // State selectors
+  const symbol = useSelector((state) => state.user.symbol); // User selected symbol
+  const stockSnapshot = useSelector((state) =>
+    selectStockSnapshot(state, symbol)
+  ); // Fetch stock snapshot data
+
+  // Local state management
   const [targetPrice, setTargetPrice] = useState('');
   const [currentPrice, setCurrentPrice] = useState('');
   const [percentageChange, setPercentageChange] = useState('0.00');
   const [isRotating, setIsRotating] = useState(false);
 
   useEffect(() => {
-    calculatePercentageChange();
-  }, [targetPrice, currentPrice]);
-
-  useEffect(() => {
     if (symbol) {
-      dispatch(setSymbolAndFetchData(symbol)); // Use the unified action
+      dispatch(fetchStockSnapshot(symbol));
     }
   }, [symbol, dispatch]);
 
   useEffect(() => {
-    if (stockPrice) {
-      setCurrentPrice(formatCurrency(stockPrice.toFixed(2))); // Set the strike price based on stock price
+    if (stockSnapshot?.prevDay?.c) {
+      const formattedPrice = formatCurrency(stockSnapshot.prevDay.c.toFixed(2));
+      setCurrentPrice(formattedPrice);
     }
-  }, [stockPrice]);
+  }, [stockSnapshot]);
 
+  useEffect(() => {
+    calculatePercentageChange();
+  }, [targetPrice, currentPrice]);
+
+  // Helper functions
   const calculatePercentageChange = () => {
     if (!currentPrice || !targetPrice) {
       setPercentageChange('0.00');
@@ -53,12 +61,16 @@ const PercentageDifferenceCalculator = () => {
 
   const resetFields = () => {
     setTargetPrice('');
-    setCurrentPrice(formatCurrency(stockPrice.toFixed(2)));
     setPercentageChange('0.00');
+    if (stockSnapshot?.prevDay?.c) {
+      setCurrentPrice(formatCurrency(stockSnapshot.prevDay.c.toFixed(2)));
+    } else {
+      setCurrentPrice('$0.00');
+    }
   };
 
   const onSymbolSelected = (selectedSymbol) => {
-    dispatch(setSymbolAndFetchData(symbol)); // Use the unified action
+    dispatch(setUserSymbol(selectedSymbol));
     resetFields();
   };
 
@@ -72,11 +84,9 @@ const PercentageDifferenceCalculator = () => {
       dispatch(fetchStockSnapshot(symbol))
         .unwrap()
         .then((result) => {
-          if (result.day && result.day.c) {
-            const stockPrice = result.day.c;
-            setCurrentPrice(formatCurrency(stockPrice.toFixed(2)));
+          if (result?.day?.c) {
+            setCurrentPrice(formatCurrency(result.day.c.toFixed(2)));
           } else {
-            console.warn('No price data available');
             setCurrentPrice('$0.00');
           }
           setIsRotating(true);
