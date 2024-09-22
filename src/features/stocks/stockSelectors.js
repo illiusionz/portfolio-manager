@@ -1,34 +1,47 @@
 // src/features/stocks/stockSelectors.js
-import { createSelector } from '@reduxjs/toolkit';
+import { createSelector } from 'reselect';
+
+// Base selector to get the entire stocks state
+export const selectStockState = (state) => state.stocks;
 
 // Selector to get detailed stock information
-export const selectStockDetails = (state, symbol) =>
-  state.stocks.stockDetails[symbol] || {};
+export const selectStockDetails = createSelector(
+  [selectStockState, (_, symbol) => symbol],
+  (stocks, symbol) => stocks.stockDetails[symbol] || {}
+);
 
-// Selector to get the full response data of a specific stock ticker
-//export const selectStockTickerData = (state, ticker) => state.stocks.stockTickerData[ticker] || {};
+// Memoized selector to get the full response data of a specific stock ticker
+export const selectStockSnapshot = createSelector(
+  [selectStockState, (_, ticker) => ticker],
+  (stocks, ticker) => stocks.stockTickerData[ticker] || {}
+);
 
-// Selector to get stock snapshot data for a given ticker
-export const selectStockSnapshot = (state, ticker) =>
-  state.stocks.stockTickerData[ticker] || {};
+// Memoized selector to get all stocks data as a dictionary with tickers as keys
+export const selectAllStockSnapshots = createSelector(
+  [selectStockState],
+  (stocks) => stocks.stockTickerData || {}
+);
 
-// Selector to get stock price
+// Memoized selector to get the stock price using the stock snapshot selector
 export const selectStockPrice = createSelector(
   [selectStockSnapshot],
   (stockSnapshot) => stockSnapshot?.prevDay?.c ?? 0
 );
 
-// Selector to get the 'prevDay' closing price ('c') for a given symbol
+// Memoized selector to get the 'prevDay' closing price ('c') for a given symbol
 export const selectPrevDayClosingPrice = createSelector(
   [selectStockSnapshot],
-  (stockData) => stockData?.prevDay?.c ?? null
+  (stockSnapshot) => stockSnapshot?.prevDay?.c ?? null
 );
 
-// Selector to get a specific field of a stock's data
+// Memoized selector to get a specific field of a stock's data
 export const selectStockField = createSelector(
   [selectStockSnapshot, (_, field) => field],
-  (stockData, field) => (stockData ? stockData[field] : null)
+  (stockSnapshot, field) => (stockSnapshot ? stockSnapshot[field] : null)
 );
 
 // Selector to get any error in the stocks slice
-export const selectStockError = (state) => state.stocks.error;
+export const selectStockError = createSelector(
+  [selectStockState],
+  (stocks) => stocks.error
+);

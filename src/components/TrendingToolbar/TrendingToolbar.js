@@ -10,7 +10,7 @@ import './TrendingToolbar.scss';
 import StockHoverPopup from '../StockHoverPopup/StockHoverPopup';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBatchStockSnapshots } from '../../features/stocks/stockThunks';
-import { selectStockSnapshot } from '../../features/stocks/stockSelectors';
+import { selectAllStockSnapshots } from '../../features/stocks/stockSelectors';
 
 const TrendingToolbar = () => {
   const dispatch = useDispatch();
@@ -32,7 +32,6 @@ const TrendingToolbar = () => {
     'GOOG',
     'SHOP',
     'AFRM',
-    'GME',
     'ADBE',
     'TSLA',
     'MSFT',
@@ -93,13 +92,8 @@ const TrendingToolbar = () => {
   // Combine both index and manual stock tickers
   const allTickers = [...indexTickers, ...manualStocks];
 
-  // Select stock data from Redux store
-  const stockData = useSelector((state) => {
-    return allTickers.reduce((acc, symbol) => {
-      acc[symbol] = selectStockSnapshot(state, symbol);
-      return acc;
-    }, {});
-  });
+  // Select all stock data from Redux store using memoized selector
+  const stockData = useSelector(selectAllStockSnapshots);
 
   // Fetch batched stock data on component mount
   useEffect(() => {
@@ -129,7 +123,6 @@ const TrendingToolbar = () => {
 
   const handlePopupMouseEnter = () => {
     if (hoverTimeout) clearTimeout(hoverTimeout);
-    setHoveredStock(null);
     setIsPaused(true); // Pause the animation
   };
 
@@ -141,7 +134,9 @@ const TrendingToolbar = () => {
   };
 
   // Render each stock item with proper styling and data
-  const renderTrendingStock = (stock, index) => {
+  const renderTrendingStock = (symbol, index) => {
+    const stock = stockData[symbol];
+
     if (!stock) return null;
     const changePercent = stock?.todaysChangePerc?.toFixed(2);
     const changeClass = changePercent >= 0 ? 'positive' : 'negative';
@@ -149,7 +144,7 @@ const TrendingToolbar = () => {
 
     return (
       <div
-        key={`${stock.ticker}-${index}`}
+        key={`${symbol}-${index}`}
         className={`stock-item ${changeClass}`}
         onMouseEnter={(e) => handleMouseEnter(stock, e)}
         onMouseLeave={handleMouseLeave}>
@@ -166,7 +161,8 @@ const TrendingToolbar = () => {
     );
   };
 
-  const renderIndexStock = (stock, index) => {
+  const renderIndexStock = (symbol, index) => {
+    const stock = stockData[symbol];
     if (!stock) return null;
     const price = stock?.day?.c?.toFixed(2);
     const changePercent = stock?.todaysChangePerc?.toFixed(2);
@@ -174,9 +170,7 @@ const TrendingToolbar = () => {
     const arrowIcon = changePercent >= 0 ? faArrowUp : faArrowDown;
 
     return (
-      <div
-        key={`${stock.ticker}-${index}`}
-        className={`stock-item ${changeClass}`}>
+      <div key={`${symbol}-${index}`} className={`stock-item ${changeClass}`}>
         <span className='stock-symbol'>{stock.ticker}</span>
         {showPercentChange ? (
           <>
@@ -204,18 +198,15 @@ const TrendingToolbar = () => {
         />
       </div>
       <div className='index-data'>
-        {indexTickers.map((symbol) =>
-          renderIndexStock(stockData[symbol], symbol)
-        )}
+        {indexTickers.map((symbol) => renderIndexStock(symbol))}
+
         <span className='trending-label text-secondary'>
           Trending <FontAwesomeIcon icon={faCircleInfo} />
         </span>
       </div>
       <div className='trending-stocks'>
         <div className='scroll-container'>
-          {manualStocks.map((symbol) =>
-            renderTrendingStock(stockData[symbol], symbol)
-          )}
+          {manualStocks.map((symbol) => renderTrendingStock(symbol))}
         </div>
       </div>
       {hoveredStock && (
