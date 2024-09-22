@@ -2,11 +2,11 @@
 import { debounce } from 'lodash';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { setStockTickerData, setStockDetails } from './stockSlice';
 
 const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 
 // Thunk to fetch stock snapshot data and ensure correct structure
+//https://polygon.io/docs/stocks/get_v2_snapshot_locale_us_markets_stocks_tickers__stocksticker
 export const fetchStockSnapshot = createAsyncThunk(
   'stocks/fetchStockSnapshot',
   async (symbol, { rejectWithValue }) => {
