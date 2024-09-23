@@ -10,7 +10,12 @@ import './TrendingToolbar.scss';
 import StockHoverPopup from '../StockHoverPopup/StockHoverPopup';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBatchStockSnapshots } from '../../features/stocks/stockThunks';
-import { selectAllStockSnapshots } from '../../features/stocks/stockSelectors';
+import {
+  selectAllStockSnapshots,
+  selectTrendingToolbarSymbols,
+  selectIndexToolbarSymbols,
+  selectStockError,
+} from '../../features/stocks/stockSelectors';
 
 const TrendingToolbar = () => {
   const dispatch = useDispatch();
@@ -26,79 +31,21 @@ const TrendingToolbar = () => {
   let hoverTimeout = null;
   const toolbarRef = useRef(null);
 
-  const manualStocks = [
-    'AAPL',
-    'AMZN',
-    'GOOG',
-    'SHOP',
-    'AFRM',
-    'ADBE',
-    'TSLA',
-    'MSFT',
-    'NVDA',
-    'AMD',
-    'PYPL',
-    'NFLX',
-    'SNAP',
-    'SPOT',
-    'PINS',
-    'TSM',
-    'UBER',
-    'LYFT',
-    'SQ',
-    'ROKU',
-    'CRWD',
-    'DOCU',
-    'META',
-    'PLTR',
-    'AVGO',
-    'OKTA',
-    'RIVN',
-    'PDD',
-    'DDOG',
-    'AMC',
-    'BA',
-    'BABA',
-    'BAC',
-    'C',
-    'DIS',
-    'F',
-    'GE',
-    'GME',
-    'GS',
-    'HD',
-    'IBM',
-    'INTC',
-    'JNJ',
-    'JPM',
-    'KO',
-    'MCD',
-    'SMCI',
-    'HOOD',
-    'OXY',
-    'NKE',
-    'PFE',
-    'PG',
-    'MRVL',
-    'UNH',
-    'V',
-    'VZ',
-    'WBA',
-    'ARM',
-    'XOM',
-  ];
-  const indexTickers = ['SPY', 'QQQ', 'IWM', 'DIA'];
+  const trendingSymbols = useSelector(selectTrendingToolbarSymbols);
+  const indexSymbols = useSelector(selectIndexToolbarSymbols);
+  const stockData = useSelector(selectAllStockSnapshots);
+  const stockError = useSelector(selectStockError);
 
   // Combine both index and manual stock tickers
-  const allTickers = [...indexTickers, ...manualStocks];
-
-  // Select all stock data from Redux store using memoized selector
-  const stockData = useSelector(selectAllStockSnapshots);
+  const allTickers = [...indexSymbols, ...trendingSymbols];
 
   // Fetch batched stock data on component mount
+  // Fetch batched stock data on component mount, only if data is not already available
   useEffect(() => {
-    dispatch(fetchBatchStockSnapshots(allTickers));
-  }, [dispatch, allTickers]);
+    if (Object.keys(stockData).length === 0) {
+      dispatch(fetchBatchStockSnapshots(allTickers));
+    }
+  }, [dispatch, allTickers, stockData]);
 
   // Handle mouse enter event for stock items
   const handleMouseEnter = (stock, event) => {
@@ -198,7 +145,7 @@ const TrendingToolbar = () => {
         />
       </div>
       <div className='index-data'>
-        {indexTickers.map((symbol) => renderIndexStock(symbol))}
+        {indexSymbols.map((symbol) => renderIndexStock(symbol))}
 
         <span className='trending-label text-secondary'>
           Trending <FontAwesomeIcon icon={faCircleInfo} />
@@ -206,7 +153,7 @@ const TrendingToolbar = () => {
       </div>
       <div className='trending-stocks'>
         <div className='scroll-container'>
-          {manualStocks.map((symbol) => renderTrendingStock(symbol))}
+          {trendingSymbols.map((symbol) => renderTrendingStock(symbol))}
         </div>
       </div>
       {hoveredStock && (

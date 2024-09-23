@@ -4,6 +4,24 @@ import { createSelector } from 'reselect';
 // Base selector to get the entire stocks state
 export const selectStockState = (state) => state.stocks;
 
+// Memoized selector to get all stocks data as a dictionary with tickers as keys
+export const selectAllStockSnapshots = createSelector(
+  [selectStockState],
+  (stocks) => stocks.stockTickerData || {}
+);
+
+// Select symbols for the Trending Toolbar
+export const selectTrendingToolbarSymbols = createSelector(
+  [selectStockState],
+  (stocks) => stocks.trendingToolbarSymbols || []
+);
+
+// Select symbols for the Index Toolbar
+export const selectIndexToolbarSymbols = createSelector(
+  [selectStockState],
+  (stocks) => stocks.indexToolbarSymbols || []
+);
+
 // Selector to get detailed stock information
 export const selectStockDetails = createSelector(
   [selectStockState, (_, symbol) => symbol],
@@ -14,12 +32,6 @@ export const selectStockDetails = createSelector(
 export const selectStockSnapshot = createSelector(
   [selectStockState, (_, ticker) => ticker],
   (stocks, ticker) => stocks.stockTickerData[ticker] || {}
-);
-
-// Memoized selector to get all stocks data as a dictionary with tickers as keys
-export const selectAllStockSnapshots = createSelector(
-  [selectStockState],
-  (stocks) => stocks.stockTickerData || {}
 );
 
 // Memoized selector to get the stock price using the stock snapshot selector
