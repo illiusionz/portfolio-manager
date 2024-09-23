@@ -1,34 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
+// src/components/NewsFeed/NewsFeed.js
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchNews } from '../../features/news/newsThunks';
+import {
+  selectNewsArticles,
+  selectNewsLoading,
+  selectNewsError,
+} from '../../features/news/newsSelectors';
 import './NewsFeed.scss';
 
 const NewsFeed = () => {
-  const [news, setNews] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const { symbol } = useSelector((state) => state.user);
-  const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
+  const dispatch = useDispatch();
+  const symbol = useSelector((state) => state.user.symbol);
+  const articles = useSelector(selectNewsArticles);
+  const loading = useSelector(selectNewsLoading);
+  const error = useSelector(selectNewsError);
 
   useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const response = await axios.get(
-          `https://api.polygon.io/v2/reference/news?ticker=${symbol}&limit=12&apiKey=${apiKey}`
-        );
-        setNews(response.data.results);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching news:', error);
-        setError('Failed to fetch news');
-        setLoading(false);
-      }
-    };
-
-    if (symbol) {
-      fetchNews();
+    if (symbol && !articles[symbol]) {
+      dispatch(fetchNews({ symbol }));
     }
-  }, [symbol, apiKey]);
+  }, [dispatch, symbol, articles]);
 
   if (loading) {
     return <div>Loading news...</div>;
@@ -38,9 +30,13 @@ const NewsFeed = () => {
     return <div className='error'>{error}</div>;
   }
 
+  if (!articles[symbol] || articles[symbol].length === 0) {
+    return <div>No news available.</div>;
+  }
+
   return (
     <div className='news-feed'>
-      {news.map((article, index) => (
+      {articles[symbol]?.map((article, index) => (
         <a
           key={index}
           className='news-item'
