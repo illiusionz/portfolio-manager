@@ -11,16 +11,16 @@ import './NewsFeed.scss';
 
 const NewsFeed = () => {
   const dispatch = useDispatch();
-  const symbol = useSelector((state) => state.user.symbol);
+  const userSymbol = useSelector((state) => state.user.userSymbol);
   const articles = useSelector(selectNewsArticles);
   const loading = useSelector(selectNewsLoading);
   const error = useSelector(selectNewsError);
 
   useEffect(() => {
-    if (symbol && !articles[symbol]) {
-      dispatch(fetchNews({ symbol }));
+    if (userSymbol && !articles[userSymbol]) {
+      dispatch(fetchNews({ userSymbol }));
     }
-  }, [dispatch, symbol, articles]);
+  }, [dispatch, userSymbol, articles]);
 
   if (loading) {
     return <div>Loading news...</div>;
@@ -30,13 +30,13 @@ const NewsFeed = () => {
     return <div className='error'>{error}</div>;
   }
 
-  if (!articles[symbol] || articles[symbol].length === 0) {
+  if (!articles[userSymbol] || articles[userSymbol].length === 0) {
     return <div>No news available.</div>;
   }
 
   return (
     <div className='news-feed'>
-      {articles[symbol]?.map((article, index) => (
+      {articles[userSymbol]?.map((article, index) => (
         <a
           key={index}
           className='news-item'

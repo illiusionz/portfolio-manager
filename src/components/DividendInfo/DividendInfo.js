@@ -8,7 +8,7 @@ import SymbolAutoSuggest from '../shared/SymbolAutoSuggest'; // Import the share
 import './DividendInfo.scss';
 
 const DividendInfo = () => {
-  const symbol = useSelector((state) => state.user.symbol); // Get the selected symbol from the state
+  const userSymbol = useSelector((state) => state.user.userSymbol); // Get the selected symbol from the state
   const watchlist = useSelector((state) => state.watchlist.symbols); // Get the watchlist from the state
   const [dividends, setDividends] = useState([]);
   const [numberOfShares, setNumberOfShares] = useState('');
@@ -22,7 +22,7 @@ const DividendInfo = () => {
     const fetchDividends = async () => {
       try {
         const response = await axios.get(
-          `https://api.polygon.io/v3/reference/dividends?ticker=${symbol}&apiKey=${apiKey}`
+          `https://api.polygon.io/v3/reference/dividends?ticker=${userSymbol}&apiKey=${apiKey}`
         );
         setDividends(response.data.results || []);
       } catch (error) {
@@ -30,10 +30,10 @@ const DividendInfo = () => {
       }
     };
 
-    if (symbol) {
+    if (userSymbol) {
       fetchDividends();
     }
-  }, [symbol]);
+  }, [userSymbol]);
 
   // Handle the selection of a new stock symbol
   const handleSymbolSelection = (selectedSymbol) => {
@@ -55,7 +55,7 @@ const DividendInfo = () => {
 
   const handleCalculate = () => {
     const selectedDividend = dividends.find(
-      (dividend) => dividend.ticker === symbol.toUpperCase()
+      (dividend) => dividend.ticker === userSymbol.toUpperCase()
     );
     if (selectedDividend && numberOfShares) {
       const totalDividend =
@@ -97,7 +97,7 @@ const DividendInfo = () => {
             <label htmlFor='watchlist'>Watchlist: </label>
             <select
               className='form-control'
-              value={symbol || ''}
+              value={userSymbol || ''}
               onChange={handleWatchlistSelectChange}>
               <option value='' disabled>
                 Select a Stock from Watchlist

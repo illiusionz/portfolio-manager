@@ -5,6 +5,7 @@ import { fetchStocks } from '../../features/stocks/stockThunks'; // Fetch stock 
 import { selectStockError } from '../../features/stocks/stockSelectors'; // Stock selectors
 import { selectNewsError } from '../../features/news/newsSelectors'; // News selectors
 import TradingViewWidget from '../../components/TradingViewWidget'; // Remove lazy loading temporarily
+import { selectUserState } from '../../features/user/userSelectors'; // Use appropriate selector
 
 // Lazy loading components
 const CompoundInterestCalculator = lazy(() =>
@@ -41,9 +42,12 @@ const PortfolioValueCard = lazy(() =>
 );
 
 const HomePage = () => {
-  const symbol = useSelector((state) => state.user.symbol); // Using symbol from Redux
+  const userSymbol = useSelector((state) => state.user.userSymbol); // Using symbol from Redux
   const newsError = useSelector(selectNewsError); // Use news error selector
   const stockError = useSelector(selectStockError); // Use stock error selector
+  const userState = useSelector(selectUserState);
+  console.log('User State:', userState);
+
   const dispatch = useDispatch();
 
   const totalValue = 123456.78; // Example total portfolio value
@@ -56,14 +60,14 @@ const HomePage = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (symbol) {
-      console.log('Dispatching setSymbolAndFetchData for symbol:', symbol);
-      dispatch(setSymbolAndFetchData(symbol)); // No need for a delay if Redux ensures readiness
+    if (userSymbol) {
+      console.log('Dispatching setSymbolAndFetchData for symbol:', userSymbol);
+      dispatch(setSymbolAndFetchData(userSymbol)); // No need for a delay if Redux ensures readiness
       setIsSymbolValid(true);
     } else {
       setIsSymbolValid(false);
     }
-  }, [dispatch, symbol]);
+  }, [dispatch, userSymbol]);
 
   useEffect(() => {
     if (isSymbolValid) {
@@ -84,7 +88,7 @@ const HomePage = () => {
           {isSymbolValid ? (
             <Suspense fallback={<div>Loading...</div>}>
               {showWidget ? (
-                <TradingViewWidget symbol={symbol} />
+                <TradingViewWidget symbol={userSymbol} />
               ) : (
                 <div className='spinner-border' role='status'>
                   <span className='visually-hidden'>Loading...</span>

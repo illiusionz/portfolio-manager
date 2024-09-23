@@ -6,10 +6,10 @@ import { fetchWatchlistData } from '../watchlist/watchlistThunks';
 
 export const setSymbolAndFetchData = createAsyncThunk(
   'user/setSymbolAndFetchData',
-  async (symbol, { dispatch }) => {
-    dispatch(setUserSymbol(symbol));
-    await dispatch(fetchStockSnapshot(symbol));
-    await dispatch(fetchNews(symbol));
-    await dispatch(fetchWatchlistData([symbol]));
+  async (userSymbol, { dispatch }) => {
+    dispatch(setUserSymbol(userSymbol));
+    await dispatch(fetchStockSnapshot(userSymbol));
+    await dispatch(fetchNews(userSymbol));
+    await dispatch(fetchWatchlistData([userSymbol]));
   }
 );

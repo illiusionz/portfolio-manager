@@ -50,8 +50,7 @@ function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme);
-  const reduxSymbol = useSelector((state) => state.user.symbol); // Get the symbol from Redux state
-
+  const reduxSymbol = useSelector((state) => state.user.userSymbol); // Get the symbol from Redux state
   const [symbol, setSymbol] = useState(
     localStorage.getItem('lastStock') || 'AAPL'
   ); // Initialize with localStorage or default to AAPL

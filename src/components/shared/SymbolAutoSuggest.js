@@ -7,7 +7,7 @@ import './SymbolAutoSuggest.scss';
 
 const SymbolAutoSuggest = () => {
   const dispatch = useDispatch();
-  const selectedSymbol = useSelector((state) => state.user.symbol); // Redux state for the selected symbol
+  const selectedSymbol = useSelector((state) => state.user.userSymbol); // Redux state for the selected symbol
   const [query, setQuery] = useState(''); // Local state for the input value
   const [suggestions, setSuggestions] = useState([]);
   const apiKey = process.env.REACT_APP_POLYGON_API_KEY;

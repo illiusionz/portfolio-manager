@@ -17,15 +17,15 @@ const newsSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchNews.fulfilled, (state, action) => {
-        const { symbol, results } = action.payload;
+        const { userSymbol, results } = action.payload;
         state.loading = false;
-        state.articles[symbol] = results; // Store results by symbol
+        state.articles[userSymbol] = results; // Store results by symbol
         state.error = null;
       })
       .addCase(fetchNews.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        state.articles[action.meta.arg.symbol] = []; // Fallback to empty array on error
+        state.articles[action.meta.arg.userSymbol] = []; // Fallback to empty array on error
       });
   },
 });

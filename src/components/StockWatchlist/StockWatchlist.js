@@ -1,45 +1,34 @@
-import React, { useEffect, useState } from 'react';
+// src/components/StockWatchlist/StockWatchlist.js
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeFromWatchlist } from '../../features/watchlist/watchlistSlice'; // Updated path
-import axios from 'axios';
+import {
+  removeFromWatchlist,
+  addToWatchlist,
+} from '../../features/watchlist/watchlistSlice';
+import {
+  selectWatchlistSymbols,
+  selectWatchlistData,
+  selectWatchlistLoading,
+  selectWatchlistError,
+} from '../../features/watchlist/watchlistSelectors';
+import { fetchWatchlistData } from '../../features/watchlist/watchlistThunks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import './StockWatchlist.scss';
 
-const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
-
 const StockWatchlist = () => {
   const dispatch = useDispatch();
-  const watchlist = useSelector((state) => state.watchlist.symbols);
-  const [stockData, setStockData] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const watchlistSymbols = useSelector(selectWatchlistSymbols);
+  const watchlistData = useSelector(selectWatchlistData);
+  const loading = useSelector(selectWatchlistLoading);
+  const error = useSelector(selectWatchlistError);
   const theme = useSelector((state) => state.theme);
 
   useEffect(() => {
-    const fetchStockData = async (symbol) => {
-      try {
-        const url = `https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers/${symbol}?apiKey=${apiKey}`;
-        const response = await axios.get(url);
-        setStockData((prevData) => ({
-          ...prevData,
-          [symbol]: response.data.ticker,
-        }));
-      } catch (error) {
-        console.error('Error fetching stock data:', error);
-        setError('Failed to fetch stock data.');
-      }
-    };
-
-    if (watchlist.length > 0) {
-      setLoading(true);
-      const fetchData = async () => {
-        await Promise.all(watchlist.map((symbol) => fetchStockData(symbol)));
-        setLoading(false);
-      };
-      fetchData();
+    if (watchlistSymbols.length > 0) {
+      dispatch(fetchWatchlistData(watchlistSymbols));
     }
-  }, [watchlist]);
+  }, [dispatch, watchlistSymbols]);
 
   const handleRemove = (symbol) => {
     dispatch(removeFromWatchlist(symbol));
@@ -54,7 +43,7 @@ const StockWatchlist = () => {
         {error && <div className='error'>{error}</div>}
         {loading ? (
           <p>Loading data...</p>
-        ) : watchlist.length === 0 ? (
+        ) : watchlistSymbols.length === 0 ? (
           <p>No stocks in watchlist</p>
         ) : (
           <table
@@ -72,8 +61,8 @@ const StockWatchlist = () => {
               </tr>
             </thead>
             <tbody>
-              {watchlist.map((symbol) => {
-                const data = stockData[symbol] || {};
+              {watchlistSymbols.map((symbol) => {
+                const data = watchlistData[symbol] || {};
                 const { day, prevDay } = data;
 
                 const lastPrice = day ? day.c : '';
