@@ -1,0 +1,14 @@
+/* src/components/TopMovers/TopMovers.css */
+.nav-link {
+  cursor: pointer;
+}
+.percentage {
+  color: green; /* Adjust color as needed */
+}
+.percentage.negative {
+  color: red;
+}
+
+.pagination {
+  margin: 1rem 0;
+}

@@ -1,0 +1,44 @@
+.MuiBox-root {
+  background-color: var(--card-background-color)!important;
+  border: 1px solid var(--border-color)!important;
+  width:100%!important;
+  border-radius: var( --border-radius);
+}
+
+.MuiCalendarPicker-root {
+  width:100%!important;
+}
+
+.MuiPickersCalendarHeader-label  {
+  color: var(--card-title-color);
+}
+
+.MuiCalendarPicker-root div[role="row"]{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.MuiCalendarPicker-root div[role="grid"] {
+  padding: 1rem 2rem;
+}
+
+.MuiCalendarPicker-viewTransitionContainer {
+  overflow-y:hidden!important;
+}
+
+.MuiPickersDay-root {
+  background-color: var(--body-background)!important;
+  color:var(--text-color)!important;
+  font-weight: 500!important;
+  font-size: 14px!important;
+}
+
+.MuiPickersArrowSwitcher-button svg {
+  color: var(--text-color)!important;
+}
+
+.Mui-selected {
+  background-color: var(--primary-color)!important;
+  color: #fff!important;
+}
+

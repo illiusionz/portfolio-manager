@@ -1,13 +1,8 @@
 // src/components/DividendInfo/DividendInfo.js
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  formatNumberWithCommas,
-  formatCurrency,
-  parseCurrency,
-} from '../../utils/format';
+import { formatNumberWithCommas, parseCurrency } from '../../utils/format';
 import { setUserSymbol } from '../../features/user/userSlice'; // Updated path
-import { fetchStockSnapshot } from '../../features/stocks/stockThunks'; // Updated path
 import axios from 'axios';
 import SymbolAutoSuggest from '../shared/SymbolAutoSuggest'; // Import the shared SymbolAutoSuggest component
 import './DividendInfo.scss';
