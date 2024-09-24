@@ -8,7 +8,6 @@ const userSlice = createSlice({
     userHoverSymbol: '', // The stock symbol that the user is currently hovering over
     userStockPrice: null, // The last fetched stock price for the selected symbol
     userTheme: null, // The user's selected theme
-    userWatchlist: JSON.parse(localStorage.getItem('userWatchlist')) || [], // Initialize from localStorage
   },
   reducers: {
     setUserSymbol(state, action) {
@@ -22,22 +21,6 @@ const userSlice = createSlice({
     },
     setUserTheme(state, action) {
       state.userTheme = action.payload;
-    },
-    addToWatchlist(state, action) {
-      state.userWatchlist.push(action.payload);
-      localStorage.setItem(
-        'userWatchlist',
-        JSON.stringify(state.userWatchlist)
-      ); // Save to localStorage
-    },
-    removeFromWatchlist(state, action) {
-      state.userWatchlist = state.userWatchlist.filter(
-        (symbol) => symbol !== action.payload
-      );
-      localStorage.setItem(
-        'userWatchlist',
-        JSON.stringify(state.userWatchlist)
-      ); // Update localStorage
     },
   },
   extraReducers: (builder) => {

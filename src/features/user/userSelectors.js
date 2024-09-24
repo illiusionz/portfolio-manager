@@ -17,8 +17,3 @@ export const selectUserStockPrice = createSelector(
   (state) => state.user,
   (user) => user.userStockPrice
 );
-
-export const selectUserWatchlist = createSelector(
-  (state) => state.user,
-  (user) => user.userWatchlist
-);

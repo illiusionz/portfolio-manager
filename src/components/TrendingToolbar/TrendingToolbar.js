@@ -39,7 +39,6 @@ const TrendingToolbar = () => {
   // Combine both index and manual stock tickers
   const allTickers = [...indexSymbols, ...trendingSymbols];
 
-  // Fetch batched stock data on component mount
   // Fetch batched stock data on component mount, only if data is not already available
   useEffect(() => {
     if (Object.keys(stockData).length === 0) {
