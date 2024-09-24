@@ -4,12 +4,12 @@ import { createSlice } from '@reduxjs/toolkit';
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-    symbol: '',
+    userSymbol: '',
     stockPrice: null,
   },
   reducers: {
     setUserSymbol(state, action) {
-      state.symbol = action.payload;
+      state.userSymbol = action.payload;
     },
   },
   extraReducers: (builder) => {
