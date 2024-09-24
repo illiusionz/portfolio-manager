@@ -14,7 +14,6 @@ import {
   selectAllStockSnapshots,
   selectTrendingToolbarSymbols,
   selectIndexToolbarSymbols,
-  selectStockError,
 } from '../../features/stocks/stockSelectors';
 
 const TrendingToolbar = () => {
@@ -34,7 +33,6 @@ const TrendingToolbar = () => {
   const trendingSymbols = useSelector(selectTrendingToolbarSymbols);
   const indexSymbols = useSelector(selectIndexToolbarSymbols);
   const stockData = useSelector(selectAllStockSnapshots);
-  const stockError = useSelector(selectStockError);
 
   // Combine both index and manual stock tickers
   const allTickers = [...indexSymbols, ...trendingSymbols];
@@ -42,10 +40,8 @@ const TrendingToolbar = () => {
   // Fetch batched stock data on component mount
   // Fetch batched stock data on component mount, only if data is not already available
   useEffect(() => {
-    if (Object.keys(stockData).length === 0) {
-      dispatch(fetchBatchStockSnapshots(allTickers));
-    }
-  }, [dispatch, allTickers, stockData]);
+    dispatch(fetchBatchStockSnapshots(allTickers));
+  }, []);
 
   // Handle mouse enter event for stock items
   const handleMouseEnter = (stock, event) => {
