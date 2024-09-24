@@ -52,7 +52,7 @@ function App() {
   const theme = useSelector((state) => state.theme);
   const reduxSymbol = useSelector((state) => state.user.userSymbol); // Get the symbol from Redux state
 
-  const [symbol, setSymbol] = useState(
+  const [userSymbol, setSymbol] = useState(
     localStorage.getItem('lastStock') || 'AAPL'
   ); // Initialize with localStorage or default to AAPL
 
@@ -71,13 +71,13 @@ function App() {
     if (!reduxSymbol) {
       // Dispatch the default symbol if not present
       console.log('Setting default symbol: AAPL');
-      dispatch(setUserSymbol(symbol));
+      dispatch(setUserSymbol(userSymbol));
     }
 
-    console.log('Fetching data for symbol:', symbol);
+    console.log('Fetching data for symbol:', userSymbol);
 
-    dispatch(fetchStocks(symbol));
-    dispatch(fetchStockSnapshot(symbol));
+    dispatch(fetchStocks(userSymbol));
+    dispatch(fetchStockSnapshot(userSymbol));
   }, []);
 
   const handleSymbolSearch = (query) => {
