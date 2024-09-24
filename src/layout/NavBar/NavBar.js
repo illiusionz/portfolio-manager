@@ -15,7 +15,7 @@ import { setSymbolAndFetchData } from '../../features/user/userThunks'; // Unifi
 import { addToWatchlist } from '../../features/watchlist/watchlistSlice'; // Corrected path
 
 const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
-  const symbol = useSelector((state) => state.user.symbol); // Get the selected symbol from Redux
+  const userSymbol = useSelector((state) => state.user.userSymbol); // Get the selected symbol from Redux
   const theme = useSelector((state) => state.theme);
   const watchlist = useSelector((state) => state.watchlist.symbols);
 
@@ -31,14 +31,14 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (symbol) {
-      dispatch(setSymbolAndFetchData(symbol)); // Unified action to fetch and sync symbol
+    if (userSymbol) {
+      dispatch(setSymbolAndFetchData(userSymbol)); // Unified action to fetch and sync symbol
     }
   };
 
   const onAddToWatchlist = () => {
-    if (symbol && !watchlist.includes(symbol)) {
-      dispatch(addToWatchlist(symbol));
+    if (userSymbol && !watchlist.includes(userSymbol)) {
+      dispatch(addToWatchlist(userSymbol));
     }
   };
 

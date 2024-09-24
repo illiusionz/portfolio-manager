@@ -18,8 +18,10 @@ const OptionPremiumCalculator = () => {
   const dispatch = useDispatch();
 
   // State selectors
-  const symbol = useSelector((state) => state.user.symbol); // Selected symbol
-  const currentPrice = useSelector((state) => selectStockPrice(state, symbol)); // Fetch stock price
+  const userSymbol = useSelector((state) => state.user.userSymbol); // Selected symbol
+  const currentPrice = useSelector((state) =>
+    selectStockPrice(state, userSymbol)
+  ); // Fetch stock price
 
   // Local state management
   const [strikePrice, setStrikePrice] = useState('');
@@ -33,10 +35,10 @@ const OptionPremiumCalculator = () => {
 
   // Fetch stock data when the symbol changes
   useEffect(() => {
-    if (symbol) {
-      dispatch(fetchStockSnapshot(symbol));
+    if (userSymbol) {
+      dispatch(fetchStockSnapshot(userSymbol));
     }
-  }, [symbol, dispatch]);
+  }, [userSymbol, dispatch]);
 
   // Set the initial strike price based on current stock price
   useEffect(() => {
@@ -103,12 +105,12 @@ const OptionPremiumCalculator = () => {
 
   // Handle refreshing the current price
   const refreshCurrentPrice = () => {
-    if (!symbol) {
+    if (!userSymbol) {
       console.warn('No symbol selected for refresh');
       return;
     }
 
-    dispatch(fetchStockSnapshot(symbol))
+    dispatch(fetchStockSnapshot(userSymbol))
       .unwrap()
       .then((result) => {
         if (result?.prevDay?.c) {
