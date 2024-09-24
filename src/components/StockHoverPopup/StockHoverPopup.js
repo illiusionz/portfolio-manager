@@ -36,6 +36,21 @@ const StockHoverPopup = React.memo(
       console.log(`Added ${stock.ticker} to watchlist`);
     };
 
+    const truncateText = (text, maxLength) => {
+      if (!text) return '';
+      if (text.length <= maxLength) return text;
+      return text.slice(0, maxLength) + '...';
+    };
+
+    const truncateName = (name) => {
+      if (!name) return '';
+      const cutOffIndex = Math.min(
+        name.indexOf('.') > -1 ? name.indexOf('.') : name.length,
+        name.indexOf(',') > -1 ? name.indexOf(',') : name.length
+      );
+      return name.substring(0, cutOffIndex);
+    };
+
     return (
       <div
         ref={popupRef}
@@ -45,14 +60,14 @@ const StockHoverPopup = React.memo(
         <div className='popup-header'>
           <div className='popup-ticker'>
             <span className='stock-symbol'>{stock.ticker}</span>
-            <span className='stock-name'>{stock.name}</span>
+            <span className='stock-name'>{truncateName(stock.name)}</span>
           </div>
           <button className='watch-button' onClick={handleAddToWatchlist}>
             Watch
           </button>
         </div>
         <div className='popup-price'>
-          <span className='stock-price'>${stock.price}</span>
+          <span className='stock-price'>${stock.prevDay.c}</span>
           <span className={`price-change ${changeClass}`}>
             <FontAwesomeIcon icon={arrowIcon} /> {stock.priceChange} (
             {changePercent}%)
@@ -63,7 +78,7 @@ const StockHoverPopup = React.memo(
           <div className='line-chart'></div>
         </div>
         <div className='popup-description'>
-          {stock.description || 'No description available.'}
+          {truncateText(stock.description, 200) || 'No description available.'}
         </div>
       </div>
     );

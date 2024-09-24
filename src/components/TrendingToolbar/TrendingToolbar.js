@@ -9,12 +9,17 @@ import {
 import './TrendingToolbar.scss';
 import StockHoverPopup from '../StockHoverPopup/StockHoverPopup';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchBatchStockSnapshots } from '../../features/stocks/stockThunks';
+import {
+  fetchBatchStockSnapshots,
+  fetchStockDetails,
+} from '../../features/stocks/stockThunks';
 import {
   selectAllStockSnapshots,
   selectTrendingToolbarSymbols,
   selectIndexToolbarSymbols,
+  selectStockDetails,
 } from '../../features/stocks/stockSelectors';
+import { setUserHoveredSymbol } from '../../features/user/userSlice'; // Import the new action
 
 const TrendingToolbar = () => {
   const dispatch = useDispatch();
@@ -34,6 +39,23 @@ const TrendingToolbar = () => {
   const indexSymbols = useSelector(selectIndexToolbarSymbols);
   const stockData = useSelector(selectAllStockSnapshots);
 
+  // Get detailed stock information for hovered stock
+  const stockDetails = useSelector((state) =>
+    selectStockDetails(state, hoveredStock?.ticker)
+  );
+
+  // Access user state
+  const userState = useSelector((state) => state.user);
+
+  // Access stocks state
+  const stocksState = useSelector((state) => state.stocks);
+
+  // Debug logs to see user and stocks state
+  useEffect(() => {
+    console.log('User State:', userState); // Logs the current user state
+    console.log('Stocks State:', stocksState); // Logs the current stocks state
+  }, []);
+
   // Combine both index and manual stock tickers
   const allTickers = [...indexSymbols, ...trendingSymbols];
 
@@ -45,23 +67,35 @@ const TrendingToolbar = () => {
 
   // Handle mouse enter event for stock items
   const handleMouseEnter = (stock, event) => {
+    console.log('Hovered Stock:', stock); // Debug log
     if (hoverTimeout) clearTimeout(hoverTimeout);
     const stockItemRect = event.currentTarget.getBoundingClientRect();
     setHoveredStock(stock);
+
+    console.log('Dispatching setUserHoveredSymbol with:', stock.ticker);
+    dispatch(setUserHoveredSymbol(stock.ticker)); // Update Redux state with hovered stock using updated action
+
     setHoverPosition({
       top: stockItemRect.top + window.scrollY,
       left: stockItemRect.left + window.scrollX,
       height: stockItemRect.height,
     });
     setIsPaused(true); // Pause the animation
+
+    // Fetch stock details when mouse enters
+    dispatch(fetchStockDetails(stock.ticker));
   };
 
   const handleMouseLeave = () => {
+    console.log('Mouse leave triggered');
     if (hoverTimeout) clearTimeout(hoverTimeout);
     hoverTimeout = setTimeout(() => {
+      if (!hoveredStock) return; // Avoid resetting if mouse enter happened again
+      console.log('Dispatching setUserHoveredSymbol with: null');
       setHoveredStock(null);
+      dispatch(setUserHoveredSymbol(null)); // Clear Redux state using updated action
       setIsPaused(false); // Resume the animation
-    }, 200);
+    }, 400); // Increase delay to check timing issue
   };
 
   const handlePopupMouseEnter = () => {
@@ -71,7 +105,9 @@ const TrendingToolbar = () => {
 
   const handlePopupMouseLeave = () => {
     hoverTimeout = setTimeout(() => {
+      if (!hoveredStock) return; // Only clear if hoveredStock is still not set
       setHoveredStock(null);
+      dispatch(setUserHoveredSymbol(null)); // Clear Redux state using updated action
       setIsPaused(false); // Resume the animation
     }, 200);
   };
@@ -154,7 +190,7 @@ const TrendingToolbar = () => {
       </div>
       {hoveredStock && (
         <StockHoverPopup
-          stock={hoveredStock}
+          stock={{ ...hoveredStock, ...stockDetails }} // Merge stock snapshot and details
           position={hoverPosition}
           onMouseEnter={handlePopupMouseEnter}
           onMouseLeave={handlePopupMouseLeave}
