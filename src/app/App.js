@@ -53,7 +53,7 @@ function App() {
   const reduxSymbol = useSelector((state) => state.user.userSymbol); // Get the symbol from Redux state
 
   const [userSymbol, setSymbol] = useState(
-    localStorage.getItem('lastStock') || 'AAPL'
+    localStorage.getItem('selectedStockSymbol') || 'AAPL'
   ); // Initialize with localStorage or default to AAPL
 
   const toggleSidebar = () => {
