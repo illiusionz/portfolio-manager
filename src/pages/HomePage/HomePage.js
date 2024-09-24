@@ -41,7 +41,7 @@ const PortfolioValueCard = lazy(() =>
 );
 
 const HomePage = () => {
-  const symbol = useSelector((state) => state.user.symbol); // Using symbol from Redux
+  const symbol = useSelector((state) => state.user.userSymbol); // Using symbol from Redux
   const newsError = useSelector(selectNewsError); // Use news error selector
   const stockError = useSelector(selectStockError); // Use stock error selector
   const dispatch = useDispatch();
@@ -52,26 +52,20 @@ const HomePage = () => {
   const [isSymbolValid, setIsSymbolValid] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchStocks()); // Fetch stock data on page load
-  }, [dispatch]);
+    // Fetch initial stock data on page load
+    dispatch(fetchStocks());
 
-  useEffect(() => {
+    // Handle symbol change and validity
     if (symbol) {
       console.log('Dispatching setSymbolAndFetchData for symbol:', symbol);
-      dispatch(setSymbolAndFetchData(symbol)); // No need for a delay if Redux ensures readiness
+      dispatch(setSymbolAndFetchData(symbol));
+      setShowWidget(true);
       setIsSymbolValid(true);
     } else {
       setIsSymbolValid(false);
-    }
-  }, [dispatch, symbol]);
-
-  useEffect(() => {
-    if (isSymbolValid) {
-      setShowWidget(true);
-    } else {
       setShowWidget(false);
     }
-  }, [isSymbolValid]);
+  }, []);
 
   return (
     <div className='container-fluid'>

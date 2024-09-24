@@ -7,6 +7,17 @@ import watchlistReducer from '../features/watchlist/watchlistSlice';
 import themeReducer from '../features/theme/themeSlice';
 import portfolioReducer from '../features/portfolio/portfolioSlice';
 
+const loggerMiddleware = (storeAPI) => (next) => (action) => {
+  const result = next(action);
+  if (action.type.startsWith('user/')) {
+    console.log('User state after action:', storeAPI.getState().user);
+  }
+  if (action.type.startsWith('stocks/')) {
+    console.log('Stocks state after action:', storeAPI.getState().stocks);
+  }
+  return result;
+};
+
 const store = configureStore({
   reducer: {
     stocks: stockReducer,
@@ -16,6 +27,8 @@ const store = configureStore({
     theme: themeReducer,
     portfolio: portfolioReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(loggerMiddleware),
 });
 
 export default store;

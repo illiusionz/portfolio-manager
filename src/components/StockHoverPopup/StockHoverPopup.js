@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { addToWatchlist } from '../../features/watchlist/watchlistSlice';
+import StockLineChart from '../StockLineChart/StockLineChart'; // Import the line chart component
+
 import './StockHoverPopup.scss';
 
 const StockHoverPopup = React.memo(
@@ -36,6 +38,21 @@ const StockHoverPopup = React.memo(
       console.log(`Added ${stock.ticker} to watchlist`);
     };
 
+    const truncateText = (text, maxLength) => {
+      if (!text) return '';
+      if (text.length <= maxLength) return text;
+      return text.slice(0, maxLength) + '...';
+    };
+
+    const truncateName = (name) => {
+      if (!name) return '';
+      const cutOffIndex = Math.min(
+        name.indexOf('.') > -1 ? name.indexOf('.') : name.length,
+        name.indexOf(',') > -1 ? name.indexOf(',') : name.length
+      );
+      return name.substring(0, cutOffIndex);
+    };
+
     return (
       <div
         ref={popupRef}
@@ -45,26 +62,29 @@ const StockHoverPopup = React.memo(
         <div className='popup-header'>
           <div className='popup-ticker'>
             <span className='stock-symbol'>{stock.ticker}</span>
-            <span className='stock-name'>{stock.name}</span>
+            <span className='stock-name'>{truncateName(stock.name)}</span>
           </div>
           <button className='watch-button' onClick={handleAddToWatchlist}>
             Watch
           </button>
         </div>
         <div className='popup-price'>
-          <span className='stock-price'>${stock.price}</span>
+          <span className='stock-price'>${stock.prevDay.c}</span>
           <span className={`price-change ${changeClass}`}>
             <FontAwesomeIcon icon={arrowIcon} /> {stock.priceChange} (
             {changePercent}%)
           </span>
         </div>
         <div className='popup-chart'>
-          {/* Placeholder for chart */}
-          <div className='line-chart'></div>
+          {stock.ticker ? (
+            <StockLineChart symbol={stock.ticker} />
+          ) : (
+            <div>No chart data available</div>
+          )}
         </div>
-        <div className='popup-description'>
-          {stock.description || 'No description available.'}
-        </div>
+        <p className='popup-description'>
+          {truncateText(stock.description, 300) || 'No description available.'}
+        </p>
       </div>
     );
   }

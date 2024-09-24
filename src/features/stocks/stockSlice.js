@@ -4,11 +4,16 @@ import {
   fetchStockDetails,
   fetchStockSnapshot,
   fetchBatchStockSnapshots,
+  fetchSymbolSuggestions,
+  fetchHistoricalData,
 } from './stockThunks';
 
 const initialState = {
   stockTickerData: {}, // Store full response data for each stock ticker
   stockDetails: {}, // Store detailed information for each stock
+  historicalData: {}, // Store historical data by ticker
+
+  suggestions: [],
   trendingToolbarSymbols: [
     'AAPL',
     'AMZN',
@@ -115,6 +120,9 @@ const stockSlice = createSlice({
     setIndexSymbols(state, action) {
       state.indexToolbarSymbols = action.payload;
     },
+    clearSuggestions(state) {
+      state.suggestions = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -149,6 +157,26 @@ const stockSlice = createSlice({
       })
       .addCase(fetchBatchStockSnapshots.rejected, (state, action) => {
         state.error = action.payload;
+      })
+      .addCase(fetchSymbolSuggestions.fulfilled, (state, action) => {
+        state.suggestions = action.payload;
+      })
+      .addCase(fetchSymbolSuggestions.rejected, (state, action) => {
+        state.suggestions = [];
+      })
+      .addCase(fetchHistoricalData.fulfilled, (state, action) => {
+        const { symbol, data } = action.payload; // Extract symbol and data from the payload
+        console.log('Symbol:', symbol, 'Data:', data); // Debug log
+
+        state.historicalData[symbol] = data; // Use symbol as key to store data
+      })
+      .addCase(fetchHistoricalData.pending, (state, action) => {
+        const { symbol } = action.meta.arg; // Get symbol from the thunk argument
+        state.historicalData[symbol] = []; // Set default empty array
+      })
+      .addCase(fetchHistoricalData.rejected, (state, action) => {
+        const { symbol } = action.meta.arg; // Get symbol from the thunk argument
+        state.historicalData[symbol] = []; // Set default empty array on error
       });
   },
 });
@@ -162,5 +190,6 @@ export const {
   addIndexSymbol,
   removeIndexSymbol,
   setIndexSymbols,
+  clearSuggestions,
 } = stockSlice.actions;
 export default stockSlice.reducer;

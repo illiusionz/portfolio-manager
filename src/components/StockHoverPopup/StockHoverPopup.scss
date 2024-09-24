@@ -6,13 +6,15 @@
   padding: 15px; // Padding inside the popup
   border-radius: 8px; // Rounded corners
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); // Box shadow for popup
-  min-width: 300px; // Maximum width for popup
-  width: fit-content; // Fit the content inside
+  max-width: 300px; // Maximum width for popup
+  width: 300px; // Set a fixed width for consistency
+  max-height: 500px; // Set a fixed height for the popup
+
   font-family: Arial, sans-serif; // Font family
   pointer-events: auto;
   visibility: visible;
   // Use transform for fine-tuning positioning
-  transform: translateX(-120%) translateY(-40%); // Adjust the position horizontally and vertically as needed
+  transform: translateX(-120%) translateY(-35%); // Adjust the position horizontally and vertically as needed
   top: 0; // Position at the top of the hovered element
   left: 0; // Center horizontally relative to the parent
 
@@ -21,7 +23,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: .5rem;
 
     .popup-ticker {
       display: flex;
@@ -59,7 +61,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
 
     .stock-price {
       font-size: 1.5rem;
@@ -86,14 +88,14 @@
   }
 
   .popup-chart {
-    height: 50px;
+    height: auto;
     background-color: var(--background-color);
     border-radius: 4px;
-    margin-bottom: 15px;
+    margin-bottom: 0rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #bbb;
+    color: var(--text-color);
 
     .line-chart {
       width: 100%;
@@ -110,10 +112,16 @@
   }
 
   .popup-description {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: var(--text-color);
+    max-height: 80px; // Set a maximum height for the description area
+    overflow: hidden; // Hide overflow text
+    text-overflow: ellipsis; // Add ellipsis for overflow text
+    display: -webkit-box; // Use flexbox to limit lines
+    -webkit-line-clamp: 3; // Limit to 3 lines
+    -webkit-box-orient: vertical; // Set the orientation to vertical
+    line-height: 1.4; // Set the line height
     margin-bottom: 0;
-    line-height: 1.4;
   }
 
   // Address section styling if needed

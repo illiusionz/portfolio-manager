@@ -2,6 +2,7 @@
 import { debounce } from 'lodash';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { formatDateTime } from '../../utils/format';
 
 const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 
@@ -116,6 +117,75 @@ export const fetchBatchStockSnapshots = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(
         error.response?.data || 'Error fetching stock snapshots'
+      );
+    }
+  }
+);
+
+// Define and export the thunk for fetching symbol suggestions
+export const fetchSymbolSuggestions = createAsyncThunk(
+  'stocks/fetchSymbolSuggestions',
+  async (query, { rejectWithValue }) => {
+    if (!query || query.length < 1) {
+      return rejectWithValue('Query is required to fetch symbol suggestions');
+    }
+
+    try {
+      const response = await axios.get(
+        `https://api.polygon.io/v3/reference/tickers?search=${query}&active=true&sort=ticker&order=asc&limit=10&apiKey=${apiKey}`
+      );
+      return response.data.results || [];
+    } catch (error) {
+      return rejectWithValue('Error fetching symbol suggestions');
+    }
+  }
+);
+
+// Helper function to get milliseconds timestamp from date
+const getTimestamp = (date) => {
+  return new Date(date).getTime();
+};
+
+// Thunk to fetch minute historical price data for the last 8-hour period
+export const fetchHistoricalData = createAsyncThunk(
+  'stocks/fetchHistoricalData',
+  async (symbol, { rejectWithValue }) => {
+    try {
+      // Get the current date and time
+      const currentDate = new Date();
+
+      // Calculate the start date and time (8 hours ago)
+      const startDate = new Date(currentDate.getTime() - 8 * 60 * 60 * 1000); // 8 hours ago
+
+      // Convert startDate and currentDate to millisecond timestamps
+      const startTimestamp = getTimestamp(startDate);
+      const endTimestamp = getTimestamp(currentDate);
+
+      // Fetch minute data for the last 8-hour period using millisecond timestamps
+      const response = await axios.get(
+        `https://api.polygon.io/v2/aggs/ticker/${symbol}/range/1/minute/${startTimestamp}/${endTimestamp}?adjusted=true&sort=asc&apiKey=${apiKey}`
+      );
+
+      // Map the results array to the desired structure
+      const data = response.data.results.map((entry) => ({
+        volume: entry.v, // Volume
+        vwap: entry.vw, // Volume-weighted average price
+        open: entry.o, // Open price
+        close: entry.c, // Close price
+        high: entry.h, // High price
+        low: entry.l, // Low price
+        timestamp: new Date(entry.t).toLocaleTimeString(), // Convert timestamp to locale time string
+        tradeCount: entry.n, // Number of trades
+      }));
+
+      // Ensure symbol is passed with the payload
+      return {
+        symbol,
+        data,
+      };
+    } catch (error) {
+      return rejectWithValue(
+        'Error fetching minute historical data for the last 8-hour period'
       );
     }
   }

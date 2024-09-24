@@ -1,16 +1,18 @@
+// src/components/SymbolAutoSuggest/SymbolAutoSuggest.js
 import React, { useState, useEffect } from 'react';
 import Autosuggest from 'react-autosuggest';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import { setSymbolAndFetchData } from '../../features/user/userThunks';
+import { fetchSymbolSuggestions } from '../../features/stocks/stockThunks'; // Import the new thunk
+import { clearSuggestions } from '../../features/stocks/stockSlice'; // Import the clearSuggestions action
+
 import './SymbolAutoSuggest.scss';
 
 const SymbolAutoSuggest = () => {
   const dispatch = useDispatch();
-  const selectedSymbol = useSelector((state) => state.user.symbol); // Redux state for the selected symbol
+  const selectedSymbol = useSelector((state) => state.user.userSymbol); // Redux state for the selected symbol
+  const suggestions = useSelector((state) => state.stocks.suggestions || []); // Redux state for suggestions
   const [query, setQuery] = useState(''); // Local state for the input value
-  const [suggestions, setSuggestions] = useState([]);
-  const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 
   // Sync the local query state with the Redux selectedSymbol on mount and whenever selectedSymbol changes
   useEffect(() => {
@@ -26,23 +28,18 @@ const SymbolAutoSuggest = () => {
   }, [selectedSymbol, dispatch]);
 
   // Fetch suggestions based on the current input value
-  const onSuggestionsFetchRequested = async ({ value }) => {
+  const onSuggestionsFetchRequested = ({ value }) => {
     if (value.length < 1) {
-      setSuggestions([]);
+      dispatch(fetchSymbolSuggestions.fulfilled([])); // Clear suggestions in Redux
       return;
     }
-    try {
-      const response = await axios.get(
-        `https://api.polygon.io/v3/reference/tickers?search=${value}&active=true&sort=ticker&order=asc&limit=10&apiKey=${apiKey}`
-      );
-      setSuggestions(response.data.results || []);
-    } catch (error) {
-      console.error('Error fetching suggestions:', error);
-      setSuggestions([]);
-    }
+    // Dispatch the thunk to fetch suggestions from the API
+    dispatch(fetchSymbolSuggestions(value));
   };
 
-  const onSuggestionsClearRequested = () => setSuggestions([]);
+  const onSuggestionsClearRequested = () => {
+    dispatch(clearSuggestions()); // Dispatch the clearSuggestions action
+  };
 
   // Handle when a suggestion is selected from the dropdown
   const onSuggestionSelected = (event, { suggestion }) => {
@@ -52,6 +49,7 @@ const SymbolAutoSuggest = () => {
 
     // Save the selected symbol to localStorage for persistence
     localStorage.setItem('selectedStockSymbol', selectedSymbol);
+    console.log('Selected symbol:', selectedSymbol);
   };
 
   const inputProps = {
@@ -65,7 +63,7 @@ const SymbolAutoSuggest = () => {
   return (
     <div className='symbol-auto-suggest'>
       <Autosuggest
-        suggestions={suggestions}
+        suggestions={suggestions} // Use suggestions from Redux state
         onSuggestionsFetchRequested={onSuggestionsFetchRequested}
         onSuggestionsClearRequested={onSuggestionsClearRequested}
         getSuggestionValue={(suggestion) => suggestion.ticker}

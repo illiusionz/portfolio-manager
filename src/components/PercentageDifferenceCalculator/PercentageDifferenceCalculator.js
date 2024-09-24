@@ -14,8 +14,10 @@ const PercentageDifferenceCalculator = () => {
   const dispatch = useDispatch();
 
   // State selectors
-  const symbol = useSelector((state) => state.user.symbol); // User selected symbol
-  const stockPrice = useSelector((state) => selectStockPrice(state, symbol));
+  const userSymbol = useSelector((state) => state.user.userSymbol);
+  const stockPrice = useSelector((state) =>
+    selectStockPrice(state, userSymbol)
+  );
 
   // Local state management
   const [targetPrice, setTargetPrice] = useState('');
@@ -24,10 +26,10 @@ const PercentageDifferenceCalculator = () => {
   const [isRotating, setIsRotating] = useState(false);
 
   useEffect(() => {
-    if (symbol) {
-      dispatch(fetchStockSnapshot(symbol));
+    if (userSymbol) {
+      dispatch(fetchStockSnapshot(userSymbol));
     }
-  }, [symbol, dispatch]);
+  }, [userSymbol, dispatch]);
 
   useEffect(() => {
     if (stockPrice) {
@@ -74,12 +76,12 @@ const PercentageDifferenceCalculator = () => {
   };
 
   const refreshCurrentPrice = () => {
-    if (!symbol) {
+    if (!userSymbol) {
       console.warn('No symbol selected for refresh');
       return;
     }
 
-    dispatch(fetchStockSnapshot(symbol))
+    dispatch(fetchStockSnapshot(userSymbol))
       .unwrap()
       .then((result) => {
         if (result?.prevDay?.c) {
