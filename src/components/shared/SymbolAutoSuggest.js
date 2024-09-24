@@ -7,7 +7,7 @@ import './SymbolAutoSuggest.scss';
 
 const SymbolAutoSuggest = () => {
   const dispatch = useDispatch();
-  const selectedSymbol = useSelector((state) => state.user.symbol); // Redux state for the selected symbol
+  const selectedSymbol = useSelector((state) => state.user.userSymbol); // Redux state for the selected symbol
   const [query, setQuery] = useState(''); // Local state for the input value
   const [suggestions, setSuggestions] = useState([]);
   const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
@@ -23,7 +23,7 @@ const SymbolAutoSuggest = () => {
     if (selectedSymbol) {
       setQuery(selectedSymbol); // Update local input if Redux has the symbol
     }
-  }, [selectedSymbol, dispatch]);
+  }, [selectedSymbol]);
 
   // Fetch suggestions based on the current input value
   const onSuggestionsFetchRequested = async ({ value }) => {
@@ -52,6 +52,7 @@ const SymbolAutoSuggest = () => {
 
     // Save the selected symbol to localStorage for persistence
     localStorage.setItem('selectedStockSymbol', selectedSymbol);
+    console.log('Selected symbol:', selectedSymbol);
   };
 
   const inputProps = {
