@@ -120,3 +120,22 @@ export const fetchBatchStockSnapshots = createAsyncThunk(
     }
   }
 );
+
+// Define and export the thunk for fetching symbol suggestions
+export const fetchSymbolSuggestions = createAsyncThunk(
+  'stocks/fetchSymbolSuggestions',
+  async (query, { rejectWithValue }) => {
+    if (!query || query.length < 1) {
+      return rejectWithValue('Query is required to fetch symbol suggestions');
+    }
+
+    try {
+      const response = await axios.get(
+        `https://api.polygon.io/v3/reference/tickers?search=${query}&active=true&sort=ticker&order=asc&limit=10&apiKey=${apiKey}`
+      );
+      return response.data.results || [];
+    } catch (error) {
+      return rejectWithValue('Error fetching symbol suggestions');
+    }
+  }
+);
