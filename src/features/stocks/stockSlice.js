@@ -5,11 +5,14 @@ import {
   fetchStockSnapshot,
   fetchBatchStockSnapshots,
   fetchSymbolSuggestions,
+  fetchHistoricalData,
 } from './stockThunks';
 
 const initialState = {
   stockTickerData: {}, // Store full response data for each stock ticker
   stockDetails: {}, // Store detailed information for each stock
+  historicalData: {}, // Store historical data by ticker
+
   suggestions: [],
   trendingToolbarSymbols: [
     'AAPL',
@@ -160,6 +163,20 @@ const stockSlice = createSlice({
       })
       .addCase(fetchSymbolSuggestions.rejected, (state, action) => {
         state.suggestions = [];
+      })
+      .addCase(fetchHistoricalData.fulfilled, (state, action) => {
+        const { symbol, data } = action.payload; // Extract symbol and data from the payload
+        console.log('Symbol:', symbol, 'Data:', data); // Debug log
+
+        state.historicalData[symbol] = data; // Use symbol as key to store data
+      })
+      .addCase(fetchHistoricalData.pending, (state, action) => {
+        const { symbol } = action.meta.arg; // Get symbol from the thunk argument
+        state.historicalData[symbol] = []; // Set default empty array
+      })
+      .addCase(fetchHistoricalData.rejected, (state, action) => {
+        const { symbol } = action.meta.arg; // Get symbol from the thunk argument
+        state.historicalData[symbol] = []; // Set default empty array on error
       });
   },
 });

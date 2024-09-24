@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { addToWatchlist } from '../../features/watchlist/watchlistSlice';
+import StockLineChart from '../StockLineChart/StockLineChart'; // Import the line chart component
+
 import './StockHoverPopup.scss';
 
 const StockHoverPopup = React.memo(
@@ -74,12 +76,15 @@ const StockHoverPopup = React.memo(
           </span>
         </div>
         <div className='popup-chart'>
-          {/* Placeholder for chart */}
-          <div className='line-chart'></div>
+          {stock.ticker ? (
+            <StockLineChart symbol={stock.ticker} />
+          ) : (
+            <div>No chart data available</div>
+          )}
         </div>
-        <div className='popup-description'>
-          {truncateText(stock.description, 200) || 'No description available.'}
-        </div>
+        <p className='popup-description'>
+          {truncateText(stock.description, 300) || 'No description available.'}
+        </p>
       </div>
     );
   }
