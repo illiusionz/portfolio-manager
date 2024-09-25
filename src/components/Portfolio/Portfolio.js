@@ -44,7 +44,6 @@ const Portfolio = ({ userId }) => {
       <table className='table table-striped table-hover'>
         <thead className='thead-dark'>
           <tr>
-            <th scope='col'>Logo</th> {/* Added column for Logo */}
             <th scope='col'>Holding</th>
             <th scope='col'>Shares</th>
             <th scope='col'>Cost per share</th>
