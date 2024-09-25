@@ -1,8 +1,8 @@
 // src/components/TopMovers/TopMovers.js
+import './TopMovers.scss';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
-import './TopMovers.scss';
 import { selectTheme } from '../../features/theme/themeSelectors';
 
 const TopMovers = () => {

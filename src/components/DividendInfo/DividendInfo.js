@@ -7,7 +7,6 @@ import { formatNumberWithCommas, parseCurrency } from '../../utils/format';
 import { setUserSymbol } from '../../features/user/userSlice';
 import { selectUserSymbol } from '../../features/user/userSelectors';
 import { selectTheme } from '../../features/theme/themeSelectors';
-
 import SymbolAutoSuggest from '../shared/SymbolAutoSuggest';
 
 const DividendInfo = () => {

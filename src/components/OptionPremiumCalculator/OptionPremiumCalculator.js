@@ -20,6 +20,7 @@ const OptionPremiumCalculator = () => {
 
   // State selectors
   const userSymbol = useSelector(selectUserSymbol);
+
   const currentPrice = useSelector((state) =>
     selectStockPrice(state, userSymbol)
   ); // Fetch stock price

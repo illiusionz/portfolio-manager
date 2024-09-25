@@ -1,9 +1,9 @@
 // src/App.js
+import '../styles/App.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/App.scss';
 import {
   fetchStocks,
   fetchStockSnapshot,

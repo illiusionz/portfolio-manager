@@ -1,3 +1,4 @@
+import './NavBar.scss';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,7 +8,6 @@ import {
   faMoon,
   faSearch,
 } from '@fortawesome/free-solid-svg-icons';
-import './NavBar.scss';
 import profileImage from '../../assets/images/user-image.jpg';
 import { setTheme } from '../../features/theme/themeSlice';
 import { addToWatchlist } from '../../features/watchlist/watchlistSlice';
