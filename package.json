@@ -64,11 +64,11 @@
   },
   "scripts": {
     "start": "craco start",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build --force",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d docs"
   },
   "eslintConfig": {
     "extends": [
@@ -91,6 +91,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "css-loader": "^7.1.2",
+    "react-app-rewired": "^2.2.1",
     "sass-loader": "^16.0.1",
     "style-loader": "^4.0.0"
   },
