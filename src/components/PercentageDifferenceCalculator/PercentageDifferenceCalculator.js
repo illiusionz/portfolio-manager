@@ -2,19 +2,22 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './PercentageDifferenceCalculator.scss';
-import { fetchStockSnapshot } from '../../features/stocks/stockThunks';
-import { selectStockPrice } from '../../features/stocks/stockSelectors'; // Updated selector
-import { setUserSymbol } from '../../features/user/userSlice';
 import { formatCurrency, parseCurrency } from '../../utils/format';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
+import { fetchStockSnapshot } from '../../features/stocks/stockThunks';
+import { selectStockPrice } from '../../features/stocks/stockSelectors';
+import { selectUserSymbol } from '../../features/user/userSelectors';
+
+import { setUserSymbol } from '../../features/user/userSlice';
+
 import SymbolAutoSuggest from '../shared/SymbolAutoSuggest';
 
 const PercentageDifferenceCalculator = () => {
   const dispatch = useDispatch();
 
   // State selectors
-  const userSymbol = useSelector((state) => state.user.userSymbol);
+  const userSymbol = useSelector(selectUserSymbol);
   const stockPrice = useSelector((state) =>
     selectStockPrice(state, userSymbol)
   );

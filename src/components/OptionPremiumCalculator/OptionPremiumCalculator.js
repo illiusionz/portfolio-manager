@@ -1,10 +1,7 @@
 // src/components/OptionPremiumCalculator.js
+import './OptionPremiumCalculator.scss';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import './OptionPremiumCalculator.scss';
-import { fetchStockSnapshot } from '../../features/stocks/stockThunks'; // Redux thunk for fetching stock data
-import { selectStockPrice } from '../../features/stocks/stockSelectors'; // Selector for stock price
-import { setUserSymbol } from '../../features/user/userSlice'; // Action for setting user symbol
 import {
   formatNumberWithCommas,
   formatCurrency,
@@ -12,13 +9,18 @@ import {
 } from '../../utils/format';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
-import SymbolAutoSuggest from '../shared/SymbolAutoSuggest'; // Shared component for symbol suggestion
+import { fetchStockSnapshot } from '../../features/stocks/stockThunks';
+import { selectStockPrice } from '../../features/stocks/stockSelectors';
+import { selectUserSymbol } from '../../features/user/userSelectors';
+import { setUserSymbol } from '../../features/user/userSlice';
+import SymbolAutoSuggest from '../shared/SymbolAutoSuggest';
 
 const OptionPremiumCalculator = () => {
   const dispatch = useDispatch();
 
   // State selectors
-  const userSymbol = useSelector((state) => state.user.userSymbol); // Selected symbol
+  const userSymbol = useSelector(selectUserSymbol);
+
   const currentPrice = useSelector((state) =>
     selectStockPrice(state, userSymbol)
   ); // Fetch stock price

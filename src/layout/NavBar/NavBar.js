@@ -1,3 +1,4 @@
+import './NavBar.scss';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,19 +8,19 @@ import {
   faMoon,
   faSearch,
 } from '@fortawesome/free-solid-svg-icons';
-import './_navBar.scss';
-import { setTheme } from '../../features/theme/themeSlice'; // Redux slice
 import profileImage from '../../assets/images/user-image.jpg';
-import SymbolAutoSuggest from '../../components/shared/SymbolAutoSuggest'; // Importing shared autosuggest
-import { setSymbolAndFetchData } from '../../features/user/userThunks'; // Unified action
-import { addToWatchlist } from '../../features/watchlist/watchlistSlice'; // Corrected path
+import { setTheme } from '../../features/theme/themeSlice';
+import { addToWatchlist } from '../../features/watchlist/watchlistSlice';
+import { selectTheme } from '../../features/theme/themeSelectors';
+import { selectUserSymbol } from '../../features/user/userSelectors';
+import { setSymbolAndFetchData } from '../../features/user/userThunks';
+import SymbolAutoSuggest from '../../components/shared/SymbolAutoSuggest';
 
 const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
-  const userSymbol = useSelector((state) => state.user.userSymbol); // Get the selected symbol from Redux
-  const theme = useSelector((state) => state.theme);
-  const watchlist = useSelector((state) => state.watchlist.symbols);
-
   const dispatch = useDispatch();
+  const userSymbol = useSelector(selectUserSymbol);
+  const theme = useSelector(selectTheme);
+  const watchlist = useSelector((state) => state.watchlist.symbols);
 
   // Fetch saved theme from local storage
   useEffect(() => {
@@ -43,11 +44,12 @@ const Navbar = ({ toggleSidebar, handleSymbolSearch }) => {
   };
 
   useEffect(() => {
-    document.body.className = theme === 'dark' ? 'theme-dark' : 'theme-light';
+    document.body.className =
+      theme === 'theme-dark' ? 'theme-dark' : 'theme-light';
   }, [theme]);
 
   const handleToggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
+    const newTheme = theme === 'theme-light' ? 'theme-dark' : 'theme-light';
     dispatch(setTheme(newTheme)); // Toggle theme and persist in local storage
     localStorage.setItem('theme', newTheme);
   };

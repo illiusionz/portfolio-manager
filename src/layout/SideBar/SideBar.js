@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
-import './_sideBar.scss';
+import './SideBar.scss';
 import {
   FaHome,
   FaChartLine,

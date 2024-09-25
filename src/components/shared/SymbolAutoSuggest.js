@@ -1,16 +1,17 @@
 // src/components/SymbolAutoSuggest/SymbolAutoSuggest.js
+import './SymbolAutoSuggest.scss';
 import React, { useState, useEffect } from 'react';
 import Autosuggest from 'react-autosuggest';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSymbolAndFetchData } from '../../features/user/userThunks';
-import { fetchSymbolSuggestions } from '../../features/stocks/stockThunks'; // Import the new thunk
-import { clearSuggestions } from '../../features/stocks/stockSlice'; // Import the clearSuggestions action
-import './SymbolAutoSuggest.scss';
+import { fetchSymbolSuggestions } from '../../features/stocks/stockThunks';
+import { clearSuggestions } from '../../features/stocks/stockSlice';
+import { selectUserSymbol } from '../../features/user/userSelectors';
 
 const SymbolAutoSuggest = () => {
   const dispatch = useDispatch();
-  const selectedSymbol = useSelector((state) => state.user.userSymbol); // Redux state for the selected symbol
-  const suggestions = useSelector((state) => state.stocks.suggestions || []); // Redux state for suggestions
+  const selectedSymbol = useSelector(selectUserSymbol);
+  const suggestions = useSelector((state) => state.stocks.suggestions || []);
   const [query, setQuery] = useState(''); // Local state for the input value
 
   // Sync the local query state with the Redux selectedSymbol on mount and whenever selectedSymbol changes
@@ -45,7 +46,6 @@ const SymbolAutoSuggest = () => {
     const selectedSymbol = suggestion.ticker;
     setQuery(selectedSymbol); // Update the input field to show the selected symbol
     dispatch(setSymbolAndFetchData(selectedSymbol)); // Dispatch to update Redux with the new symbol
-
     // Save the selected symbol to localStorage for persistence
     localStorage.setItem('selectedStockSymbol', selectedSymbol);
     console.log('Selected symbol:', selectedSymbol);

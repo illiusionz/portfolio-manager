@@ -2,7 +2,7 @@
 .navbar {
   position: sticky;
   top: 0;
-  z-index: 1000; /* Ensure the navbar stays above other content */
+  z-index: 999999; /* Ensure the navbar stays above other content */
   background-color: var(--background-color); /* Or any other background color you prefer */
   border-bottom: 1px solid var(--border-color);; /* Optional, for a border at the bottom */
   display: flex;

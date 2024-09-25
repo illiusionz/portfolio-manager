@@ -1,15 +1,16 @@
 // src/App.js
-import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { HashRouter as Router, Route, Routes } from 'react-router-dom'; // Replace BrowserRouter with HashRouter
-import { useDispatch, useSelector } from 'react-redux';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/App.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchStocks,
   fetchStockSnapshot,
 } from '../features/stocks/stockThunks';
-import { setUserSymbol } from '../features/user/userSlice'; // Correct import
+import { setUserSymbol } from '../features/user/userSlice';
 import { setTheme } from '../features/theme/themeSlice';
+import { selectTheme } from '../features/theme/themeSelectors';
 
 // Lazy load the components
 const HomePage = lazy(() => import('../pages/HomePage/HomePage'));
@@ -47,21 +48,20 @@ const NavBar = lazy(() => import('../layout/NavBar/NavBar'));
 const Footer = lazy(() => import('../layout/Footer/Footer'));
 
 function App() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const dispatch = useDispatch();
-  const theme = useSelector((state) => state.theme);
-  const reduxSymbol = useSelector((state) => state.user.userSymbol); // Get the symbol from Redux state
-
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const theme = useSelector(selectTheme);
+  const reduxSymbol = useSelector((state) => state.user.userSymbol);
   const [userSymbol, setSymbol] = useState(
     localStorage.getItem('selectedStockSymbol') || 'AAPL'
-  ); // Initialize with localStorage or default to AAPL
+  );
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
   const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
+    const newTheme = theme === 'theme-light' ? 'theme-dark' : 'theme-light';
     dispatch(setTheme(newTheme));
     localStorage.setItem('theme', newTheme);
   };
@@ -73,9 +73,7 @@ function App() {
       console.log('Setting default symbol: AAPL');
       dispatch(setUserSymbol(userSymbol));
     }
-
-    console.log('Fetching data for symbol:', userSymbol);
-
+    console.log('App.js Fetching data for symbol:', userSymbol);
     dispatch(fetchStocks(userSymbol));
     dispatch(fetchStockSnapshot(userSymbol));
   }, []);

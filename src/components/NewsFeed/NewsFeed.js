@@ -7,11 +7,12 @@ import {
   selectNewsLoading,
   selectNewsError,
 } from '../../features/news/newsSelectors';
+import { selectUserSymbol } from '../../features/user/userSelectors';
 import './NewsFeed.scss';
 
 const NewsFeed = () => {
   const dispatch = useDispatch();
-  const userSymbol = useSelector((state) => state.user.userSymbol);
+  const userSymbol = useSelector(selectUserSymbol);
   const articles = useSelector(selectNewsArticles);
   const loading = useSelector(selectNewsLoading);
   const error = useSelector(selectNewsError);

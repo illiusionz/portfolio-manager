@@ -1,15 +1,16 @@
 // src/components/TopMovers/TopMovers.js
+import './TopMovers.scss';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
-import './TopMovers.scss';
+import { selectTheme } from '../../features/theme/themeSelectors';
 
 const TopMovers = () => {
   const [gainers, setGainers] = useState([]);
   const [losers, setLosers] = useState([]);
   const [activeTab, setActiveTab] = useState('gainers');
   const [currentPage, setCurrentPage] = useState(1);
-  const theme = useSelector((state) => state.theme);
+  const theme = useSelector(selectTheme);
 
   const resultsPerPage = 10;
 
@@ -116,7 +117,7 @@ const TopMovers = () => {
         <div className='table-responsive'>
           <table
             className={`table table-striped ${
-              theme === 'dark' ? 'table-dark' : ''
+              theme === 'theme-dark' ? 'table-dark' : ''
             }`}>
             <thead>
               <tr>
