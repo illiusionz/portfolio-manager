@@ -9,7 +9,7 @@
   overflow: visible;
   position: sticky;
   top: 70px;
-  z-index: 3;
+  z-index: 99999;
 
   .scroll-container {
     display: flex;

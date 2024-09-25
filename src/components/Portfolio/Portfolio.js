@@ -61,16 +61,6 @@ const Portfolio = ({ userId }) => {
             const details = stockDetails[stock.symbol]; // Access the details from state
             return (
               <tr key={index}>
-                {/* Display logo if available */}
-                <td>
-                  {details?.branding?.logo_url && (
-                    <img
-                      src={`https://assets.parqet.com/logos/symbol/${stock.symbol}`}
-                      alt={`${details.name} logo`}
-                      style={{ width: '50px' }}
-                    />
-                  )}
-                </td>
                 <td>{stock.symbol}</td>
                 <td>{stock.shares}</td>
                 <td>${stock.buyPrice}</td>

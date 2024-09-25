@@ -3,6 +3,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css'; // Import the CSS file
 import './CalendarPage.scss';
+import EarningsCalendar from '../../components/EarningsCalendar/EarningsCalendar';
 
 const localizer = momentLocalizer(moment);
 
@@ -39,6 +40,8 @@ const CalendarPage = () => {
         defaultView='month' // You can set this to "month", "week", "day", or "agenda"
         views={['month', 'week', 'day']}
       />
+
+      <EarningsCalendar />
     </div>
   );
 };

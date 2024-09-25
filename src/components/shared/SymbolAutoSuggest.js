@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setSymbolAndFetchData } from '../../features/user/userThunks';
 import { fetchSymbolSuggestions } from '../../features/stocks/stockThunks'; // Import the new thunk
 import { clearSuggestions } from '../../features/stocks/stockSlice'; // Import the clearSuggestions action
-
 import './SymbolAutoSuggest.scss';
 
 const SymbolAutoSuggest = () => {
