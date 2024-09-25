@@ -1,6 +1,6 @@
 // src/App.js
 import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom'; // Replace BrowserRouter with HashRouter
 import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/App.scss';
