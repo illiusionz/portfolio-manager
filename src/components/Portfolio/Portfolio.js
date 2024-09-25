@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPortfolio } from '../../features/portfolio/portfolioSlice';
-import { fetchStockDetails } from '../../features/stocks/stockThunks'; // Import stock details thunk
+import { fetchStockDetails } from '../../features/stocks/stockThunks';
 
 const Portfolio = ({ userId }) => {
   const dispatch = useDispatch();

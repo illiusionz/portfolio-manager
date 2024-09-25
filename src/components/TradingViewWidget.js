@@ -1,14 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import { selectTheme } from '../features/theme/themeSelectors'; // Import the selector
 
-function TradingViewWidget({ symbol }) {
+function TradingViewWidget({ userSymbol }) {
   const container = useRef();
-  const theme = useSelector((state) => state.theme || 'light');
-  const widgetInitialized = useRef(false); // Track widget initialization
+  const theme = useSelector(selectTheme);
+  const widgetInitialized = useRef(false);
+  const tradingViewTheme = theme === 'theme-light' ? 'light' : 'dark';
 
   useEffect(() => {
     const initializeWidget = () => {
-      if (!symbol) {
+      if (!userSymbol) {
         console.error('Invalid or missing symbol for TradingView widget');
         return;
       }
@@ -33,10 +35,10 @@ function TradingViewWidget({ symbol }) {
       script.async = true;
       script.innerHTML = JSON.stringify({
         autosize: true,
-        symbol: symbol,
+        symbol: userSymbol,
         interval: 'D',
         timezone: 'exchange',
-        theme: theme,
+        theme: tradingViewTheme,
         style: '1',
         locale: 'en',
         toolbar_bg: '#f1f3f6',
@@ -65,7 +67,7 @@ function TradingViewWidget({ symbol }) {
         console.log('Cleaning up widget');
       }
     };
-  }, [symbol, theme]); // Reinitialize when symbol or theme changes
+  }, [userSymbol, theme]); // Reinitialize when symbol or theme changes
 
   return (
     <div

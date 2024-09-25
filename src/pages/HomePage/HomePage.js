@@ -1,10 +1,11 @@
 import React, { useEffect, Suspense, lazy, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setSymbolAndFetchData } from '../../features/user/userThunks'; // Unified thunk to handle symbol changes and fetching data
-import { fetchStocks } from '../../features/stocks/stockThunks'; // Fetch stock prices
-import { selectStockError } from '../../features/stocks/stockSelectors'; // Stock selectors
-import { selectNewsError } from '../../features/news/newsSelectors'; // News selectors
-import TradingViewWidget from '../../components/TradingViewWidget'; // Remove lazy loading temporarily
+import { setSymbolAndFetchData } from '../../features/user/userThunks';
+import { fetchStocks } from '../../features/stocks/stockThunks';
+import { selectStockError } from '../../features/stocks/stockSelectors';
+import { selectUserSymbol } from '../../features/user/userSelectors';
+import { selectNewsError } from '../../features/news/newsSelectors';
+import TradingViewWidget from '../../components/TradingViewWidget';
 
 // Lazy loading components
 const CompoundInterestCalculator = lazy(() =>
@@ -41,7 +42,7 @@ const PortfolioValueCard = lazy(() =>
 );
 
 const HomePage = () => {
-  const symbol = useSelector((state) => state.user.userSymbol); // Using symbol from Redux
+  const userSymbol = useSelector(selectUserSymbol); // Using symbol from Redux
   const newsError = useSelector(selectNewsError); // Use news error selector
   const stockError = useSelector(selectStockError); // Use stock error selector
   const dispatch = useDispatch();
@@ -56,9 +57,9 @@ const HomePage = () => {
     dispatch(fetchStocks());
 
     // Handle symbol change and validity
-    if (symbol) {
-      console.log('Dispatching setSymbolAndFetchData for symbol:', symbol);
-      dispatch(setSymbolAndFetchData(symbol));
+    if (userSymbol) {
+      console.log('Dispatching setSymbolAndFetchData for symbol:', userSymbol);
+      dispatch(setSymbolAndFetchData(userSymbol));
       setShowWidget(true);
       setIsSymbolValid(true);
     } else {
@@ -78,7 +79,7 @@ const HomePage = () => {
           {isSymbolValid ? (
             <Suspense fallback={<div>Loading...</div>}>
               {showWidget ? (
-                <TradingViewWidget symbol={symbol} />
+                <TradingViewWidget userSymbol={userSymbol} />
               ) : (
                 <div className='spinner-border' role='status'>
                   <span className='visually-hidden'>Loading...</span>

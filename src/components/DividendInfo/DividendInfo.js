@@ -1,20 +1,23 @@
 // src/components/DividendInfo/DividendInfo.js
+import './DividendInfo.scss';
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { formatNumberWithCommas, parseCurrency } from '../../utils/format';
-import { setUserSymbol } from '../../features/user/userSlice'; // Updated path
-import axios from 'axios';
-import SymbolAutoSuggest from '../shared/SymbolAutoSuggest'; // Import the shared SymbolAutoSuggest component
-import './DividendInfo.scss';
+import { setUserSymbol } from '../../features/user/userSlice';
+import { selectUserSymbol } from '../../features/user/userSelectors';
+import { selectTheme } from '../../features/theme/themeSelectors';
+
+import SymbolAutoSuggest from '../shared/SymbolAutoSuggest';
 
 const DividendInfo = () => {
-  const userSymbol = useSelector((state) => state.user.userSymbol); // Get the selected symbol from the state
-  const watchlist = useSelector((state) => state.watchlist.symbols); // Get the watchlist from the state
+  const dispatch = useDispatch();
+  const userSymbol = useSelector(selectUserSymbol);
+  const watchlist = useSelector((state) => state.watchlist.symbols);
   const [dividends, setDividends] = useState([]);
   const [numberOfShares, setNumberOfShares] = useState('');
   const [calculatedDividend, setCalculatedDividend] = useState(null);
-  const theme = useSelector((state) => state.theme);
-  const dispatch = useDispatch();
+  const theme = useSelector(selectTheme);
 
   const apiKey = process.env.REACT_APP_POLYGON_API_KEY;
 
@@ -140,7 +143,7 @@ const DividendInfo = () => {
         </div>
         <table
           className={`table table-striped mt-3 ${
-            theme === 'dark' ? 'table-dark' : ''
+            theme === 'theme-dark' ? 'table-dark' : ''
           }`}>
           <thead>
             <tr>
