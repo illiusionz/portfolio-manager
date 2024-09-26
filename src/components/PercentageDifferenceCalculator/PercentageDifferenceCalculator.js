@@ -1,16 +1,14 @@
 // src/components/PercentageDifferenceCalculator.js
+import './PercentageDifferenceCalculator.scss';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import './PercentageDifferenceCalculator.scss';
 import { formatCurrency, parseCurrency } from '../../utils/format';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 import { fetchStockSnapshot } from '../../features/stocks/stockThunks';
 import { selectStockPrice } from '../../features/stocks/stockSelectors';
 import { selectUserSymbol } from '../../features/user/userSelectors';
-
 import { setUserSymbol } from '../../features/user/userSlice';
-
 import SymbolAutoSuggest from '../shared/SymbolAutoSuggest';
 
 const PercentageDifferenceCalculator = () => {

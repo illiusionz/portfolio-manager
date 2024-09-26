@@ -1,17 +1,17 @@
+// server.js
+const path = require('path');
 const express = require('express');
 const cors = require('cors'); // Import the cors package
-
 const connectDB = require('./config/db'); // Path to your db.js
 const { ApolloServer } = require('apollo-server-express');
 const schema = require('./graphql/schema'); // Your combined GraphQL schema
-const portfolioRoutes = require('./routes/api/portfolio');
-
-require('dotenv').config({ path: '../.env' });
+const portfolioRoutes = require('./routes/api/portfolioRoute');
+require('dotenv').config({ path: path.join(__dirname, '../../.env') }); // Adjust the path as needed
 
 const app = express();
 
 // Enable CORS for all routes and methods
-app.use(cors()); // <== Move this to the top before route definitions
+app.use(cors());
 
 // Connect to MongoDB
 connectDB();
@@ -49,8 +49,6 @@ setupApolloServer();
 
 // Start Express Server
 const PORT = process.env.PORT || 5001;
-console.log('port' + process.env.PORT);
-
 app.listen(PORT, () => {
   console.log(
     `Server running on http://localhost:${PORT}${apolloServer.graphqlPath}`
