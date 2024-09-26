@@ -69,7 +69,7 @@ function TradingViewWidget({ symbol }) {
         console.log('Cleaning up widget');
       }
     };
-  }, [userSymbol, theme]); // Reinitialize when symbol or theme changes
+  }, [symbol, theme]); // Reinitialize when symbol or theme changes
 
   return (
     <div
