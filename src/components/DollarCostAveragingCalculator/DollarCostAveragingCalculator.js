@@ -14,10 +14,9 @@ const DollarCostAveragingCalculator = () => {
   const [result, setResult] = useState({
     shares: 0,
     avgBuy: '0.00',
-    totalCost: 0,
+    totalCost: '0',
   });
 
-  // Handles the change in any input field (shares, avgBuy) and recalculates totalCost
   const handleInputChange = (index, field, value) => {
     const newInvestments = investments.slice();
     if (field === 'avgBuy' || field === 'shares') {
@@ -26,7 +25,6 @@ const DollarCostAveragingCalculator = () => {
 
     newInvestments[index][field] = value;
 
-    // Recalculate totalCost whenever shares or avgBuy are changed
     if (field === 'shares' || field === 'avgBuy') {
       const shares = parseFloat(newInvestments[index].shares || 0);
       const avgBuy = parseFloat(newInvestments[index].avgBuy || 0);
@@ -140,27 +138,25 @@ const DollarCostAveragingCalculator = () => {
             </div>
           </div>
         ))}
-        <div className='button-group max-auto mb-3'>
-          {/* <button
-            className='btn btn-primary'
-            onClick={() => calculateResult(investments)}>
-            Calculate
-          </button>*/}
-          <button className='btn btn-success me-2' onClick={handleAddRow}>
+        <div className='button-group d-flex justify-content-between mb-3'>
+          <button
+            className='btn btn-success flex-fill mx-1'
+            onClick={handleAddRow}>
             Add
           </button>
-          <button className='btn btn-warning me-2' onClick={handleClearRow}>
+          <button
+            className='btn btn-warning flex-fill mx-1'
+            onClick={handleClearRow}>
             Clear
           </button>
-          <button className='btn btn-danger' onClick={handleReset}>
+          <button
+            className='btn btn-danger flex-fill mx-1'
+            onClick={handleReset}>
             Reset
           </button>
         </div>
         {result && (
           <div className='result'>
-            {/*<h6 className='result-title'>
-              <b>Total Result</b>
-            </h6>*/}
             <div className='form-row'>
               <div className='col'>
                 <h6>

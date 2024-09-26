@@ -17,8 +17,6 @@ import NavBar from '../layout/NavBar/NavBar';
 import Footer from '../layout/Footer/Footer';
 
 import TrendingToolbar from '../components/TrendingToolbar/TrendingToolbar';
-import CompoundInterestCalculator from '../components/CompoundInterestCalculator/CompoundInterestCalculator';
-import PercentageDifferenceCalculator from '../components/PercentageDifferenceCalculator/PercentageDifferenceCalculator';
 
 // Lazy load the components
 import HomePage from '../pages/HomePage/HomePage';
@@ -103,10 +101,6 @@ function App() {
               <Route
                 path='/asset-management'
                 element={<AssetManagementPage />}
-              />
-              <Route
-                path='/percentage-difference'
-                element={<PercentageDifferenceCalculator />}
               />
               <Route path='/stock-news' element={<StockNewsPage />} />
               <Route path='/education' element={<EducationPage />} />

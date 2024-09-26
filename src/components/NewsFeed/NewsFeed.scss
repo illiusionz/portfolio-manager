@@ -39,6 +39,14 @@
   max-height: 13em;
 }
 
+.read-more-button {
+  display: inline-block; // Ensure the button is not stretched
+  width: auto; // Adjust width as needed
+  padding: 0.5rem 1rem; // Adjust padding for button size
+  text-align: center; // Center the text within the button
+  white-space: nowrap; // Prevent text from wrapping
+}
+
 // Card footer styling
 .card-footer {
   background-color: #f8f9fa; // Light background for the footer

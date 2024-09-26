@@ -78,7 +78,7 @@ const NewsFeed = () => {
                         href={article.article_url}
                         target='_blank'
                         rel='noopener noreferrer'
-                        className='btn btn-primary'
+                        className='btn btn-primary read-more-button'
                         role='button'>
                         Read More
                       </a>
@@ -92,6 +92,7 @@ const NewsFeed = () => {
                             width: '70px',
 
                             height: '30px',
+                            objectFit: 'contain',
                           }}
                           className='me-2'
                         />

@@ -1,3 +1,4 @@
+import './EarningsCalendar.scss';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
@@ -139,7 +140,7 @@ const EarningsCalendar = () => {
   }
 
   return (
-    <div>
+    <div className='earnings-calendar'>
       <Card>
         <Card.Header>
           <Card.Title className='mb-0'>Earnings Calendar</Card.Title>
@@ -154,7 +155,12 @@ const EarningsCalendar = () => {
                   value={startDate}
                   onChange={(newValue) => setStartDate(newValue)}
                   renderInput={(params) => (
-                    <TextField className='form-control' {...params} fullWidth />
+                    <TextField
+                      className='form-control'
+                      {...params}
+                      fullWidth
+                      sx={{ height: '38px' }}
+                    />
                   )}
                 />
               </LocalizationProvider>
@@ -166,7 +172,12 @@ const EarningsCalendar = () => {
                   value={endDate}
                   onChange={(newValue) => setEndDate(newValue)}
                   renderInput={(params) => (
-                    <TextField className='form-control' {...params} fullWidth />
+                    <TextField
+                      className='form-control'
+                      {...params}
+                      fullWidth
+                      sx={{ height: '38px' }}
+                    />
                   )}
                 />
               </LocalizationProvider>
