@@ -8,38 +8,17 @@ import { selectNewsError } from '../../features/news/newsSelectors';
 import TradingViewWidget from '../../components/TradingViewWidget';
 
 // Lazy loading components
-const CompoundInterestCalculator = lazy(() =>
-  import(
-    '../../components/CompoundInterestCalculator/CompoundInterestCalculator'
-  )
-);
-const PercentageDifferenceCalculator = lazy(() =>
-  import(
-    '../../components/PercentageDifferenceCalculator/PercentageDifferenceCalculator'
-  )
-);
-
-const NewsFeed = lazy(() => import('../../components/NewsFeed/NewsFeed'));
-const OptionPremiumCalculator = lazy(() =>
-  import('../../components/OptionPremiumCalculator/OptionPremiumCalculator')
-);
-const StockWatchlist = lazy(() =>
-  import('../../components/StockWatchlist/StockWatchlist')
-);
-const DollarCostAveragingCalculator = lazy(() =>
-  import(
-    '../../components/DollarCostAveragingCalculator/DollarCostAveragingCalculator'
-  )
-);
-const TopMovers = lazy(() => import('../../components/TopMovers/TopMovers'));
-const DividendInfo = lazy(() =>
-  import('../../components/DividendInfo/DividendInfo')
-);
-const MuiCalendar = lazy(() => import('../../components/Calendar/MuiCalendar'));
-const Calculator = lazy(() => import('../../components/Calculator/Calculator'));
-const PortfolioValueCard = lazy(() =>
-  import('../../components/PortfolioValueCard/PortfolioValueCard')
-);
+import CompoundInterestCalculator from '../../components/CompoundInterestCalculator/CompoundInterestCalculator';
+import PercentageDifferenceCalculator from '../../components/PercentageDifferenceCalculator/PercentageDifferenceCalculator';
+import NewsFeed from '../../components/NewsFeed/NewsFeed';
+import OptionPremiumCalculator from '../../components/OptionPremiumCalculator/OptionPremiumCalculator';
+import StockWatchlist from '../../components/StockWatchlist/StockWatchlist';
+import DollarCostAveragingCalculator from '../../components/DollarCostAveragingCalculator/DollarCostAveragingCalculator';
+import TopMovers from '../../components/TopMovers/TopMovers';
+import DividendInfo from '../../components/DividendInfo/DividendInfo';
+import MuiCalendar from '../../components/Calendar/MuiCalendar';
+import Calculator from '../../components/Calculator/Calculator';
+import PortfolioValueCard from '../../components/PortfolioValueCard/PortfolioValueCard';
 
 const HomePage = () => {
   const userSymbol = useSelector(selectUserSymbol); // Using symbol from Redux
@@ -79,7 +58,7 @@ const HomePage = () => {
           {isSymbolValid ? (
             <Suspense fallback={<div>Loading...</div>}>
               {showWidget ? (
-                <TradingViewWidget userSymbol={userSymbol} />
+                <TradingViewWidget symbol={userSymbol} />
               ) : (
                 <div className='spinner-border' role='status'>
                   <span className='visually-hidden'>Loading...</span>
@@ -96,15 +75,16 @@ const HomePage = () => {
         <div className='row my-2'>
           <div className='col-md-3'>
             <PortfolioValueCard totalValue={totalValue} />
+            <MuiCalendar />
             <TopMovers />
           </div>
           <div className='col-md-3'>
-            <DollarCostAveragingCalculator />
-            <StockWatchlist />
-            <MuiCalendar />
+            <OptionPremiumCalculator />
           </div>
           <div className='col-md-3'>
-            <OptionPremiumCalculator />
+            <StockWatchlist />
+
+            <DollarCostAveragingCalculator />
           </div>
           <div className='col-md-3'>
             <PercentageDifferenceCalculator />

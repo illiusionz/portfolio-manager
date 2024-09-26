@@ -2,12 +2,14 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPortfolio } from '../../features/portfolio/portfolioSlice';
 import { fetchStockDetails } from '../../features/stocks/stockThunks';
+import { selectTheme } from '../../features/theme/themeSelectors';
 
 const Portfolio = ({ userId }) => {
   const dispatch = useDispatch();
   const portfolio = useSelector((state) => state.portfolio.portfolio);
   const status = useSelector((state) => state.portfolio.status);
   const error = useSelector((state) => state.portfolio.error);
+  const theme = useSelector(selectTheme);
 
   // New selector for fetching stock details
   const stockDetails = useSelector((state) => state.stocks.stockDetails);
@@ -41,7 +43,10 @@ const Portfolio = ({ userId }) => {
 
   return (
     <div className='container mt-4'>
-      <table className='table table-striped table-hover'>
+      <table
+        className={`table table-striped table-hover ${
+          theme === 'theme-dark' ? 'table-dark' : ''
+        }`}>
         <thead className='thead-dark'>
           <tr>
             <th scope='col'>Holding</th>

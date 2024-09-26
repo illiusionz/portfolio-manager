@@ -2,8 +2,8 @@
 import '../styles/App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import {
   fetchStocks,
   fetchStockSnapshot,
@@ -12,40 +12,33 @@ import { setUserSymbol } from '../features/user/userSlice';
 import { setTheme } from '../features/theme/themeSlice';
 import { selectTheme } from '../features/theme/themeSelectors';
 
+import SideBar from '../layout/SideBar/SideBar';
+import NavBar from '../layout/NavBar/NavBar';
+import Footer from '../layout/Footer/Footer';
+
+import TrendingToolbar from '../components/TrendingToolbar/TrendingToolbar';
+import CompoundInterestCalculator from '../components/CompoundInterestCalculator/CompoundInterestCalculator';
+import PercentageDifferenceCalculator from '../components/PercentageDifferenceCalculator/PercentageDifferenceCalculator';
+
 // Lazy load the components
-const HomePage = lazy(() => import('../pages/HomePage/HomePage'));
+import HomePage from '../pages/HomePage/HomePage';
 
 const PortfolioPage = lazy(() =>
   import('../pages/PortfolioPage/PortfolioPage')
 );
-
 const ChartAnalysisPage = lazy(() =>
   import('../pages/ChartAnalysisPage/ChartAnalysisPage')
 );
-
 const CalendarPage = lazy(() => import('../pages/CalendarPage/CalendarPage'));
-
 const StockNewsPage = lazy(() =>
   import('../pages/StockNewsPage/StockNewsPage')
 );
-
 const EducationPage = lazy(() =>
   import('../pages/EducationPage/EducationPage')
 );
-const TrendingToolbar = lazy(() =>
-  import('../components/TrendingToolbar/TrendingToolbar')
+const AssetManagementPage = lazy(() =>
+  import('../pages/AssetManagementPage/AssetManagementPage')
 );
-const CompoundInterestCalculator = lazy(() =>
-  import('../components/CompoundInterestCalculator/CompoundInterestCalculator')
-);
-const PercentageDifferenceCalculator = lazy(() =>
-  import(
-    '../components/PercentageDifferenceCalculator/PercentageDifferenceCalculator'
-  )
-);
-const SideBar = lazy(() => import('../layout/SideBar/SideBar'));
-const NavBar = lazy(() => import('../layout/NavBar/NavBar'));
-const Footer = lazy(() => import('../layout/Footer/Footer'));
 
 function App() {
   const dispatch = useDispatch();
@@ -108,10 +101,10 @@ function App() {
 
               <Route path='/calendar' element={<CalendarPage />} />
 
-              <Route path='/chart-analysis' element={<ChartAnalysisPage />} />
+              <Route path='/ai-assistant' element={<ChartAnalysisPage />} />
               <Route
-                path='/compound-interest-calculator'
-                element={<CompoundInterestCalculator />}
+                path='/asset-management'
+                element={<AssetManagementPage />}
               />
               <Route
                 path='/percentage-difference'
