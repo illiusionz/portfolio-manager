@@ -45,7 +45,7 @@ const HomePage = () => {
       setIsSymbolValid(false);
       setShowWidget(false);
     }
-  }, []);
+  }, [userSymbol, dispatch]);
 
   return (
     <div className='container-fluid'>
