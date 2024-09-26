@@ -80,11 +80,13 @@ const HomePage = () => {
             <TopMovers />
           </div>
           <div className='col-md-3'>
-            <OptionPremiumCalculator />
+            <DollarCostAveragingCalculator />
+            <StockWatchlist />
+            <EarningsCalendar />
           </div>
           <div className='col-md-3'>
-            <StockWatchlist />
-            <DollarCostAveragingCalculator />
+            <OptionPremiumCalculator />
+            <CompoundInterestCalculator />
           </div>
           <div className='col-md-3'>
             <PercentageDifferenceCalculator />
@@ -96,7 +98,6 @@ const HomePage = () => {
             <div className='col-md-12'>
               <DividendInfo />
               <EarningsCalendar />
-              <CompoundInterestCalculator />
             </div>
           </div>
         </div>

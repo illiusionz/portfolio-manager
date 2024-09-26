@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-
 import { Button, CircularProgress, TextField } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'; // Correctly import DatePicker
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { format } from 'date-fns';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import { Card, Pagination } from 'react-bootstrap'; // Import Bootstrap Card and Pagination components
 import { selectTheme } from '../../features/theme/themeSelectors';
 
 const ITEMS_PER_PAGE = 10; // Number of items to show per page
+const PAGINATION_SIZE = 3; // Maximum number of pagination items to display
+
 // Function to transform the nested earnings data to a flat array
 const transformEarningsData = (earnings) => {
   const result = [];
@@ -101,8 +102,44 @@ const EarningsCalendar = () => {
     setCurrentPage(pageNumber);
   };
 
+  // Handler for First button
+  const handleFirstPage = () => {
+    setCurrentPage(1);
+  };
+
+  // Handler for Previous button
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  // Handler for Next button
+  const handleNextPage = () => {
+    const totalPages = Math.ceil(transformedData.length / ITEMS_PER_PAGE);
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  // Handler for Last button
+  const handleLastPage = () => {
+    const totalPages = Math.ceil(transformedData.length / ITEMS_PER_PAGE);
+    setCurrentPage(totalPages);
+  };
+
+  // Pagination range calculation
+  const totalPages = Math.ceil(transformedData.length / ITEMS_PER_PAGE);
+  const startPage = Math.max(1, currentPage - Math.floor(PAGINATION_SIZE / 2));
+  const endPage = Math.min(totalPages, startPage + PAGINATION_SIZE - 1);
+  const pageNumbers = [];
+
+  for (let i = startPage; i <= endPage; i++) {
+    pageNumbers.push(i);
+  }
+
   return (
-    <div className='mt-5'>
+    <div>
       <Card>
         <Card.Header>
           <Card.Title className='mb-0'>Earnings Calendar</Card.Title>
@@ -116,7 +153,9 @@ const EarningsCalendar = () => {
                   label='Start Date'
                   value={startDate}
                   onChange={(newValue) => setStartDate(newValue)}
-                  renderInput={(params) => <TextField {...params} fullWidth />}
+                  renderInput={(params) => (
+                    <TextField className='form-control' {...params} fullWidth />
+                  )}
                 />
               </LocalizationProvider>
             </div>
@@ -126,7 +165,9 @@ const EarningsCalendar = () => {
                   label='End Date'
                   value={endDate}
                   onChange={(newValue) => setEndDate(newValue)}
-                  renderInput={(params) => <TextField {...params} fullWidth />}
+                  renderInput={(params) => (
+                    <TextField className='form-control' {...params} fullWidth />
+                  )}
                 />
               </LocalizationProvider>
             </div>
@@ -135,7 +176,7 @@ const EarningsCalendar = () => {
                 variant='contained'
                 color='primary'
                 onClick={fetchEarnings}>
-                Fetch Earnings
+                Submit
               </Button>
             </div>
           </div>
@@ -144,7 +185,7 @@ const EarningsCalendar = () => {
               <CircularProgress />
             </div>
           ) : (
-            <>
+            <div className='table-responsive'>
               <table
                 className={`table table-striped mt-3 table-hover ${
                   theme === 'theme-dark' ? 'table-dark' : ''
@@ -179,34 +220,23 @@ const EarningsCalendar = () => {
               {/* Responsive Pagination controls */}
               <div className='d-flex justify-content-center'>
                 <Pagination>
-                  <Pagination.First />
-                  <Pagination.Prev />
-                  <Pagination.Ellipsis />
-
-                  {Array.from({
-                    length: Math.ceil(transformedData.length / ITEMS_PER_PAGE),
-                  }).map((_, index) => {
-                    const isLargeScreen = window.innerWidth >= 768;
-                    const shouldDisplayPageNumber =
-                      isLargeScreen ||
-                      (index + 1 <= currentPage + 1 &&
-                        index + 1 >= currentPage - 1);
-                    return shouldDisplayPageNumber ? (
-                      <Pagination.Item
-                        key={index + 1}
-                        active={index + 1 === currentPage}
-                        onClick={() => handlePageChange(index + 1)}>
-                        {index + 1}
-                      </Pagination.Item>
-                    ) : null;
-                  })}
-                  <Pagination.Ellipsis />
-
-                  <Pagination.Next />
-                  <Pagination.Last />
+                  <Pagination.First onClick={handleFirstPage} />
+                  <Pagination.Prev onClick={handlePrevPage} />
+                  {startPage > 1 && <Pagination.Ellipsis />}
+                  {pageNumbers.map((pageNumber) => (
+                    <Pagination.Item
+                      key={pageNumber}
+                      active={pageNumber === currentPage}
+                      onClick={() => handlePageChange(pageNumber)}>
+                      {pageNumber}
+                    </Pagination.Item>
+                  ))}
+                  {endPage < totalPages && <Pagination.Ellipsis />}
+                  <Pagination.Next onClick={handleNextPage} />
+                  <Pagination.Last onClick={handleLastPage} />
                 </Pagination>
               </div>
-            </>
+            </div>
           )}
         </Card.Body>
       </Card>

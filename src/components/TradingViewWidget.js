@@ -50,7 +50,11 @@ function TradingViewWidget({ symbol }) {
         allow_symbol_change: true,
         show_popup_button: true,
         popup_width: '1000',
-        popup_height: '650',
+        popup_height: '680',
+        studies: [
+          'MACD@tv-basicstudies', // Adds MACD indicator
+          'RSI@tv-basicstudies', // Adds RSI indicator
+        ],
       });
 
       container.current.appendChild(script);
@@ -75,10 +79,10 @@ function TradingViewWidget({ symbol }) {
     <div
       className='tradingview-widget-container'
       ref={container}
-      style={{ height: '500px', width: '100%' }}>
+      style={{ height: '680px', width: '100%' }}>
       <div
         className='tradingview-widget-container__widget'
-        style={{ height: '100%', width: '100%' }}></div>
+        style={{ height: '680px', width: '100%' }}></div>
     </div>
   );
 }

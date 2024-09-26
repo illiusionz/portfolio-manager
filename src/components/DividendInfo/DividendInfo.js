@@ -140,37 +140,39 @@ const DividendInfo = () => {
             {formatNumberWithCommas(calculatedDividend) || '0.00'}
           </h5>
         </div>
-        <table
-          className={`table table-striped mt-3 ${
-            theme === 'theme-dark' ? 'table-dark' : ''
-          }`}>
-          <thead>
-            <tr>
-              <th>Ticker</th>
-              <th>Cash Amount</th>
-              <th>Declaration Date</th>
-              <th>Dividend Type</th>
-              <th>Ex-Dividend Date</th>
-              <th>Frequency</th>
-              <th>Pay Date</th>
-              <th>Record Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {dividends.map((dividend, index) => (
-              <tr key={index}>
-                <td>{dividend.ticker}</td>
-                <td>{dividend.cash_amount}</td>
-                <td>{dividend.declaration_date}</td>
-                <td>{dividend.dividend_type}</td>
-                <td>{dividend.ex_dividend_date}</td>
-                <td>{dividend.frequency}</td>
-                <td>{dividend.pay_date}</td>
-                <td>{dividend.record_date}</td>
+        <div className='table-responsive'>
+          <table
+            className={`table table-striped mt-3 ${
+              theme === 'theme-dark' ? 'table-dark' : ''
+            }`}>
+            <thead>
+              <tr>
+                <th>Ticker</th>
+                <th>Cash Amount</th>
+                <th>Declaration Date</th>
+                <th>Dividend Type</th>
+                <th>Ex-Dividend Date</th>
+                <th>Frequency</th>
+                <th>Pay Date</th>
+                <th>Record Date</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {dividends.map((dividend, index) => (
+                <tr key={index}>
+                  <td>{dividend.ticker}</td>
+                  <td>{dividend.cash_amount}</td>
+                  <td>{dividend.declaration_date}</td>
+                  <td>{dividend.dividend_type}</td>
+                  <td>{dividend.ex_dividend_date}</td>
+                  <td>{dividend.frequency}</td>
+                  <td>{dividend.pay_date}</td>
+                  <td>{dividend.record_date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

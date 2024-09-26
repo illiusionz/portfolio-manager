@@ -1,3 +1,4 @@
+import './CompoundInterestCalculator.scss';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { formatNumberWithCommas } from '../../utils/format';
@@ -42,53 +43,55 @@ const CompoundInterestCalculator = () => {
   };
 
   return (
-    <div className='card'>
-      <div className='card-header'>
-        <h5 className='card-title mb-0'>Compound Interest Calculator</h5>
-      </div>
-      <div className='card-body'>
-        <div className='form-inline'>
-          <div className='form-group mx-2'>
-            <label className='form-label' htmlFor='initialCapital'>
-              Initial Capital:
-            </label>
-            <input
-              type='text'
-              id='initialCapital'
-              className='form-control'
-              value={initialCapital}
-              onChange={(e) =>
-                setInitialCapital(
-                  formatNumberWithCommas(e.target.value.replace(/,/g, ''))
-                )
-              }
-            />
+    <div className='compound-interest-calculator'>
+      <div className='card'>
+        <div className='card-header'>
+          <h5 className='card-title mb-0'>Compound Interest Calculator</h5>
+        </div>
+        <div className='card-body'>
+          <div className='form-inline'>
+            <div className='form-group mx-2'>
+              <label className='form-label' htmlFor='initialCapital'>
+                Initial Capital:
+              </label>
+              <input
+                type='text'
+                id='initialCapital'
+                className='form-control'
+                value={initialCapital}
+                onChange={(e) =>
+                  setInitialCapital(
+                    formatNumberWithCommas(e.target.value.replace(/,/g, ''))
+                  )
+                }
+              />
+            </div>
+            <div className='form-group mx-2'>
+              <label className='form-label' htmlFor='weeklyRate'>
+                Weekly Percent:
+              </label>
+              <input
+                type='text'
+                id='weeklyRate'
+                className='form-control'
+                value={weeklyRate}
+                onChange={(e) => setWeeklyRate(e.target.value)}
+              />
+            </div>
+            <div className='form-group mx-2'>
+              <label className='form-label' htmlFor='weeks'>
+                # Weeks:
+              </label>
+              <input
+                type='text'
+                id='weeks'
+                className='form-control'
+                value={weeks}
+                onChange={(e) => setWeeks(e.target.value)}
+              />
+            </div>
           </div>
-          <div className='form-group mx-2'>
-            <label className='form-label' htmlFor='weeklyRate'>
-              Weekly Rate (%):
-            </label>
-            <input
-              type='text'
-              id='weeklyRate'
-              className='form-control'
-              value={weeklyRate}
-              onChange={(e) => setWeeklyRate(e.target.value)}
-            />
-          </div>
-          <div className='form-group mx-2'>
-            <label className='form-label' htmlFor='weeks'>
-              Number of Weeks:
-            </label>
-            <input
-              type='text'
-              id='weeks'
-              className='form-control'
-              value={weeks}
-              onChange={(e) => setWeeks(e.target.value)}
-            />
-          </div>
-          <div className='form-group button-group'>
+          <div className='button-group mt-4'>
             <button className='btn btn-primary' onClick={handleCalculate}>
               Calculate
             </button>
@@ -96,33 +99,37 @@ const CompoundInterestCalculator = () => {
               Reset
             </button>
           </div>
-        </div>
-        {results.length > 0 && (
-          <div>
-            <h5>Results:</h5>
-            <table
-              className={`table table-striped mt-3 table-hover ${
-                theme === 'theme-dark' ? 'table-dark' : ''
-              }`}>
-              <thead>
-                <tr>
-                  <th>Week</th>
-                  <th>Weekly Profit ($)</th>
-                  <th>Capital ($)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {results.map((result) => (
-                  <tr key={result.week}>
-                    <td>{result.week}</td>
-                    <td>{formatNumberWithCommas(result.profit.toFixed(2))}</td>
-                    <td>{formatNumberWithCommas(result.capital.toFixed(2))}</td>
+          {results.length > 0 && (
+            <div>
+              <h5>Results:</h5>
+              <table
+                className={`table table-striped mt-3 table-hover ${
+                  theme === 'theme-dark' ? 'table-dark' : ''
+                }`}>
+                <thead>
+                  <tr>
+                    <th>Week</th>
+                    <th>Weekly Profit ($)</th>
+                    <th>Capital ($)</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                </thead>
+                <tbody>
+                  {results.map((result) => (
+                    <tr key={result.week}>
+                      <td>{result.week}</td>
+                      <td>
+                        {formatNumberWithCommas(result.profit.toFixed(2))}
+                      </td>
+                      <td>
+                        {formatNumberWithCommas(result.capital.toFixed(2))}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

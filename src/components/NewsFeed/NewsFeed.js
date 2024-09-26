@@ -70,6 +70,7 @@ const NewsFeed = () => {
                       <small className='text-muted'>
                         {article.publisher.name}
                       </small>
+
                       <Card.Text className='mb-4 card-text'>
                         {article.description}
                       </Card.Text>
@@ -77,7 +78,8 @@ const NewsFeed = () => {
                         href={article.article_url}
                         target='_blank'
                         rel='noopener noreferrer'
-                        className='btn btn-primary'>
+                        className='btn btn-primary'
+                        role='button'>
                         Read More
                       </a>
                     </Card.Body>
@@ -94,6 +96,7 @@ const NewsFeed = () => {
                           className='me-2'
                         />
                       </div>
+
                       <small className='text-muted'>
                         {new Date(article.published_utc).toLocaleDateString()}
                       </small>

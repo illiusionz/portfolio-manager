@@ -102,9 +102,11 @@ input[type="number"] {
 
 .hero-section {
   padding: .5rem 0; /* Ensure there's enough space below the navbar */
+  height: auto;
+
   .stock-data {
-  height: 550px;
-}
+    height: 100%;
+  }
 
 }
 
@@ -119,6 +121,7 @@ input[type="number"] {
   padding: 0.5rem 0;
   text-align: center;
   font-weight: 600;
+  margin-bottom:0;
 }
 
 .card-header {
