@@ -2,8 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const Portfolio = require('../../models/Portfolio');
-const mongoose = require('mongoose');
+const Portfolio = require('../../models/PortfolioModel');
 
 // GET portfolio for a test user
 router.get('/:userId', async (req, res) => {

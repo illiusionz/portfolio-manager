@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-const Portfolio = require('../../models/Portfolio');
+const Portfolio = require('../../models/PortfolioModel');
 
 const portfolioResolvers = {
   Query: {

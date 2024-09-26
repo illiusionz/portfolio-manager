@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPortfolio } from '../../features/portfolio/portfolioSlice';
-import Portfolio from '../../components/Portfolio/Portfolio';
+import Portfolio from '../../components/Portfolio/PortfolioView';
 import StockDetails from '../../components/StockDetails/StockDetails';
 
 const PortfolioPage = () => {

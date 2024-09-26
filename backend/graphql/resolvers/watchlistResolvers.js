@@ -1,4 +1,4 @@
-const Watchlist = require('../../models/Watchlist');
+const Watchlist = require('../../models/WatchlistModel');
 
 const watchlistResolvers = {
   Query: {

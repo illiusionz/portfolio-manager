@@ -17,10 +17,7 @@ import SymbolAutoSuggest from '../shared/SymbolAutoSuggest';
 
 const OptionPremiumCalculator = () => {
   const dispatch = useDispatch();
-
-  // State selectors
   const userSymbol = useSelector(selectUserSymbol);
-
   const currentPrice = useSelector((state) =>
     selectStockPrice(state, userSymbol)
   ); // Fetch stock price

@@ -1,21 +1,20 @@
 const mongoose = require('mongoose');
-require('dotenv').config({ path: '../.env' });
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 
-// MongoDB URI fallback for local development
 const MONGO_URI = process.env.MONGO_URI;
 
 const connectDB = async () => {
   try {
-    // Connect to MongoDB
+    if (!MONGO_URI) {
+      throw new Error('MONGO_URI is not defined in environment variables');
+    }
+    // Connect to MongoDB without deprecated options
     const conn = await mongoose.connect(MONGO_URI);
-    console.log('MONGO_URI from env:', process.env.MONGO_URI);
-
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error(`Error: ${error.message}`);
-
-    // Retry mechanism
-    //setTimeout(connectDB, 5000); // Retry after 5 seconds
+    process.exit(1); // Exit process with failure
   }
 };
 
