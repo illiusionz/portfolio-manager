@@ -1,4 +1,3 @@
-// src/components/PercentageDifferenceCalculator.js
 import './PercentageDifferenceCalculator.scss';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -122,13 +121,13 @@ const PercentageDifferenceCalculator = () => {
           <form onSubmit={(e) => e.preventDefault()}>
             <div className='form-group'>
               <label className='form-label' htmlFor='stockName'>
-                Stock Name:
+                Stock Symbol:
               </label>
               <SymbolAutoSuggest onSuggestionSelected={onSymbolSelected} />
             </div>
             <div className='form-group'>
               <label className='form-label' htmlFor='currentPrice'>
-                Current Price:
+                Current Stock Price:
               </label>
               <input
                 type='text'
@@ -141,7 +140,7 @@ const PercentageDifferenceCalculator = () => {
             </div>
             <div className='form-group'>
               <label className='form-label' htmlFor='targetPrice'>
-                Target Price:
+                Target Stock Price:
               </label>
               <input
                 type='text'
@@ -153,18 +152,12 @@ const PercentageDifferenceCalculator = () => {
               />
             </div>
 
-            <div className='button-group'>
-              <button
-                type='button'
-                className='btn btn-primary'
-                onClick={calculatePercentageChange}>
-                Calculate
-              </button>
-              <button
-                type='button'
-                className='btn btn-danger'
-                onClick={resetFields}>
+            <div className='button-group d-flex'>
+              <button type='button' className='btn btn-danger btn-stretch ml-2'>
                 Reset
+              </button>
+              <button type='button' className='btn btn-primary btn-stretch'>
+                Calculate
               </button>
             </div>
           </form>

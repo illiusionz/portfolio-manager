@@ -49,59 +49,61 @@ const CompoundInterestCalculator = () => {
           <h5 className='card-title mb-0'>Compound Interest Calculator</h5>
         </div>
         <div className='card-body'>
-          <div className='form-inline'>
-            <div className='form-group mx-2'>
-              <label className='form-label' htmlFor='initialCapital'>
-                Initial Capital:
-              </label>
-              <input
-                type='text'
-                id='initialCapital'
-                className='form-control'
-                value={initialCapital}
-                onChange={(e) =>
-                  setInitialCapital(
-                    formatNumberWithCommas(e.target.value.replace(/,/g, ''))
-                  )
-                }
-              />
-            </div>
-            <div className='form-group mx-2'>
-              <label className='form-label' htmlFor='weeklyRate'>
-                Weekly Percent:
-              </label>
-              <input
-                type='text'
-                id='weeklyRate'
-                className='form-control'
-                value={weeklyRate}
-                onChange={(e) => setWeeklyRate(e.target.value)}
-              />
-            </div>
-            <div className='form-group mx-2'>
-              <label className='form-label' htmlFor='weeks'>
-                # Weeks:
-              </label>
-              <input
-                type='text'
-                id='weeks'
-                className='form-control'
-                value={weeks}
-                onChange={(e) => setWeeks(e.target.value)}
-              />
-            </div>
+          <div className='form-group'>
+            <label className='form-label' htmlFor='initialCapital'>
+              Initial Capital:
+            </label>
+            <input
+              type='text'
+              id='initialCapital'
+              className='form-control'
+              value={initialCapital}
+              onChange={(e) =>
+                setInitialCapital(
+                  formatNumberWithCommas(e.target.value.replace(/,/g, ''))
+                )
+              }
+            />
           </div>
-          <div className='button-group mt-4'>
-            <button className='btn btn-primary' onClick={handleCalculate}>
-              Calculate
-            </button>
-            <button className='btn btn-danger ml-2' onClick={resetFields}>
+          <div className='form-group'>
+            <label className='form-label' htmlFor='weeklyRate'>
+              Weekly Percentage Rate:
+            </label>
+            <input
+              type='text'
+              id='weeklyRate'
+              className='form-control'
+              value={weeklyRate}
+              onChange={(e) => setWeeklyRate(e.target.value)}
+            />
+          </div>
+          <div className='form-group'>
+            <label className='form-label' htmlFor='weeks'>
+              Number of Weeks:
+            </label>
+            <input
+              type='text'
+              id='weeks'
+              className='form-control'
+              value={weeks}
+              onChange={(e) => setWeeks(e.target.value)}
+            />
+          </div>
+          <div className='button-group d-flex'>
+            <button
+              className='btn btn-danger btn-stretch'
+              onClick={resetFields}>
               Reset
+            </button>
+            <button
+              className='btn btn-primary btn-stretch'
+              onClick={handleCalculate}>
+              Calculate
             </button>
           </div>
           {results.length > 0 && (
-            <div>
-              <h5>Results:</h5>
+            <div className='result'>
+              <h5>Compound Results:</h5>
               <table
                 className={`table table-striped mt-3 table-hover ${
                   theme === 'theme-dark' ? 'table-dark' : ''

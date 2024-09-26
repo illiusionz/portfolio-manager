@@ -159,7 +159,7 @@ const DollarCostAveragingCalculator = () => {
         {result && (
           <div className='result'>
             <h6 className='result-title'>
-              <strong>Result</strong>
+              <strong>Total Result</strong>
             </h6>
             <div className='form-row'>
               <div className='col'>

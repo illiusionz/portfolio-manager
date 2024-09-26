@@ -1,1 +1,22 @@
 /* src/components/DividendInfo/DividendInfo.css */
+.dividend-info {
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+
+    .btn-stretch {
+      flex: 1; // Ensures that the button stretches to occupy equal space
+      margin: 0 5px; // Adds space between buttons, adjust as needed
+      text-align: center; // Centers the text inside the button
+    }
+
+    // Remove side margins for the first and last buttons
+    .btn-stretch:first-child {
+      margin-left: 0;
+    }
+
+    .btn-stretch:last-child {
+      margin-right: 0;
+    }
+  }
+}

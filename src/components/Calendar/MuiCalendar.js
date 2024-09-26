@@ -5,6 +5,7 @@ import { CalendarPicker } from '@mui/x-date-pickers';
 import { Box, Typography, TextField } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import './MuiCalendar.scss';
+import { Card } from 'react-bootstrap';
 
 const darkTheme = createTheme({
   palette: {
@@ -36,37 +37,39 @@ const MuiCalendar = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}>
-          {/*<Typography variant='h6' sx={{ mt: 2 }}>
+        <Card className='calendar-card'>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}>
+            {/*<Typography variant='h6' sx={{ mt: 2 }}>
             Selected Date: {selectedDate ? selectedDate.toDateString() : 'None'}
           </Typography>*/}
-          <CalendarPicker
-            date={selectedDate}
-            onChange={handleDateChange}
-            renderInput={(params) => <TextField {...params} />}
-            sx={{
-              '& .MuiPickersDay-root': {
-                color: 'white',
-              },
-              '& .MuiPickersDay-root.Mui-selected': {
-                backgroundColor: 'primary.main',
-                color: 'black',
-                '&:hover': {
-                  backgroundColor: 'primary.dark',
+            <CalendarPicker
+              date={selectedDate}
+              onChange={handleDateChange}
+              renderInput={(params) => <TextField {...params} />}
+              sx={{
+                '& .MuiPickersDay-root': {
+                  color: 'white',
                 },
-              },
-              '& .MuiCalendarPicker-root': {
-                backgroundColor: 'background.paper',
-                color: 'text.primary',
-              },
-            }}
-          />
-        </Box>
+                '& .MuiPickersDay-root.Mui-selected': {
+                  backgroundColor: 'primary.main',
+                  color: 'black',
+                  '&:hover': {
+                    backgroundColor: 'primary.dark',
+                  },
+                },
+                '& .MuiCalendarPicker-root': {
+                  backgroundColor: 'background.paper',
+                  color: 'text.primary',
+                },
+              }}
+            />
+          </Box>
+        </Card>
       </LocalizationProvider>
     </ThemeProvider>
   );

@@ -61,8 +61,8 @@ input[type="number"] {
 }
 
 .button-group {
-  display: flex;
-  justify-content: flex-end;
+  /*display: flex;
+  justify-content: flex-end;*/
 }
 
 .button-group .btn {
@@ -150,6 +150,7 @@ input[type="number"] {
 
   h6 {
     font-size: .9rem;
+    text-align: center;
   }
 }
 
@@ -190,7 +191,9 @@ input[type="number"] {
 
 .form-group {
   display: flex;
-  align-items: center;
+  align-items: start;  
+  margin-bottom: 1rem;
+  flex-direction: column;
 }
 
 .form-label {

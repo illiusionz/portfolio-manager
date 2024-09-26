@@ -73,37 +73,39 @@ const HomePage = () => {
       </div>
 
       <Suspense fallback={<div>Loading...</div>}>
-        <div className='row my-2'>
-          <div className='col-md-3'>
+        <div className='row my-2 align-items-start'>
+          <div className='col-12 col-md-6 col-lg-4 col-xl-3 mb-3 align-self-stretch'>
             <PortfolioValueCard totalValue={totalValue} />
             <MuiCalendar />
             <TopMovers />
           </div>
-          <div className='col-md-3'>
+          <div className='col-12 col-md-6 col-lg-4 col-xl-3 mb-3 align-self-stretch'>
             <DollarCostAveragingCalculator />
             <StockWatchlist />
             <EarningsCalendar />
           </div>
-          <div className='col-md-3'>
+          <div className='col-12 col-md-6 col-lg-4 col-xl-3 mb-3 align-self-stretch'>
             <OptionPremiumCalculator />
             <CompoundInterestCalculator />
           </div>
-          <div className='col-md-3'>
+          <div className='col-12 col-md-6 col-lg-4 col-xl-3 mb-3 align-self-stretch'>
             <PercentageDifferenceCalculator />
             <Calculator />
           </div>
         </div>
-        <div className='container-fluid'>
-          <div className='row my-3'>
-            <div className='col-md-12'>
-              <DividendInfo />
-              <EarningsCalendar />
-            </div>
+
+        {/* Refactored Section for Two Columns on Desktop and One Column on Mobile */}
+        <div className='row my-3'>
+          <div className='col-12 col-lg-6 mb-3'>
+            <DividendInfo />
+          </div>
+          <div className='col-12 col-lg-6 mb-3'>
+            <EarningsCalendar />
           </div>
         </div>
 
         <div className='row my-3'>
-          <div className='col-md-12'>
+          <div className='col-12'>
             {newsError && (
               <div className='alert alert-danger'>{newsError.message}</div>
             )}

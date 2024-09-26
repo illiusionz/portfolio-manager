@@ -90,13 +90,17 @@ const DividendInfo = () => {
         <h5 className='card-title mb-0'>Stock Dividend Information</h5>
       </div>
       <div className='card-body'>
-        <form className='form-inline my-2 my-lg-0'>
-          <div className='form-group me-2'>
-            <label htmlFor='symbol'>Stock Symbol: </label>
+        <form className=''>
+          <div className='form-group'>
+            <label className='form-label' htmlFor='symbol'>
+              Stock Symbol:{' '}
+            </label>
             <SymbolAutoSuggest onSymbolSelect={handleSymbolSelection} />
           </div>
-          <div className='form-group me-2'>
-            <label htmlFor='watchlist'>Watchlist: </label>
+          <div className='form-group'>
+            <label className='form-label' htmlFor='watchlist'>
+              Watchlist:{' '}
+            </label>
             <select
               className='form-control'
               value={userSymbol || ''}
@@ -111,30 +115,34 @@ const DividendInfo = () => {
               ))}
             </select>
           </div>
-          <div className='form-group me-2'>
-            <label htmlFor='numberOfShares'>Number of Shares: </label>
+          <div className='form-group'>
+            <label className='form-label' htmlFor='numberOfShares'>
+              Number of Shares:{' '}
+            </label>
             <input
               type='text'
-              className='form-control mx-2'
+              className='form-control'
               placeholder='Number of Shares'
               value={numberOfShares}
               onChange={handleNumberOfSharesChange}
             />
+          </div>
+          <div className='button-group d-flex'>
             <button
               type='button'
-              className='btn btn-primary my-2 my-sm-0 ml-2'
+              className='btn btn-danger btn-stretch'
+              onClick={handleReset}>
+              Reset
+            </button>
+            <button
+              type='button'
+              className='btn btn-primary btn-stretch'
               onClick={handleCalculate}>
               Calculate
             </button>
           </div>
-          <button
-            type='button'
-            className='btn btn-danger my-2 my-sm-0 ml-2'
-            onClick={handleReset}>
-            Reset
-          </button>
         </form>
-        <div className='mt-3'>
+        <div className='result'>
           <h5>
             <strong>Total Dividend:</strong> $
             {formatNumberWithCommas(calculatedDividend) || '0.00'}

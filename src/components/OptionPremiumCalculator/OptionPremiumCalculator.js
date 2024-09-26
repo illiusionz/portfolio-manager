@@ -149,7 +149,7 @@ const OptionPremiumCalculator = () => {
           <form onSubmit={(e) => e.preventDefault()}>
             <div className='form-group'>
               <label className='form-label' htmlFor='stockName'>
-                Stock Name:
+                Stock Symbol:
               </label>
               <SymbolAutoSuggest onSuggestionSelected={onSymbolSelected} />
             </div>
@@ -203,18 +203,17 @@ const OptionPremiumCalculator = () => {
                 onChange={handleAmountOfWeeksChange}
               />
             </div>
-            <div className='button-group'>
+            <div className='button-group d-flex'>
               <button
                 type='button'
-                className='btn btn-primary'
-                onClick={calculateTotalPremium}>
-                Calculate
-              </button>
-              <button
-                type='button'
-                className='btn btn-danger'
+                className='btn btn-danger btn-stretch'
                 onClick={resetFields}>
                 Reset
+              </button>
+              <button
+                className='btn btn-primary btn-stretch'
+                onClick={calculateTotalPremium}>
+                Calculate
               </button>
             </div>
             <div className='result mt-3'>

@@ -1,18 +1,21 @@
-/* General styles for the calculator */
-.percentage-difference-calculator label {
-  width: 120px;
-}
+.percentage-difference-calculator {
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; // Add spacing between buttons
 
-.percentage-difference-calculator .result h6 {
-  text-align: center;
-}
+    .btn-stretch {
+      flex: 1;
+      text-align: center; // Center text within the button
+    }
 
-.percentage-difference-calculator .form-control {
-  width: 50%;
-  flex: none;
-}
+    // Adjust margin for spacing between buttons if needed
+    .btn-stretch:first-child {
+      margin-right: 10px; // Adjust this value as needed
+    }
 
-.percentage-difference-calculator .form-group {
-  justify-content: space-between;
-  margin-bottom: 1rem;
+    .btn-stretch:last-child {
+      margin-left: 10px; // Adjust this value as needed
+    }
+  }
 }

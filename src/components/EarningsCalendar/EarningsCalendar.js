@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import { Card, Pagination } from 'react-bootstrap'; // Import Bootstrap Card and Pagination components
 import { selectTheme } from '../../features/theme/themeSelectors';
 
-const ITEMS_PER_PAGE = 10; // Number of items to show per page
+const ITEMS_PER_PAGE = 7; // Number of items to show per page
 const PAGINATION_SIZE = 3; // Maximum number of pagination items to display
 
 // Function to transform the nested earnings data to a flat array
@@ -145,9 +145,9 @@ const EarningsCalendar = () => {
           <Card.Title className='mb-0'>Earnings Calendar</Card.Title>
         </Card.Header>
         <Card.Body>
-          {/* Centered Row with Start Date, End Date and Button */}
-          <div className='d-flex justify-content-center align-items-center mb-4'>
-            <div className='flex-grow-1'>
+          {/* Responsive row with Start Date, End Date and Button */}
+          <div className='row gx-2 gy-2 align-items-center'>
+            <div className='col-12 col-sm-6 col-md-4'>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   label='Start Date'
@@ -159,7 +159,7 @@ const EarningsCalendar = () => {
                 />
               </LocalizationProvider>
             </div>
-            <div className='flex-grow-1 mx-3'>
+            <div className='col-12 col-sm-6 col-md-4'>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   label='End Date'
@@ -171,11 +171,12 @@ const EarningsCalendar = () => {
                 />
               </LocalizationProvider>
             </div>
-            <div>
+            <div className='col-12 col-md-4 text-md-start text-center'>
               <Button
                 variant='contained'
                 color='primary'
-                onClick={fetchEarnings}>
+                onClick={fetchEarnings}
+                fullWidth>
                 Submit
               </Button>
             </div>
