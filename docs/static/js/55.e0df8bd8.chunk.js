@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkfinance_app=self.webpackChunkfinance_app||[]).push([[55],{66436:(e,s,a)=>{a.r(s),a.d(s,{default:()=>h});var n=a(65043),c=a(70579);const i=(0,n.lazy)((()=>a.e(900).then(a.bind(a,76900)))),h=()=>(0,c.jsx)("div",{className:"container mt-4",children:(0,c.jsxs)("div",{className:"hero-section",children:[(0,c.jsx)("h1",{children:"Stock New Page"}),(0,c.jsx)(i,{})]})})}}]);
-//# sourceMappingURL=55.e0df8bd8.chunk.js.map

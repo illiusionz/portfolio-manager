@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkfinance_app=self.webpackChunkfinance_app||[]).push([[502],{97502:(e,s,a)=>{a.r(s),a.d(s,{default:()=>n});a(65043);var t=a(70579);const n=()=>{const e=(new Date).getFullYear();return(0,t.jsx)("footer",{className:"footer mt-auto py-3",children:(0,t.jsx)("div",{className:"container",children:(0,t.jsxs)("p",{className:"text-center mb-0",children:["\xa9 ",e," All Rights Reserved | By Jeffrey Liu"]})})})}}}]);
-//# sourceMappingURL=502.1ecaecad.chunk.js.map
