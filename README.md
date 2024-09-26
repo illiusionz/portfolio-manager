@@ -97,36 +97,43 @@ The GraphQL schema consists of three main parts:
     - `addStockToWatchlist(userId: ID!, stockSymbol: String!): Watchlist`
     - `removeStockFromWatchlist(userId: ID!, stockSymbol: String!): Watchlist`
 
-## Setup and Installation
+## Available Scripts
 
+In the project directory, you can run:
+
+### `npm start`
+Runs the app in the development mode.Open [http://localhost:3000](http://localhost:3000) to view it in the browser.The page will reload when you make changes.You may also see any lint errors in the console.
+
+### `npm test`
+Launches the test runner in the interactive watch mode.See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### `npm run build`
+Builds the app for production to the `build` folder.It correctly bundles React in production mode and optimizes the build for the best performance.The build is minified and the filenames include the hashes.Your app is ready to be deployed!See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run eject`
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+## Development Setup
 1. **Clone the repository**:
    ```bash
-   git clone <repository-url>
-   cd backend
+   git clone https://github.com/illiusionz/portfolio-manager.git
    ```
-
 2. **Install dependencies**:
    ```bash
    npm install
    ```
-
-3. **Environment Variables**:
-   - Create a `.env` file in the root directory and add the following variables:
-     ```
-     MONGO_URI=<Your MongoDB URI>
-     PORT=5001
-     ```
-
-4. **Start the server**:
+3. **Run the application**:
    ```bash
    npm start
    ```
+   This will start the frontend development server.
 
-5. **Sync Initial Data** (optional):
-   - To sync initial portfolio data from the JSON file to MongoDB:
+4. **Backend Server**: Navigate to the backend directory and start the server:
    ```bash
-   node scripts/syncPortfolio.js
+   cd backend
+   npm start
    ```
+5. **Environment Variables**: Ensure `.env` files are correctly set up for API keys, MongoDB URIs, and other sensitive data.
 
 ## Contribution Guidelines
 - **Code Style**: Follow the existing coding style for consistency.
