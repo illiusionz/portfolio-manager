@@ -1,14 +1,14 @@
 // src/containers/AssetManagement/AssetManagement.js
 import React from 'react';
-import AssetManagementCalculator from '../../components/AssetManagementCalculator/AssetManagementCalculator';
+import AssetManagementCard from '../../components/AssetManagementCard/AssetManagementCard';
 
 const AssetManagement = () => {
   return (
-    <div className='container-fluid'>
+    <div className='container'>
       <div className='hero-section'>
-        <h1>Asset Management</h1>
+        <h1>Asset Allocation</h1>
       </div>
-      <AssetManagementCalculator />
+      <AssetManagementCard />
     </div>
   );
 };

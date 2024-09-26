@@ -50,13 +50,7 @@ const NewsFeed = () => {
             className='news-thumbnail'
           />
           <div className='news-content'>
-            <div
-              href={article.article_url}
-              target='_blank'
-              rel='noopener noreferrer'
-              className='news-title'>
-              {article.title}
-            </div>
+            <div className='news-title'>{article.title}</div>
             <div className='news-date'>
               {new Date(article.published_utc).toLocaleDateString()}
             </div>

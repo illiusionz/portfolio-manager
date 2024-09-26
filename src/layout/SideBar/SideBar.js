@@ -19,7 +19,7 @@ import {
 const navigationItems = [
   { to: '/', icon: FaHome, label: 'Dashboard' },
   { to: '/stock-portfolio', icon: FaChartLine, label: 'Stock Portfolio' },
-  { to: '/chart-analysis', icon: FaChartArea, label: 'A.I. Finance Assistant' },
+  { to: '/ai-assistant', icon: FaChartArea, label: 'A.I. Assistant' },
   { to: '/calendar', icon: FaCalendarAlt, label: 'Calendar' },
   { to: '/stock-news', icon: FaNewspaper, label: 'Stock News' },
   { to: '/asset-management', icon: FaChartPie, label: 'Asset Management' },

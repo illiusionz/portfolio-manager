@@ -12,9 +12,9 @@ const loggerMiddleware = (storeAPI) => (next) => (action) => {
   if (action.type.startsWith('user/')) {
     console.log('User state after action:', storeAPI.getState().user);
   }
-  if (action.type.startsWith('stocks/')) {
+  /*if (action.type.startsWith('stocks/')) {
     console.log('Stocks state after action:', storeAPI.getState().stocks);
-  }
+  }*/
   return result;
 };
 

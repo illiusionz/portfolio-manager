@@ -1,16 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { selectTheme } from '../features/theme/themeSelectors'; // Import the selector
+import { selectTheme } from '../features/theme/themeSelectors';
+import { selectUserSymbol } from '../features/user/userSelectors';
 
-function TradingViewWidget({ userSymbol }) {
+function TradingViewWidget({ symbol }) {
   const container = useRef();
   const theme = useSelector(selectTheme);
   const widgetInitialized = useRef(false);
   const tradingViewTheme = theme === 'theme-light' ? 'light' : 'dark';
+  const userSymbol = useSelector(selectUserSymbol);
 
   useEffect(() => {
     const initializeWidget = () => {
-      if (!userSymbol) {
+      if (!symbol) {
         console.error('Invalid or missing symbol for TradingView widget');
         return;
       }
