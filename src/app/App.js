@@ -3,7 +3,7 @@ import '../styles/App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { HashRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import {
   fetchStocks,
   fetchStockSnapshot,
@@ -98,9 +98,7 @@ function App() {
             <Routes>
               <Route path='/' element={<HomePage />} />
               <Route path='/stock-portfolio' element={<PortfolioPage />} />
-
               <Route path='/calendar' element={<CalendarPage />} />
-
               <Route path='/ai-assistant' element={<ChartAnalysisPage />} />
               <Route
                 path='/asset-management'
@@ -110,7 +108,6 @@ function App() {
                 path='/percentage-difference'
                 element={<PercentageDifferenceCalculator />}
               />
-
               <Route path='/stock-news' element={<StockNewsPage />} />
               <Route path='/education' element={<EducationPage />} />
             </Routes>

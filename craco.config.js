@@ -1,5 +1,3 @@
-const path = require('path');
-
 module.exports = {
   webpack: {
     configure: (webpackConfig) => {
@@ -9,11 +7,6 @@ module.exports = {
         publicPath: '/portfolio-manager/',
       };
       return webpackConfig;
-    },
-  },
-  devServer: {
-    historyApiFallback: {
-      index: 'index.html',
     },
   },
   style: {
