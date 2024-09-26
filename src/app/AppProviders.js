@@ -7,7 +7,7 @@ import store from './store';
 const AppProviders = ({ children }) => {
   return (
     <ReduxProvider store={store}>
-      <Router basename='/portfolio-manager'>{children}</Router>
+      <Router>{children}</Router>
     </ReduxProvider>
   );
 };
