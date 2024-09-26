@@ -85,7 +85,7 @@ const DollarCostAveragingCalculator = () => {
   return (
     <div className='dca-calculator card'>
       <div className='card-header'>
-        <h5 className='card-title mb-0'>Dollar Cost Averaging Calculator</h5>
+        <h5 className='card-title mb-0'>Dollar Cost Average</h5>
       </div>
       <div className='card-body'>
         {investments.map((investment, index) => (
@@ -158,24 +158,23 @@ const DollarCostAveragingCalculator = () => {
         </div>
         {result && (
           <div className='result'>
-            <h6 className='result-title'>
-              <strong>Total Result</strong>
-            </h6>
+            {/*<h6 className='result-title'>
+              <b>Total Result</b>
+            </h6>*/}
             <div className='form-row'>
               <div className='col'>
                 <h6>
-                  <strong>Shares:</strong>{' '}
-                  {formatNumberWithCommas(result.shares)}
+                  <b>Shares:</b> {formatNumberWithCommas(result.shares)}
                 </h6>
               </div>
               <div className='col'>
                 <h6>
-                  <strong>Avg Buy:</strong> {result.avgBuy}
+                  <b>Avg Buy:</b> {result.avgBuy}
                 </h6>
               </div>
               <div className='col'>
                 <h6>
-                  <strong>Total Cost:</strong> {result.totalCost}
+                  <b>Total Cost:</b> {result.totalCost}
                 </h6>
               </div>
             </div>

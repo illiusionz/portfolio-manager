@@ -1,8 +1,11 @@
 import './CompoundInterestCalculator.scss';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { formatNumberWithCommas } from '../../utils/format';
-
+import {
+  formatNumberWithCommas,
+  formatCurrency,
+  parseCurrency,
+} from '../../utils/format';
 const CompoundInterestCalculator = () => {
   const [initialCapital, setInitialCapital] = useState('10000');
   const [weeklyRate, setWeeklyRate] = useState('1');
@@ -36,7 +39,7 @@ const CompoundInterestCalculator = () => {
   };
 
   const resetFields = () => {
-    setInitialCapital('10000');
+    setInitialCapital(10000);
     setWeeklyRate('1');
     setWeeks('52');
     setResults([]);
@@ -46,7 +49,7 @@ const CompoundInterestCalculator = () => {
     <div className='compound-interest-calculator'>
       <div className='card'>
         <div className='card-header'>
-          <h5 className='card-title mb-0'>Compound Interest Calculator</h5>
+          <h5 className='card-title mb-0'>Compound Interest</h5>
         </div>
         <div className='card-body'>
           <div className='form-group'>

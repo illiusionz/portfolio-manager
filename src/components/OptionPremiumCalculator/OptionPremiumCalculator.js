@@ -138,7 +138,7 @@ const OptionPremiumCalculator = () => {
     <div className='option-premium-calculator'>
       <div className='card'>
         <div className='card-header'>
-          <h5 className='card-title mb-0'>Option Premium Calculator</h5>
+          <h5 className='card-title mb-0'>Option Premiums</h5>
           <FontAwesomeIcon
             icon={faArrowsRotate}
             className={`card-refresh ${isRotating ? 'rotating' : ''}`}
@@ -218,15 +218,15 @@ const OptionPremiumCalculator = () => {
             </div>
             <div className='result mt-3'>
               <h6>
-                <strong>Total Premium Collected:</strong> +$
+                <b>Total Premium Collected:</b> +$
                 {formatNumberWithCommas(totalPremium.toFixed(2))}
               </h6>
               <h6>
-                <strong>Total Capital Used:</strong> $
+                <b>Total Capital Used:</b> $
                 {formatNumberWithCommas(totalCapital.toFixed(2))}
               </h6>
               <h6>
-                <strong>Average Return:</strong> +
+                <b>Average Return:</b> +
                 {formatNumberWithCommas(percentageReturn.toFixed(2))}%
               </h6>
             </div>
