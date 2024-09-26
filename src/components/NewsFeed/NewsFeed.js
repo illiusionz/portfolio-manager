@@ -1,4 +1,3 @@
-// src/components/NewsFeed/NewsFeed.js
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchNews } from '../../features/news/newsThunks';
@@ -8,7 +7,8 @@ import {
   selectNewsError,
 } from '../../features/news/newsSelectors';
 import { selectUserSymbol } from '../../features/user/userSelectors';
-import './NewsFeed.scss';
+import { Card, Row, Col, Spinner, Alert } from 'react-bootstrap'; // Import Bootstrap components
+import './NewsFeed.scss'; // Ensure the styles don't override Bootstrap defaults
 
 const NewsFeed = () => {
   const dispatch = useDispatch();
@@ -24,45 +24,88 @@ const NewsFeed = () => {
   }, [dispatch, userSymbol, articles]);
 
   if (loading) {
-    return <div>Loading news...</div>;
+    return (
+      <div className='d-flex justify-content-center'>
+        <Spinner animation='border' role='status'>
+          <span className='visually-hidden'>Loading news...</span>
+        </Spinner>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className='error'>{error}</div>;
+    return <Alert variant='danger'>Error: {error}</Alert>;
   }
 
   if (!articles[userSymbol] || articles[userSymbol].length === 0) {
-    return <div>No news available.</div>;
+    return <Alert variant='info'>No news available.</Alert>;
   }
 
   return (
-    <div className='news-feed'>
-      {articles[userSymbol]?.map((article, index) => (
-        <a
-          key={index}
-          className='news-item'
-          href={article.article_url}
-          target='_blank'
-          rel='noopener noreferrer'>
-          <img
-            src={article.image_url}
-            alt={article.title}
-            className='news-thumbnail'
-          />
-          <div className='news-content'>
-            <div className='news-title'>{article.title}</div>
-            <div className='news-date'>
-              {new Date(article.published_utc).toLocaleDateString()}
-            </div>
-          </div>
-          <img
-            src={article.publisher.logo_url}
-            alt={article.publisher.name}
-            className='news-logo'
-          />
-        </a>
-      ))}
-    </div>
+    <Card>
+      <Card.Header>
+        <Card.Title>News Feed</Card.Title>
+      </Card.Header>
+      <div className='news-feed'>
+        <Card.Body>
+          <Row xs={1} sm={2} md={2} lg={4} xl={4} xxl={5} className='g-4'>
+            {articles[userSymbol]?.map((article, index) => (
+              <Col key={index}>
+                <Card className='h-100 d-flex flex-column'>
+                  <div className='text-decoration-none text-dark d-flex flex-column h-100'>
+                    <Card.Img
+                      variant='top'
+                      src={article.image_url}
+                      alt={article.title}
+                      style={{
+                        height: '200px',
+                        objectFit: 'cover',
+                        borderBottom: '1px solid var(--border-color)',
+                      }}
+                    />
+                    <Card.Body className='flex-grow-1 d-flex flex-column'>
+                      <Card.Title className='mb-2 text-start card-title'>
+                        {article.title}
+                      </Card.Title>
+                      <small className='text-muted'>
+                        {article.publisher.name}
+                      </small>
+                      <Card.Text className='mb-4 card-text'>
+                        {article.description}
+                      </Card.Text>
+                      <a
+                        href={article.article_url}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='btn btn-primary'>
+                        Read More
+                      </a>
+                    </Card.Body>
+                    <Card.Footer className='mt-auto d-flex justify-content-between align-items-center'>
+                      <div className='d-flex align-items-center'>
+                        <img
+                          src={article.publisher.logo_url}
+                          alt={article.publisher.name}
+                          style={{
+                            width: '70px',
+
+                            height: '30px',
+                          }}
+                          className='me-2'
+                        />
+                      </div>
+                      <small className='text-muted'>
+                        {new Date(article.published_utc).toLocaleDateString()}
+                      </small>
+                    </Card.Footer>
+                  </div>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Card.Body>
+      </div>
+    </Card>
   );
 };
 

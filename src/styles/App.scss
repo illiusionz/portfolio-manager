@@ -6,6 +6,10 @@ body {
   color: var(--text-color-light);
 }
 
+.container-xxl {
+  max-width: 1680px;
+}
+
 .btn {
   font-weight: 500;
 }

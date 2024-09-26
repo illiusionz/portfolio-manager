@@ -116,9 +116,7 @@ function App() {
             </Routes>
           </Suspense>
         </div>
-        <Suspense>
-          <Footer />
-        </Suspense>
+        <Suspense>{/*<Footer />*/}</Suspense>
       </div>
     </div>
   );

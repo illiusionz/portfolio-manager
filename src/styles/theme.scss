@@ -16,3 +16,8 @@ $theme-dark: (
   background-color: map-get($theme, background-color);
   color: map-get($theme, text-color);
 }
+
+
+.container-xxl {
+  max-width: 1680px!important;
+}

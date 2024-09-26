@@ -10,7 +10,6 @@
   --border-radius:8px;
 
   --body-background:#f8f9fa;
-
   --input-background-color:#f8f9fa;
 
 
@@ -18,7 +17,7 @@
   --card-title-color:#000;
   --card-text-color:#000;
   --card-border-color:#e3e6f0;
-  --card-padding:1rem 2rem;
+  --card-padding:1rem 1.5rem;
 
   --autosuggest-suggestion-highlighted:#ddd;
 
@@ -60,7 +59,7 @@
 
 
 // Typography
-$font-family-primary: 'Helvetica Neue', sans-serif;
+$font-family-primary: 'Roboto', sans-serif;
 $text-color-primary: #333;
 $text-color-secondary: #666;
 $heading-color: #000;

@@ -37,17 +37,18 @@
   background: #157347;
 }
 
-.sidebar ul li a {
-  color: #ecf0f1;
+.sidebar a {
+  color: #fff;
   text-decoration: none;
   display: flex;
   align-items: center;
   width: 100%;
   font-size: 1rem;
   font-weight: 500;
+  display: block;
 }
 
-.sidebar ul li a .icon {
+.sidebar a .icon {
   margin-right: 1rem;
   transform: scale(1.3);
 }

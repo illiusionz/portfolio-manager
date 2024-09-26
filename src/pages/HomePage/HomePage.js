@@ -19,6 +19,7 @@ import DividendInfo from '../../components/DividendInfo/DividendInfo';
 import MuiCalendar from '../../components/Calendar/MuiCalendar';
 import Calculator from '../../components/Calculator/Calculator';
 import PortfolioValueCard from '../../components/PortfolioValueCard/PortfolioValueCard';
+import EarningsCalendar from '../../components/EarningsCalendar/EarningsCalendar';
 
 const HomePage = () => {
   const userSymbol = useSelector(selectUserSymbol); // Using symbol from Redux
@@ -83,7 +84,6 @@ const HomePage = () => {
           </div>
           <div className='col-md-3'>
             <StockWatchlist />
-
             <DollarCostAveragingCalculator />
           </div>
           <div className='col-md-3'>
@@ -91,17 +91,18 @@ const HomePage = () => {
             <Calculator />
           </div>
         </div>
-
-        <div className='row my-3'>
-          <div className='col-md-9'>
-            <DividendInfo />
-            <CompoundInterestCalculator />
+        <div className='container-fluid'>
+          <div className='row my-3'>
+            <div className='col-md-12'>
+              <DividendInfo />
+              <EarningsCalendar />
+              <CompoundInterestCalculator />
+            </div>
           </div>
         </div>
 
         <div className='row my-3'>
           <div className='col-md-12'>
-            <h3 className='text-center news-headline'>Related News</h3>
             {newsError && (
               <div className='alert alert-danger'>{newsError.message}</div>
             )}

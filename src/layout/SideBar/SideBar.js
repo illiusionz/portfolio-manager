@@ -18,11 +18,13 @@ import {
 
 const navigationItems = [
   { to: '/', icon: FaHome, label: 'Dashboard' },
+  { to: '/asset-management', icon: FaChartPie, label: 'Asset Manager' },
+
   { to: '/stock-portfolio', icon: FaChartLine, label: 'Stock Portfolio' },
+
   { to: '/ai-assistant', icon: FaChartArea, label: 'A.I. Assistant' },
   { to: '/calendar', icon: FaCalendarAlt, label: 'Calendar' },
   { to: '/stock-news', icon: FaNewspaper, label: 'Stock News' },
-  { to: '/asset-management', icon: FaChartPie, label: 'Asset Management' },
   { to: '/education', icon: FaChalkboardTeacher, label: 'Education' },
   { to: '/market-tools', icon: FaTools, label: 'Market Tools' },
   { to: '/chat-room', icon: FaComments, label: 'Chat Room' },
@@ -36,11 +38,11 @@ const SideBar = () => {
       </div>
       <ul>
         {navigationItems.map(({ to, icon: Icon, label }) => (
-          <li key={to}>
-            <Link to={to}>
+          <Link to={to}>
+            <li key={to}>
               <Icon className='icon' /> {label}
-            </Link>
-          </li>
+            </li>
+          </Link>
         ))}
       </ul>
     </nav>

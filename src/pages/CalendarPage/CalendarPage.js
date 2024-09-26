@@ -31,17 +31,22 @@ const CalendarPage = () => {
   return (
     <div className='container mt-4' style={{ height: '100vh' }}>
       <h2>My Calendar</h2>
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor='start'
-        endAccessor='end'
-        style={{ height: 500 }}
-        defaultView='month' // You can set this to "month", "week", "day", or "agenda"
-        views={['month', 'week', 'day']}
-      />
+      <div className='calendar-section'>
+        <Calendar
+          localizer={localizer}
+          events={events}
+          startAccessor='start'
+          endAccessor='end'
+          style={{ height: 500 }}
+          defaultView='month' // You can set this to "month", "week", "day", or "agenda"
+          views={['month', 'week', 'day']}
+        />
+      </div>
 
-      <EarningsCalendar />
+      {/* Wrap EarningsCalendar in a full-width div for single-column layout */}
+      <div className='earnings-section mt-4'>
+        <EarningsCalendar />
+      </div>
     </div>
   );
 };

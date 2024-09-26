@@ -1,87 +1,44 @@
-// src/components/NewsFeed/NewsFeed.scss
+/* NewsFeed.scss */
 
+// Ensure the card takes full height and the body grows to take available space
 .news-feed {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  padding: 20px;
-  background-color:var(--background-color);
-
-  // Tablet layout: 3 columns
-
-  @media (max-width: 1400px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  @media (max-width: 900px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @media (max-width: 800px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-
-  @media (max-width: 700px) {
-    grid-template-columns: repeat(1, 1fr);
-  }
-
-
-
-
-
-  // Desktop layout: 4 columns
-
-
-}
-
-.news-item {
+.card {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-decoration: none;
-  background-color:var(--background-color);
-  border-radius: 8px;
+  height: 100%; /* Ensure card takes full height */
+}
+
+// Card title styling with line clamp for ellipsis
+.card-title {
+  font-weight: bold;
+  line-height: 1.3rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
-  color:var(--text-color);
-  border: var(--bs-card-border-width) solid var(--bs-card-border-color);
-  position: relative;
-  &:hover {
-    transform: translateY(-5px);
-  }
+  text-overflow: ellipsis;
+  max-height: 4.6rem;
+  margin: 0;
 }
 
-.news-thumbnail {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
+
+// Card text styling with line clamp for ellipsis
+.card-text {
+  line-height: 1.5; // Line height for description
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 8; // Limit description to 4 lines
+  overflow: hidden;
+  text-overflow: ellipsis; // Show ellipsis when overflowed
+  max-height: 13em; // Adjust this based on font size and line height
 }
 
-.news-content {
-  padding: 10px 15px;
+// Card footer styling
+.card-footer {
+  background-color: #f8f9fa; // Light background for the footer
+  border-top: 1px solid #ddd; // Optional: Add a border to match the card border
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
-  flex-grow: 1;
+  align-items: center;
 }
-
-.news-title {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-
-.news-date {
-  font-size: 0.85rem;
-  color:var(--text-color);
-}
-
-.news-logo {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  width: 30px;
-  height: 30px;
-  object-fit: contain;
 }

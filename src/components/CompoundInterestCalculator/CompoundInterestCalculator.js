@@ -101,8 +101,8 @@ const CompoundInterestCalculator = () => {
           <div>
             <h5>Results:</h5>
             <table
-              className={`table table-striped mt-3 ${
-                theme === 'dark' ? 'table-dark' : ''
+              className={`table table-striped mt-3 table-hover ${
+                theme === 'theme-dark' ? 'table-dark' : ''
               }`}>
               <thead>
                 <tr>
