@@ -4,7 +4,7 @@
   color: #ecf0f1;
   height: 100vh;
   position: relative;
-  width: 300px;
+  width: 250px;
   z-index: 1000;
   transition: all 0.3s;
 }
@@ -54,7 +54,7 @@
 
 /* Toggled sidebar styles */
 #wrapper.toggled .sidebar {
-  margin-left: -300px;
+  margin-left: -250px;
 }
 
 #wrapper.toggled #page-content-wrapper {
