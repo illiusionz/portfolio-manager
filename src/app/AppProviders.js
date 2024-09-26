@@ -1,7 +1,7 @@
 // src/app/AppProviders.js
 import React from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 import store from './store';
 
 const AppProviders = ({ children }) => {
