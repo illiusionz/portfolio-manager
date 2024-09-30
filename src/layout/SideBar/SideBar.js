@@ -19,15 +19,14 @@ import {
 const navigationItems = [
   { to: '/', icon: FaHome, label: 'Dashboard' },
   { to: '/asset-management', icon: FaChartPie, label: 'Asset Manager' },
-
   { to: '/stock-portfolio', icon: FaChartLine, label: 'Stock Portfolio' },
-
   { to: '/ai-assistant', icon: FaChartArea, label: 'A.I. Assistant' },
   { to: '/calendar', icon: FaCalendarAlt, label: 'Calendar' },
   { to: '/stock-news', icon: FaNewspaper, label: 'Stock News' },
   { to: '/education', icon: FaChalkboardTeacher, label: 'Education' },
   { to: '/market-tools', icon: FaTools, label: 'Market Tools' },
-  { to: '/chat-room', icon: FaComments, label: 'Chat Room' },
+  { to: '/messages', icon: FaComments, label: 'Messages' },
+  { to: '/commnity', icon: FaComments, label: 'Community' },
 ];
 
 const SideBar = () => {

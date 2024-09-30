@@ -6,10 +6,12 @@ import { Button, CircularProgress, TextField } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 import { format } from 'date-fns';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import { Card, Pagination } from 'react-bootstrap'; // Import Bootstrap Card and Pagination components
 import { selectTheme } from '../../features/theme/themeSelectors';
+import { handleTableSort } from '../../utils/tableSortUtils'; // Import the generalized sorting utility
 
 const ITEMS_PER_PAGE = 7; // Number of items to show per page
 const PAGINATION_SIZE = 3; // Maximum number of pagination items to display
@@ -57,6 +59,8 @@ const EarningsCalendar = () => {
   const [endDate, setEndDate] = useState(new Date('2024-09-24'));
   const [earnings, setEarnings] = useState([]);
   const [transformedData, setTransformedData] = useState([]);
+  const [sortedColumn, setSortedColumn] = useState(null); // Correct initialization
+  const [sortDirection, setSortDirection] = useState('asc'); // Correct initialization
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1); // State for the current page
   const theme = useSelector(selectTheme);
@@ -139,6 +143,20 @@ const EarningsCalendar = () => {
     pageNumbers.push(i);
   }
 
+  // Ensure 'sortedColumn' and 'sortDirection' are initialized and used correctly
+  const handleSort = (column) => {
+    const { sortedData, sortedColumn, sortDirection } = handleTableSort(
+      transformedData,
+      column,
+      sortedColumn, // Check that this matches the state variable defined above
+      sortDirection // Check that this matches the state variable defined above
+    );
+
+    setSortedColumn(sortedColumn); // Updates the state with the new sorted column
+    setSortDirection(sortDirection); // Updates the state with the new sort direction
+    setTransformedData(sortedData); // Updates the state with the sorted data
+  };
+
   return (
     <div className='earnings-calendar'>
       <Card>
@@ -204,11 +222,31 @@ const EarningsCalendar = () => {
                 }`}>
                 <thead className='thead-dark'>
                   <tr>
-                    <th>Earnings Date</th>
-                    <th>Ticker</th>
-                    <th>Company Name</th>
-                    <th>Earnings Time</th>
-                    <th>Importance</th>
+                    <th onClick={() => handleSort('earningsDate')}>
+                      Earnings Date
+                      {sortedColumn === 'earningsDate' &&
+                        (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                    </th>
+                    <th onClick={() => handleSort('ticker')}>
+                      Ticker
+                      {sortedColumn === 'ticker' &&
+                        (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                    </th>
+                    <th onClick={() => handleSort('companyName')}>
+                      Company Name
+                      {sortedColumn === 'companyName' &&
+                        (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                    </th>
+                    <th onClick={() => handleSort('earningsTime')}>
+                      Earnings Time
+                      {sortedColumn === 'earningsTime' &&
+                        (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                    </th>
+                    <th onClick={() => handleSort('importance')}>
+                      Importance
+                      {sortedColumn === 'importance' &&
+                        (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>

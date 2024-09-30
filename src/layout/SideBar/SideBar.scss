@@ -34,7 +34,7 @@
 }
 
 .sidebar ul li:hover {
-  background: #157347;
+
 }
 
 .sidebar a {
@@ -46,6 +46,12 @@
   font-size: 1rem;
   font-weight: 500;
   display: block;
+
+  &:hover {
+    color: rgb(238, 238, 239);
+    background: rgba(114, 117, 120, 0.08);
+    border-color: rgba(137, 140, 142, 0.08);
+  } 
 }
 
 .sidebar a .icon {
