@@ -70,7 +70,7 @@
     "test": "craco test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d docs",
+"deploy": "gh-pages -d build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
