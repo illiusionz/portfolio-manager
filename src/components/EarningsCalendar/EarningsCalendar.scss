@@ -1,5 +1,25 @@
 .earnings-calendar {    
-    .MuiFormControl-root  .MuiInputBase-input {
-      padding: 0.5rem 0.5rem!important;   
-   }
+  .MuiButtonBase-root {
+
+    color: var(--text-color);  
   }
+  .MuiInputBase-input {
+      padding: 0.5rem 0.5rem!important;  
+      color: var(--text-color);  
+   }
+
+   .MuiInputLabel-root {
+      color: var(--text-color);  
+   }
+
+   .MuiOutlinedInput-root {
+      border-radius: 0.5rem;
+      border-color: var(--border-color);
+      background-color: var(--bg-color);
+   }
+   .MuiOutlinedInput-notchedOutline {
+    border-color: var(--border-color)!important;
+  }
+  }
+
+ 

@@ -68,22 +68,30 @@ const NewsFeed = () => {
                         {article.title}
                       </Card.Title>
                       <small className='text-muted'>
-                        {article.publisher.name}
+                        {article.publisher.name} -{' '}
+                        {new Date(article.published_utc).toLocaleDateString(
+                          'en-US',
+                          {
+                            month: 'short',
+                            day: 'numeric',
+                          }
+                        )}
                       </small>
+                      <small className='text-muted'></small>
 
-                      <Card.Text className='mb-4 card-text'>
+                      {/* <Card.Text className='mb-4 card-text'>
                         {article.description}
-                      </Card.Text>
+                      </Card.Text>*/}
                       <a
                         href={article.article_url}
                         target='_blank'
                         rel='noopener noreferrer'
-                        className='btn btn-primary read-more-button'
+                        className='btn btn-primary'
                         role='button'>
                         Read More
                       </a>
                     </Card.Body>
-                    <Card.Footer className='mt-auto d-flex justify-content-between align-items-center'>
+                    {/* <Card.Footer className='mt-auto d-flex justify-content-between align-items-center'>
                       <div className='d-flex align-items-center'>
                         <img
                           src={article.publisher.logo_url}
@@ -97,11 +105,7 @@ const NewsFeed = () => {
                           className='me-2'
                         />
                       </div>
-
-                      <small className='text-muted'>
-                        {new Date(article.published_utc).toLocaleDateString()}
-                      </small>
-                    </Card.Footer>
+                    </Card.Footer>*/}
                   </div>
                 </Card>
               </Col>

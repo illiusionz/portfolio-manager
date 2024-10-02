@@ -6,6 +6,26 @@
 
 
 .MuiCalendarPicker-root {
+  background-color: var(--card-background-color)!important;
+  color:var(--text-color)!important;
+  font-weight: 500!important;
+  font-size: 14px!important;
+}
+
+.MuiIconButton-root {
+  color: var(--text-color)!important;
+} 
+
+.MuiTypography-caption {
+  color: var(--text-color)!important;
+} 
+
+.MuiButton-root {
+  color: #fff!important;
+  background-color: var(--primary-color)!important; 
+}
+
+.MuiCalendarPicker-root {
   width:100%!important;
 }
 
