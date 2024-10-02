@@ -26,12 +26,6 @@ const PercentageDifferenceCalculator = () => {
   const [isRotating, setIsRotating] = useState(false);
 
   useEffect(() => {
-    if (userSymbol) {
-      dispatch(fetchStockSnapshot(userSymbol));
-    }
-  }, [userSymbol, dispatch]);
-
-  useEffect(() => {
     if (stockPrice) {
       const formattedPrice = formatCurrency(stockPrice.toFixed(2));
       setCurrentPrice(formattedPrice);
@@ -153,7 +147,10 @@ const PercentageDifferenceCalculator = () => {
             </div>
 
             <div className='button-group d-flex'>
-              <button type='button' className='btn btn-danger btn-stretch ml-2'>
+              <button
+                type='button'
+                className='btn btn-danger btn-stretch ml-2'
+                onClick={resetFields}>
                 Reset
               </button>
               <button type='button' className='btn btn-primary btn-stretch'>

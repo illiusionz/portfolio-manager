@@ -1,13 +1,10 @@
-import React, { useEffect, Suspense, lazy, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { setSymbolAndFetchData } from '../../features/user/userThunks';
-import { fetchStocks } from '../../features/stocks/stockThunks';
+import React, { Suspense } from 'react';
+import { useSelector } from 'react-redux';
 import { selectStockError } from '../../features/stocks/stockSelectors';
 import { selectUserSymbol } from '../../features/user/userSelectors';
 import { selectNewsError } from '../../features/news/newsSelectors';
 import TradingViewWidget from '../../components/TradingViewWidget';
 
-// Lazy loading components
 import CompoundInterestCalculator from '../../components/CompoundInterestCalculator/CompoundInterestCalculator';
 import PercentageDifferenceCalculator from '../../components/PercentageDifferenceCalculator/PercentageDifferenceCalculator';
 import NewsFeed from '../../components/NewsFeed/NewsFeed';
@@ -20,33 +17,13 @@ import MuiCalendar from '../../components/Calendar/MuiCalendar';
 import Calculator from '../../components/Calculator/Calculator';
 import PortfolioValueCard from '../../components/PortfolioValueCard/PortfolioValueCard';
 import EarningsCalendar from '../../components/EarningsCalendar/EarningsCalendar';
+import Dashboard from '../Dashboard/Dashboard';
 
 const HomePage = () => {
-  const userSymbol = useSelector(selectUserSymbol); // Using symbol from Redux
-  const newsError = useSelector(selectNewsError); // Use news error selector
-  const stockError = useSelector(selectStockError); // Use stock error selector
-  const dispatch = useDispatch();
-
+  const userSymbol = useSelector(selectUserSymbol);
+  const newsError = useSelector(selectNewsError);
+  const stockError = useSelector(selectStockError);
   const totalValue = 123456.78; // Example total portfolio value
-
-  const [showWidget, setShowWidget] = useState(false);
-  const [isSymbolValid, setIsSymbolValid] = useState(false);
-
-  useEffect(() => {
-    // Fetch initial stock data on page load
-    dispatch(fetchStocks());
-
-    // Handle symbol change and validity
-    if (userSymbol) {
-      console.log('Dispatching setSymbolAndFetchData for symbol:', userSymbol);
-      dispatch(setSymbolAndFetchData(userSymbol));
-      setShowWidget(true);
-      setIsSymbolValid(true);
-    } else {
-      setIsSymbolValid(false);
-      setShowWidget(false);
-    }
-  }, [userSymbol, dispatch]);
 
   return (
     <div className='container-fluid'>
@@ -55,20 +32,13 @@ const HomePage = () => {
           <div className='alert alert-danger'>{stockError.message}</div>
         )}
         <div className='stock-data' style={{ height: '600px' }}>
-          {/* Test with a defined height */}
-          {isSymbolValid ? (
-            <Suspense fallback={<div>Loading...</div>}>
-              {showWidget ? (
-                <TradingViewWidget symbol={userSymbol} />
-              ) : (
-                <div className='spinner-border' role='status'>
-                  <span className='visually-hidden'>Loading...</span>
-                </div>
-              )}
-            </Suspense>
-          ) : (
-            <div>Please select a valid stock symbol.</div>
-          )}
+          <Suspense fallback={<div>Loading...</div>}>
+            {userSymbol ? (
+              <TradingViewWidget symbol={userSymbol} />
+            ) : (
+              <div>Please select a stock symbol to view data.</div>
+            )}
+          </Suspense>
         </div>
       </div>
 
@@ -82,7 +52,7 @@ const HomePage = () => {
           <div className='col-12 col-md-12 col-lg-6 col-xl-4 col-xxl-3 mb-3 align-self-stretch'>
             <DollarCostAveragingCalculator />
             <StockWatchlist />
-            <EarningsCalendar />
+            {/*<EarningsCalendar />*/}
           </div>
           <div className='col-12 col-md-12 col-lg-6 col-xl-4 col-xxl-3 mb-3 align-self-stretch'>
             <OptionPremiumCalculator />
@@ -94,7 +64,6 @@ const HomePage = () => {
           </div>
         </div>
 
-        {/* Refactored Section for Two Columns on Desktop and One Column on Mobile */}
         <div className='row my-3'>
           <div className='col-12 col-lg-12 mb-3'>
             <DividendInfo />

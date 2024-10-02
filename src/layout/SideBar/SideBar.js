@@ -1,4 +1,3 @@
-// src/components/SideBar/SideBar.js
 import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
@@ -9,11 +8,11 @@ import {
   FaCalendarAlt,
   FaNewspaper,
   FaTools,
-  FaCalculator,
   FaComments,
   FaChartPie,
   FaChartArea,
   FaChalkboardTeacher,
+  FaDollarSign,
 } from 'react-icons/fa';
 
 const navigationItems = [
@@ -26,7 +25,7 @@ const navigationItems = [
   { to: '/education', icon: FaChalkboardTeacher, label: 'Education' },
   { to: '/market-tools', icon: FaTools, label: 'Market Tools' },
   { to: '/messages', icon: FaComments, label: 'Messages' },
-  { to: '/commnity', icon: FaComments, label: 'Community' },
+  { to: '/plaid', icon: FaDollarSign, label: 'Plaid' },
 ];
 
 const SideBar = () => {
@@ -37,8 +36,10 @@ const SideBar = () => {
       </div>
       <ul>
         {navigationItems.map(({ to, icon: Icon, label }) => (
-          <Link to={to}>
-            <li key={to}>
+          <Link to={to} key={to}>
+            {' '}
+            {/* Moved the key to the Link component */}
+            <li>
               <Icon className='icon' /> {label}
             </li>
           </Link>

@@ -7,55 +7,60 @@ import { setSymbolAndFetchData } from '../../features/user/userThunks';
 import { fetchSymbolSuggestions } from '../../features/stocks/stockThunks';
 import { clearSuggestions } from '../../features/stocks/stockSlice';
 import { selectUserSymbol } from '../../features/user/userSelectors';
+import { debounce } from 'lodash';
 
-const SymbolAutoSuggest = () => {
+const SymbolAutoSuggest = ({ onSymbolChange }) => {
   const dispatch = useDispatch();
   const selectedSymbol = useSelector(selectUserSymbol);
   const suggestions = useSelector((state) => state.stocks.suggestions || []);
-  const [query, setQuery] = useState(''); // Local state for the input value
+  const [query, setQuery] = useState(''); // Local state for input value
+  const [previousSymbol, setPreviousSymbol] = useState(null); // Keep track of the last symbol
 
-  // Sync the local query state with the Redux selectedSymbol on mount and whenever selectedSymbol changes
+  // Sync local query with Redux selectedSymbol on mount and whenever selectedSymbol changes
   useEffect(() => {
-    // Check localStorage for a saved stock symbol and update Redux
     const savedSymbol = localStorage.getItem('selectedStockSymbol');
     if (savedSymbol && !selectedSymbol) {
       dispatch(setSymbolAndFetchData(savedSymbol)); // Update Redux with the saved symbol
     }
 
     if (selectedSymbol) {
-      setQuery(selectedSymbol); // Update local input if Redux has the symbol
+      setQuery(selectedSymbol);
     }
   }, [selectedSymbol, dispatch]);
 
-  // Fetch suggestions based on the current input value
+  // Handle fetching suggestions based on current input value
   const onSuggestionsFetchRequested = ({ value }) => {
     if (value.length < 1) {
       dispatch(fetchSymbolSuggestions.fulfilled([])); // Clear suggestions in Redux
       return;
     }
-    // Dispatch the thunk to fetch suggestions from the API
-    dispatch(fetchSymbolSuggestions(value));
+    dispatch(fetchSymbolSuggestions(value)); // Fetch symbol suggestions
   };
 
   const onSuggestionsClearRequested = () => {
-    dispatch(clearSuggestions()); // Dispatch the clearSuggestions action
+    dispatch(clearSuggestions()); // Clear suggestions from Redux
   };
 
   // Handle when a suggestion is selected from the dropdown
-  const onSuggestionSelected = (event, { suggestion }) => {
-    const selectedSymbol = suggestion.ticker;
-    setQuery(selectedSymbol); // Update the input field to show the selected symbol
-    dispatch(setSymbolAndFetchData(selectedSymbol)); // Dispatch to update Redux with the new symbol
-    // Save the selected symbol to localStorage for persistence
-    localStorage.setItem('selectedStockSymbol', selectedSymbol);
-    console.log('Selected symbol:', selectedSymbol);
-  };
+  const onSuggestionSelected = debounce((event, { suggestion }) => {
+    const newSymbol = suggestion.ticker;
+
+    // Only dispatch if the symbol is different from the previous one
+    if (newSymbol !== previousSymbol) {
+      setQuery(newSymbol);
+      setPreviousSymbol(newSymbol); // Update the previous symbol
+      dispatch(setSymbolAndFetchData(newSymbol)); // Dispatch symbol to Redux
+      if (onSymbolChange) onSymbolChange(newSymbol); // Call parent callback
+      localStorage.setItem('selectedStockSymbol', newSymbol);
+      console.log('Selected symbol:', newSymbol);
+    }
+  }, 300);
 
   const inputProps = {
     placeholder: 'Search for a stock',
-    value: query, // Sync the input field with the local query state
+    value: query, // Sync the input field with local query state
     onChange: (event, { newValue }) => {
-      setQuery(newValue); // Update the local input state only when typing
+      setQuery(newValue); // Update local input state only when typing
     },
   };
 

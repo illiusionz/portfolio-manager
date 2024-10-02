@@ -32,13 +32,6 @@ const OptionPremiumCalculator = () => {
   const [percentageReturn, setPercentageReturn] = useState(0);
   const [isRotating, setIsRotating] = useState(false);
 
-  // Fetch stock data when the symbol changes
-  useEffect(() => {
-    if (userSymbol) {
-      dispatch(fetchStockSnapshot(userSymbol));
-    }
-  }, [userSymbol, dispatch]);
-
   // Set the initial strike price based on current stock price
   useEffect(() => {
     if (currentPrice) {
