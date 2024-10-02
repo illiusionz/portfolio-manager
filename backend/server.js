@@ -8,6 +8,8 @@ const schema = require('./graphql/schema'); // Your combined GraphQL schema
 const portfolioRoutes = require('./routes/api/portfolioRoute');
 require('dotenv').config({ path: path.join(__dirname, '../../.env') }); // Adjust the path as needed
 
+const plaidRoutes = require('./routes/plaidRoutes');
+
 const app = express();
 
 // Enable CORS for all routes and methods
@@ -42,6 +44,7 @@ const setupApolloServer = async () => {
 app.use(express.json()); // For parsing application/json
 
 // Routes
+app.use('/api/plaid', plaidRoutes);
 app.use('/api/portfolio', portfolioRoutes);
 
 // Start Apollo Server

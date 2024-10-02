@@ -6,6 +6,7 @@ import userReducer from '../features/user/userSlice';
 import watchlistReducer from '../features/watchlist/watchlistSlice';
 import themeReducer from '../features/theme/themeSlice';
 import portfolioReducer from '../features/portfolio/portfolioSlice';
+import bankReducer from '../features/bank/bankSlice';
 
 const loggerMiddleware = (storeAPI) => (next) => (action) => {
   const result = next(action);
@@ -26,6 +27,7 @@ const store = configureStore({
     watchlist: watchlistReducer,
     theme: themeReducer,
     portfolio: portfolioReducer,
+    bank: bankReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(loggerMiddleware),

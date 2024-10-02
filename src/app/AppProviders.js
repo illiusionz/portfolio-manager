@@ -4,6 +4,8 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { HashRouter as Router } from 'react-router-dom';
 import store from './store';
 
+console.log('Store:', store);
+
 const AppProviders = ({ children }) => {
   return (
     <ReduxProvider store={store}>
