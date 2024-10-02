@@ -91,55 +91,57 @@ const DividendInfo = () => {
       </div>
       <div className='card-body'>
         <form className=''>
-          <div className='form-group'>
-            <label className='form-label' htmlFor='symbol'>
-              Stock Symbol:{' '}
-            </label>
-            <SymbolAutoSuggest onSymbolSelect={handleSymbolSelection} />
-          </div>
-          <div className='form-group'>
-            <label className='form-label' htmlFor='watchlist'>
-              Watchlist:{' '}
-            </label>
-            <select
-              className='form-control'
-              value={userSymbol || ''}
-              onChange={handleWatchlistSelectChange}>
-              <option value='' disabled>
-                Select a Stock from Watchlist
-              </option>
-              {watchlist.map((ticker) => (
-                <option key={ticker} value={ticker}>
-                  {ticker}
+          <div className='form-row'>
+            <div className='form-group'>
+              <label className='form-label' htmlFor='symbol'>
+                Stock Symbol:{' '}
+              </label>
+              <SymbolAutoSuggest onSymbolSelect={handleSymbolSelection} />
+            </div>
+            <div className='form-group'>
+              <label className='form-label' htmlFor='watchlist'>
+                Watchlist:{' '}
+              </label>
+              <select
+                className='form-control'
+                value={userSymbol || ''}
+                onChange={handleWatchlistSelectChange}>
+                <option value='' disabled>
+                  Select a Stock from Watchlist
                 </option>
-              ))}
-            </select>
-          </div>
-          <div className='form-group'>
-            <label className='form-label' htmlFor='numberOfShares'>
-              Number of Shares:{' '}
-            </label>
-            <input
-              type='text'
-              className='form-control'
-              placeholder='Number of Shares'
-              value={numberOfShares}
-              onChange={handleNumberOfSharesChange}
-            />
-          </div>
-          <div className='button-group d-flex'>
-            <button
-              type='button'
-              className='btn btn-danger btn-stretch'
-              onClick={handleReset}>
-              Reset
-            </button>
-            <button
-              type='button'
-              className='btn btn-primary btn-stretch'
-              onClick={handleCalculate}>
-              Calculate
-            </button>
+                {watchlist.map((ticker) => (
+                  <option key={ticker} value={ticker}>
+                    {ticker}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className='form-group'>
+              <label className='form-label' htmlFor='numberOfShares'>
+                Number of Shares:{' '}
+              </label>
+              <input
+                type='text'
+                className='form-control'
+                placeholder='Number of Shares'
+                value={numberOfShares}
+                onChange={handleNumberOfSharesChange}
+              />
+            </div>
+            <div className='form-group d-flex flex-row flex-grow-0 align-items-end'>
+              <button
+                type='button'
+                className='btn btn-danger btn-stretch'
+                onClick={handleReset}>
+                Reset
+              </button>
+              <button
+                type='button'
+                className='btn btn-primary btn-stretch'
+                onClick={handleCalculate}>
+                Calculate
+              </button>
+            </div>
           </div>
         </form>
         <div className='result'>
