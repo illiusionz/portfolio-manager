@@ -14,8 +14,6 @@ import { selectTheme } from '../features/theme/themeSelectors';
 
 import SideBar from '../layout/SideBar/SideBar';
 import NavBar from '../layout/NavBar/NavBar';
-import Footer from '../layout/Footer/Footer';
-
 import TrendingToolbar from '../components/TrendingToolbar/TrendingToolbar';
 
 // Lazy load the components
