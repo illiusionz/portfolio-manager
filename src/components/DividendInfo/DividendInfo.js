@@ -87,7 +87,7 @@ const DividendInfo = () => {
   return (
     <div className='card dividend-info'>
       <div className='card-header'>
-        <h5 className='card-title mb-0'>Stock Dividend Information</h5>
+        <h5 className='card-title'>Stock Dividend Information</h5>
       </div>
       <div className='card-body'>
         <form className=''>

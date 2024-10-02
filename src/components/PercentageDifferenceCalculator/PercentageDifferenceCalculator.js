@@ -110,7 +110,7 @@ const PercentageDifferenceCalculator = () => {
     <div className='percentage-difference-calculator'>
       <div className='card'>
         <div className='card-header'>
-          <h5 className='card-title mb-0'>Stock Price % Change</h5>
+          <h5 className='card-title'>Stock Price % Change</h5>
           <FontAwesomeIcon
             icon={faArrowsRotate}
             className={`card-refresh ${isRotating ? 'rotating' : ''}`}

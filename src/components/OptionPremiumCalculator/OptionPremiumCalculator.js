@@ -138,7 +138,7 @@ const OptionPremiumCalculator = () => {
     <div className='option-premium-calculator'>
       <div className='card'>
         <div className='card-header'>
-          <h5 className='card-title mb-0'>Option Premiums</h5>
+          <h5 className='card-title'>Option Premiums</h5>
           <FontAwesomeIcon
             icon={faArrowsRotate}
             className={`card-refresh ${isRotating ? 'rotating' : ''}`}

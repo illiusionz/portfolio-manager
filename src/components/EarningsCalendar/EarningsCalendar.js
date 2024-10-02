@@ -161,7 +161,7 @@ const EarningsCalendar = () => {
     <div className='earnings-calendar'>
       <Card>
         <Card.Header>
-          <Card.Title className='mb-0'>Earnings Calendar</Card.Title>
+          <Card.Title>Earnings Calendar</Card.Title>
         </Card.Header>
         <Card.Body>
           {/* Responsive row with Start Date, End Date and Button */}
