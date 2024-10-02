@@ -56,3 +56,4 @@ coverage/
 
 
 /backend/node_modules
+*storybook.log

@@ -20,7 +20,6 @@ import MuiCalendar from '../../components/Calendar/MuiCalendar';
 import Calculator from '../../components/Calculator/Calculator';
 import PortfolioValueCard from '../../components/PortfolioValueCard/PortfolioValueCard';
 import EarningsCalendar from '../../components/EarningsCalendar/EarningsCalendar';
-import PlaidLinkComponent from '../../components/Plaid/PlaidLinkComponent';
 
 const HomePage = () => {
   const userSymbol = useSelector(selectUserSymbol); // Using symbol from Redux
@@ -77,13 +76,13 @@ const HomePage = () => {
         <div className='row my-2 align-items-start'>
           <div className='col-12 col-md-12 col-lg-6 col-xl-4 col-xxl-3 mb-3 align-self-stretch'>
             <PortfolioValueCard totalValue={totalValue} />
-            <PlaidLinkComponent />
             <MuiCalendar />
             <TopMovers />
           </div>
           <div className='col-12 col-md-12 col-lg-6 col-xl-4 col-xxl-3 mb-3 align-self-stretch'>
             <DollarCostAveragingCalculator />
             <StockWatchlist />
+            <EarningsCalendar />
           </div>
           <div className='col-12 col-md-12 col-lg-6 col-xl-4 col-xxl-3 mb-3 align-self-stretch'>
             <OptionPremiumCalculator />
@@ -100,7 +99,9 @@ const HomePage = () => {
           <div className='col-12 col-lg-6 mb-3'>
             <DividendInfo />
           </div>
-          <div className='col-12 col-lg-6 mb-3'></div>
+          <div className='col-12 col-lg-6 mb-3'>
+            <EarningsCalendar />
+          </div>
         </div>
 
         <div className='row my-3'>

@@ -1,15 +1,12 @@
 // server.js
 const path = require('path');
 const express = require('express');
-const cors = require('cors');
-const connectDB = require('./config/db');
+const cors = require('cors'); // Import the cors package
+const connectDB = require('./config/db'); // Path to your db.js
 const { ApolloServer } = require('apollo-server-express');
-
-const schema = require('./graphql/schema');
+const schema = require('./graphql/schema'); // Your combined GraphQL schema
 const portfolioRoutes = require('./routes/api/portfolioRoute');
-const plaidRoutes = require('./routes/plaidRoutes');
-
-require('dotenv').config({ path: path.join(__dirname, '../../.env') });
+require('dotenv').config({ path: path.join(__dirname, '../../.env') }); // Adjust the path as needed
 
 const app = express();
 
@@ -45,7 +42,6 @@ const setupApolloServer = async () => {
 app.use(express.json()); // For parsing application/json
 
 // Routes
-app.use('/api/plaid', plaidRoutes);
 app.use('/api/portfolio', portfolioRoutes);
 
 // Start Apollo Server
