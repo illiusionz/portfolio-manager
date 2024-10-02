@@ -48,7 +48,7 @@ const StockWatchlist = () => {
   return (
     <div className='card'>
       <div className='card-header'>
-        <h5 className='card-title mb-0'>Stock Watchlist</h5>
+        <h5 className='card-title'>Stock Watchlist</h5>
       </div>
       <div className='card-body'>
         {error && <div className='error'>{error}</div>}

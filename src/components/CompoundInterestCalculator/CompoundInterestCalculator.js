@@ -49,7 +49,7 @@ const CompoundInterestCalculator = () => {
     <div className='compound-interest-calculator'>
       <div className='card'>
         <div className='card-header'>
-          <h5 className='card-title mb-0'>Compound Interest</h5>
+          <h5 className='card-title'>Compound Interest</h5>
         </div>
         <div className='card-body'>
           <div className='form-group'>
