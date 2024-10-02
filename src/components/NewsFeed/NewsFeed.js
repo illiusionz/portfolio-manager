@@ -48,7 +48,7 @@ const NewsFeed = () => {
       </Card.Header>
       <div className='news-feed'>
         <Card.Body>
-          <Row xs={1} sm={2} md={2} lg={4} xl={4} xxl={5} className='g-4'>
+          <Row xs={1} sm={2} md={2} lg={4} xl={4} xxl={6} className='g-4'>
             {articles[userSymbol]?.map((article, index) => (
               <Col key={index}>
                 <Card className='h-100 d-flex flex-column'>

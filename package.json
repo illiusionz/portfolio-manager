@@ -69,8 +69,9 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
+    "move-build": "rm -rf docs/* && mv build/* docs/",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "npm run build && npm run move-build && git add . && git commit -m 'Deploy to GitHub Pages' && git push origin master",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -107,7 +108,6 @@
     "@storybook/test": "^8.3.4",
     "css-loader": "^7.1.2",
     "eslint-plugin-storybook": "^0.9.0",
-    "gh-pages": "^6.1.1",
     "prop-types": "^15.8.1",
     "react-app-rewired": "^2.2.1",
     "sass-loader": "^16.0.1",

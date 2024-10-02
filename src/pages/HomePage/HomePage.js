@@ -96,12 +96,10 @@ const HomePage = () => {
 
         {/* Refactored Section for Two Columns on Desktop and One Column on Mobile */}
         <div className='row my-3'>
-          <div className='col-12 col-lg-6 mb-3'>
+          <div className='col-12 col-lg-12 mb-3'>
             <DividendInfo />
           </div>
-          <div className='col-12 col-lg-6 mb-3'>
-            <EarningsCalendar />
-          </div>
+          <div className='col-12 col-lg-6 mb-3'></div>
         </div>
 
         <div className='row my-3'>
