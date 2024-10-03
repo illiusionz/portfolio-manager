@@ -1,40 +1,54 @@
-const plaidClient = require('../services/plaid/plaidClient');
+const plaid = require('plaid');
+const client = require('../services/plaid/plaidClient');
 
 exports.createLinkToken = async (req, res) => {
   try {
-    const userId = 'test-user-id'; // Hardcoded user ID for development (you can replace this later)
-    console.log('Creating link token for user:', userId); // Add logging for debugging
-    const response = await plaidClient.createLinkToken(userId);
-    console.log('Link token created successfully:', response); // Add logging
-    res.json(response);
-  } catch (error) {
-    console.error('Error creating link token:', error.message);
+    const clientUserId = 'user-123'; // Use a proper unique user id
+    const linkTokenResponse = await client.linkTokenCreate({
+      user: {
+        client_user_id: clientUserId,
+      },
+      client_name: 'Your App Name',
+      products: ['auth', 'transactions'],
+      country_codes: ['US'],
+      language: 'en',
+      redirect_uri: 'http://localhost:3000/your-redirect-url',
+    });
+
+    res.json({ link_token: linkTokenResponse.link_token });
+  } catch (err) {
+    console.error('Error creating link token:', err);
     res.status(500).json({ error: 'Failed to create link token' });
   }
 };
 
 exports.exchangePublicToken = async (req, res) => {
-  const { public_token } = req.body;
   try {
-    const response = await plaidClient.exchangePublicToken(public_token);
-    res.json({ access_token: response.access_token });
+    const { public_token } = req.body;
+    const tokenResponse = await client.itemPublicTokenExchange({
+      public_token,
+    });
+    const accessToken = tokenResponse.access_token;
+    res.json({ access_token: accessToken });
   } catch (error) {
-    console.error('Error exchanging public token:', error.message);
+    console.error('Error exchanging public token:', error);
     res.status(500).json({ error: 'Failed to exchange public token' });
   }
 };
 
 exports.getTransactions = async (req, res) => {
-  const { access_token, start_date, end_date } = req.body;
   try {
-    const transactions = await plaidClient.getTransactions(
-      access_token,
-      start_date,
-      end_date
-    );
-    res.status(200).json({ transactions });
+    const { accessToken } = req.body;
+    const startDate = '2020-01-01'; // Customize as needed
+    const endDate = '2021-01-01'; // Customize as needed
+    const transactionsResponse = await client.transactionsGet({
+      access_token: accessToken,
+      start_date: startDate,
+      end_date: endDate,
+    });
+    res.json(transactionsResponse.transactions);
   } catch (error) {
-    console.error('Error fetching transactions:', error.message);
-    res.status(500).json({ error: 'Unable to fetch transactions' });
+    console.error('Error fetching transactions:', error);
+    res.status(500).json({ error: 'Failed to fetch transactions' });
   }
 };

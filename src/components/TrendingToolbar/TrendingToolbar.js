@@ -44,18 +44,6 @@ const TrendingToolbar = () => {
     selectStockDetails(state, hoveredStock?.ticker)
   );
 
-  // Access user state
-  const userState = useSelector((state) => state.user);
-
-  // Access stocks state
-  const stocksState = useSelector((state) => state.stocks);
-
-  // Debug logs to see user and stocks state
-  useEffect(() => {
-    console.log('User State:', userState); // Logs the current user state
-    console.log('Stocks State:', stocksState); // Logs the current stocks state
-  }, []);
-
   // Combine both index and manual stock tickers
   const allTickers = [...indexSymbols, ...trendingSymbols];
 

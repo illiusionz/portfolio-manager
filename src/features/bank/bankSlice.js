@@ -14,6 +14,7 @@ export const fetchTransactions = createAsyncThunk(
       const data = await response.json();
       return data.transactions;
     } catch (err) {
+      console.error('Failed to fetch transactions:', err);
       return rejectWithValue('Failed to fetch transactions');
     }
   }

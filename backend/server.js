@@ -45,15 +45,17 @@ app.use(express.json()); // For parsing application/json
 
 // Routes
 app.use('/api/plaid', plaidRoutes);
-app.use('/api/portfolio', portfolioRoutes);
+
+//app.use('/api/portfolio', portfolioRoutes);
 
 // Start Apollo Server
-setupApolloServer();
+//setupApolloServer();
 
 // Start Express Server
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(
-    `Server running on http://localhost:${PORT}${apolloServer.graphqlPath}`
+    // `Server running on http://localhost:${PORT}${apolloServer.graphqlPath}`
+    `Server running on http://localhost:${PORT}`
   );
 });
