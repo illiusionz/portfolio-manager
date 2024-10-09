@@ -269,7 +269,11 @@ const InvestmentCalculator = () => {
           }}>
           <p
             className='label'
-            style={{ fontWeight: 'bold' }}>{`${data.name}`}</p>
+            style={{
+              fontWeight: 'bold',
+              padding: '0',
+              margin: '0',
+            }}>{`${data.name}`}</p>
           <p style={{ color: data.fill }}>{`${formatCurrency(data.value)}`}</p>
         </div>
       );
