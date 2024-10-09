@@ -7,10 +7,10 @@ const AssetManagement = () => {
   return (
     <div className='container'>
       <InvestmentCalculator />
-      <div className='hero-section'>
+      {/*<div className='hero-section'>
         <h1>Asset Allocation</h1>
       </div>
-      <AssetManagementCard />
+     <AssetManagementCard />*/}
     </div>
   );
 };

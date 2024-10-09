@@ -1,0 +1,14 @@
+.recharts-legend-item {
+  display: block;
+  margin-top: 5px; /* adjust for spacing */
+}
+
+
+
+.recharts-pie-sector:focus {
+  outline: none;
+}
+
+svg:focus, path:focus {
+  outline: none;
+}
