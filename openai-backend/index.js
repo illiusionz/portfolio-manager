@@ -73,7 +73,7 @@ app.post('/api/upload-chart', upload.single('file'), async (req, res) => {
     const fileContent = fs.readFileSync(filePath, 'utf-8'); // Read the file content
 
     const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4-turbo',
       messages: [
         {
           role: 'user',

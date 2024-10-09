@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es6",                   // JavaScript version (ES6 or later)
+    "module": "commonjs",               // Module system (use 'commonjs' for Node.js)
+    "jsx": "react",                     // Enable JSX support in React
+    "strict": true,                     // Enable strict type-checking options
+    "esModuleInterop": true,            // Enables interoperability between CommonJS and ES modules
+    "skipLibCheck": true,               // Skips type-checking of all declaration files
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/*"],              // Specify the root of your TypeScript/JS files
+  "exclude": ["node_modules"]           // Exclude dependencies
+}
